@@ -1,0 +1,1735 @@
+<meta charset="utf-8">
+<title>ซ้อมชีวะ สัมผัสและการเคลื่อนที่</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+
+<style>
+:root{
+  --bg:#F4F7F5; --panel:#FFFFFF; --panel2:#EDF2EF;
+  --ink:#15211E; --muted:#5B6B67; --line:#DAE3DF;
+  --accent:#0E7C6B; --accent-ink:#FFFFFF;
+  --eye:#6B4E9E; --ear:#BC3F6B; --uni:#A0711A; --inv:#3A7549; --vert:#2A6C99;
+  --ok:#2C7A57; --no:#BC3A2C; --warn:#A8710F;
+  --okbg:#E4F2EA; --nobg:#FBE7E3; --warnbg:#FBF0DC;
+  --shadow:0 1px 2px rgba(20,40,35,.06),0 6px 20px rgba(20,40,35,.06);
+  --r:12px;
+  --f-disp:"Chakra Petch","IBM Plex Sans Thai","Segoe UI",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans Thai","Segoe UI",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1518; --panel:#161F23; --panel2:#1C272C;
+    --ink:#E5EDEA; --muted:#93A5A0; --line:#26333A;
+    --accent:#35C2A8; --accent-ink:#06231E;
+    --eye:#AC8FE0; --ear:#F2839F; --uni:#E2AE4E; --inv:#71C286; --vert:#66B1DF;
+    --ok:#5FD3A0; --no:#FF8574; --warn:#E8B44E;
+    --okbg:#12312A; --nobg:#3A1E1B; --warnbg:#332714;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 26px rgba(0,0,0,.32);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1518; --panel:#161F23; --panel2:#1C272C;
+  --ink:#E5EDEA; --muted:#93A5A0; --line:#26333A;
+  --accent:#35C2A8; --accent-ink:#06231E;
+  --eye:#AC8FE0; --ear:#F2839F; --uni:#E2AE4E; --inv:#71C286; --vert:#66B1DF;
+  --ok:#5FD3A0; --no:#FF8574; --warn:#E8B44E;
+  --okbg:#12312A; --nobg:#3A1E1B; --warnbg:#332714;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 26px rgba(0,0,0,.32);
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);
+  font-size:16px;line-height:1.72;-webkit-text-size-adjust:100%}
+h1,h2,h3,h4{font-family:var(--f-disp);font-weight:600;text-wrap:balance;line-height:1.3;margin:0}
+p{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:2.5px solid var(--accent);outline-offset:2px;border-radius:4px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- shell ---------- */
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px 120px}
+.masthead{border-bottom:1px solid var(--line);background:var(--panel);margin-bottom:0}
+.masthead .inner{max-width:1180px;margin:0 auto;padding:38px 20px 30px;
+  display:flex;flex-wrap:wrap;gap:26px;align-items:flex-end;justify-content:space-between}
+.eyebrow{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);display:block;margin-bottom:10px}
+.masthead h1{font-size:clamp(28px,5.2vw,44px);font-weight:700;letter-spacing:-.01em}
+.masthead .sub{color:var(--muted);font-size:15px;margin-top:8px;max-width:60ch}
+.themebtn{font-family:var(--f-mono);font-size:12px;background:var(--panel2);color:var(--ink);
+  border:1px solid var(--line);border-radius:99px;padding:8px 14px;cursor:pointer}
+.themebtn:hover{border-color:var(--accent)}
+
+/* ---------- nav ---------- */
+nav.topics{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--bg) 92%,transparent);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--line);margin-bottom:44px}
+nav.topics .inner{max-width:1180px;margin:0 auto;padding:10px 20px;
+  display:flex;gap:8px;overflow-x:auto;scrollbar-width:thin}
+nav.topics a{flex:0 0 auto;font-family:var(--f-disp);font-size:13.5px;font-weight:600;
+  text-decoration:none;color:var(--muted);padding:7px 13px;border-radius:99px;
+  border:1px solid transparent;white-space:nowrap}
+nav.topics a:hover{color:var(--ink);background:var(--panel2)}
+nav.topics a .dot{display:inline-block;width:7px;height:7px;border-radius:99px;margin-inline-end:7px;
+  vertical-align:middle;background:currentColor}
+
+/* ---------- sections ---------- */
+section{margin-bottom:74px;scroll-margin-top:70px}
+.sechead{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+  border-top:3px solid var(--hue,var(--accent));padding-top:14px;margin-bottom:8px}
+.sechead h2{font-size:clamp(21px,3.4vw,29px);color:var(--hue,var(--ink))}
+.sechead .tag{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted)}
+.lede{color:var(--muted);max-width:66ch;margin-bottom:26px;font-size:15.5px}
+
+h3{font-size:19px;margin:34px 0 12px;display:flex;align-items:center;gap:10px}
+h3::before{content:"";width:4px;height:19px;background:var(--hue,var(--accent));border-radius:2px;flex:0 0 auto}
+h4{font-size:16px;margin:22px 0 8px;color:var(--ink)}
+.prose{max-width:68ch}
+.prose p+p{margin-top:12px}
+ul.clean{margin:10px 0;padding-inline-start:22px;max-width:68ch}
+ul.clean li{margin:7px 0}
+b,strong{font-weight:600;color:var(--ink)}
+em.t{font-style:normal;font-family:var(--f-mono);font-size:.9em;color:var(--muted)}
+
+/* ---------- cards / callouts ---------- */
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
+  padding:20px 22px;box-shadow:var(--shadow)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:16px;margin:18px 0}
+.note{background:color-mix(in srgb,var(--hue,var(--accent)) 7%,var(--panel));
+  border:1px solid color-mix(in srgb,var(--hue,var(--accent)) 30%,var(--line));
+  border-radius:var(--r);padding:15px 20px 17px;margin:20px 0;max-width:70ch}
+.note .lbl{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--hue,var(--accent));display:block;margin-bottom:6px}
+.trapbox{--hue:var(--no)}
+.winbox{--hue:var(--ok)}
+.timebox{--hue:var(--warn)}
+
+/* ---------- tables ---------- */
+.tw{overflow-x:auto;margin:18px 0;border:1px solid var(--line);border-radius:var(--r);background:var(--panel)}
+table{border-collapse:collapse;width:100%;min-width:460px;font-size:14.5px}
+th,td{text-align:start;padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{font-family:var(--f-disp);font-weight:600;font-size:13px;background:var(--panel2);
+  color:var(--ink);position:sticky;top:0}
+tbody tr:last-child td{border-bottom:none}
+td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono)}
+.yes{color:var(--ok);font-weight:600}
+.non{color:var(--no);font-weight:600}
+
+/* ---------- diagram ---------- */
+.figure{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
+  padding:18px;margin:24px 0;box-shadow:var(--shadow)}
+.figscroll{overflow-x:auto}
+.figure svg{display:block;width:100%;height:auto;min-width:520px}
+.figcap{font-size:13px;color:var(--muted);margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
+.figtools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.btn{font-family:var(--f-disp);font-weight:600;font-size:13.5px;cursor:pointer;
+  border:1px solid var(--line);background:var(--panel2);color:var(--ink);
+  padding:8px 14px;border-radius:99px}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.sm{font-size:12.5px;padding:6px 11px}
+
+.legend{list-style:none;margin:14px 0 0;padding:0;display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:6px}
+.legend li{display:flex;gap:9px;align-items:flex-start;font-size:14px;padding:5px 8px;
+  border-radius:8px;cursor:pointer;border:1px solid transparent}
+.legend li:hover{background:var(--panel2);border-color:var(--line)}
+.legend li.lit{background:var(--panel2);border-color:var(--hue,var(--accent))}
+.legend .n{flex:0 0 auto;width:21px;height:21px;border-radius:99px;background:var(--hue,var(--accent));
+  color:#fff;font-family:var(--f-mono);font-size:11.5px;display:grid;place-items:center;margin-top:2px}
+.legend .nm{line-height:1.45}
+.legend .en{color:var(--muted);font-size:12.5px;display:block}
+.legend.quiz .nm span.hide{background:var(--panel2);color:transparent;border-radius:4px;
+  border:1px dashed var(--line);user-select:none}
+.legend.quiz li.shown .nm span.hide{background:none;color:inherit;border-color:transparent}
+
+.hotdot circle{cursor:pointer}
+.hotdot text{font-family:var(--f-mono);font-size:12px;fill:#fff;pointer-events:none}
+.hotdot.lit circle:first-child{stroke:var(--ink);stroke-width:3}
+
+/* ---------- drill ---------- */
+.drill{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
+  box-shadow:var(--shadow);padding:22px;margin:22px 0}
+.drillbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;
+  padding-bottom:14px;margin-bottom:16px;border-bottom:1px solid var(--line)}
+.pill{font-family:var(--f-mono);font-size:11.5px;padding:4px 10px;border-radius:99px;
+  background:var(--panel2);color:var(--muted);border:1px solid var(--line)}
+.q{font-size:17px;line-height:1.68;margin-bottom:16px}
+.qnum{font-family:var(--f-mono);font-size:12px;color:var(--muted);display:block;margin-bottom:8px}
+.answers{display:flex;gap:10px;flex-wrap:wrap}
+.reveal{margin-top:16px;padding-top:16px;border-top:1px dashed var(--line)}
+.reveal[hidden]{display:none}
+.verdict{font-family:var(--f-disp);font-weight:700;font-size:16px;margin-bottom:10px}
+.verdict.ok{color:var(--ok)} .verdict.no{color:var(--no)}
+.fix{background:var(--okbg);border:1px solid var(--ok);border-radius:10px;padding:12px 15px;margin-top:10px}
+.fix .lbl{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ok);display:block;margin-bottom:4px}
+.score{font-family:var(--f-mono);font-size:13px;color:var(--muted)}
+
+/* ---------- clock ---------- */
+.clock{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:18px 0}
+.clock .cell{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px}
+.clock .k{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.clock .v{font-family:var(--f-disp);font-weight:700;font-size:27px;font-variant-numeric:tabular-nums;margin-top:4px}
+input[type=number]{font-family:var(--f-mono);font-size:15px;width:88px;padding:8px 10px;
+  border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink)}
+.big{font-family:var(--f-mono);font-size:44px;font-variant-numeric:tabular-nums;font-weight:500}
+
+/* ---------- sweep drill ---------- */
+.paper{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:12px;margin:16px 0}
+.qcard{border:1px solid var(--line);border-radius:10px;padding:13px 15px;background:var(--panel2)}
+.qcard .t{font-family:var(--f-disp);font-weight:600;font-size:14.5px;margin-bottom:5px}
+.qcard .d{font-size:13px;color:var(--muted);line-height:1.55}
+.qcard .marks{display:flex;gap:6px;margin-top:10px}
+.qcard .marks button{flex:1;font-family:var(--f-mono);font-size:15px;padding:5px;cursor:pointer;
+  border:1px solid var(--line);border-radius:7px;background:var(--panel);color:var(--muted)}
+.qcard .marks button.sel{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+
+/* ---------- glossary ---------- */
+.gloss{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin:18px 0}
+.gterm{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:13px 16px}
+.gterm .w{font-family:var(--f-disp);font-weight:600;font-size:15.5px}
+.gterm .m{font-size:13.5px;color:var(--muted);margin-top:3px;line-height:1.55}
+
+/* ---------- final sheet ---------- */
+.sheet{background:var(--panel);border:2px solid var(--hue,var(--accent));border-radius:var(--r);padding:24px}
+.sheet ol{padding-inline-start:20px;margin:0}
+.sheet li{margin:9px 0}
+
+@media print{
+  nav.topics,.themebtn,.figtools,.btn{display:none}
+  body{background:#fff;color:#000}
+  section{page-break-inside:avoid}
+}
+@media (max-width:640px){
+  .masthead .inner{padding:26px 20px 22px}
+  .figure svg{min-width:480px}
+  .wrap{padding:0 14px 90px}
+}
+</style>
+
+<header class="masthead">
+  <div class="inner">
+    <div>
+      <span class="eyebrow">ชีววิทยา · หน่วยที่ 1–2 · ครูขวัญชนก</span>
+      <h1>ซ้อมชีวะ สัมผัสและการเคลื่อนที่</h1>
+      <p class="sub">สร้างจากสไลด์จริง 4 ชุด (145 สไลด์) + ข่าววงในเรื่องข้อสอบ
+        หน้านี้ไม่ใช่สรุปให้อ่านเฉย ๆ — มันคือ<b>สนามซ้อม</b> เพราะข้อสอบชุดนี้เป็นแบบ “ถูก/ผิด แล้วบอกเหตุผล”
+        ซึ่งวัดว่าคุณ<b>แก้ประโยคผิดให้ถูกได้ไหม</b> ไม่ใช่แค่จำได้</p>
+    </div>
+    <button class="themebtn" id="themebtn" type="button">◐ สลับธีม</button>
+  </div>
+</header>
+
+<nav class="topics"><div class="inner">
+  <a href="#plan"><span class="dot"></span>แผนทำข้อสอบ</a>
+  <a href="#eye" style="color:var(--eye)"><span class="dot"></span>ตา</a>
+  <a href="#ear" style="color:var(--ear)"><span class="dot"></span>หู</a>
+  <a href="#chemo" style="color:var(--ear)"><span class="dot"></span>จมูก ลิ้น ผิวหนัง</a>
+  <a href="#uni" style="color:var(--uni)"><span class="dot"></span>เซลล์เดียว</a>
+  <a href="#inv" style="color:var(--inv)"><span class="dot"></span>ไม่มีกระดูกสันหลัง</a>
+  <a href="#vert" style="color:var(--vert)"><span class="dot"></span>มีกระดูกสันหลัง</a>
+  <a href="#traps"><span class="dot"></span>คลังกับดัก</a>
+  <a href="#mock"><span class="dot"></span>ข้อสอบเสมือน</a>
+  <a href="#gloss"><span class="dot"></span>ศัพท์ข้อสอบ</a>
+  <a href="#final"><span class="dot"></span>แผ่นคืนก่อนสอบ</a>
+</div></nav>
+
+<div class="wrap">
+
+<!-- ============ PLAN ============ -->
+<section id="plan">
+  <div class="sechead"><h2>แผนทำข้อสอบ</h2><span class="tag">อ่านก่อนทุกอย่าง · 6 นาที</span></div>
+  <p class="lede">เดือนที่แล้วคุณเสียคะแนนเลขไม่ใช่เพราะทำไม่เป็น แต่เพราะ<b>ไม่เคยกวาดตาดูข้อสอบทั้งฉบับก่อน</b>
+    แล้วข้อง่ายหน้าหลังไม่ได้ทำเลย ส่วนนี้จึงเป็นแบบฝึก ไม่ใช่บทความ — ต้องกดเล่นจริง</p>
+
+  <h3>โครงข้อสอบเท่าที่รู้</h3>
+  <div class="tw"><table>
+    <thead><tr><th>ข้อ</th><th>รูปแบบ</th><th>เนื้อหาที่ลือ</th><th>ระดับ</th></tr></thead>
+    <tbody>
+      <tr><td class="num">1</td><td>ถูก/ผิด <b>+ เขียนเหตุผลข้อที่ผิด</b></td><td>หน้าที่ตา/หู · เซลล์แท่ง-กรวย · คอเคลีย</td><td class="non">ยาก — เสียเวลาที่สุด</td></tr>
+      <tr><td class="num">2</td><td>ชี้รูป → ตอบชื่อ</td><td>องค์ประกอบ<b>ตา</b></td><td class="yes">ง่าย — เก็บให้ครบ</td></tr>
+      <tr><td class="num">3</td><td>ชี้รูป → ชื่อ <b>+ หน้าที่</b></td><td>องค์ประกอบ<b>หู</b></td><td>กลาง</td></tr>
+      <tr><td class="num">4</td><td>ถูก/ผิด</td><td><b>flagellum / cilia</b></td><td class="yes">ง่าย — เนื้อหาน้อยมาก</td></tr>
+      <tr><td class="num">5</td><td>ตอบชื่อ</td><td>กล้ามเนื้อ<b>แมลง</b> + <b>ปีกนก</b></td><td>กลาง</td></tr>
+      <tr><td class="num">6</td><td>ให้ประโยค → วิเคราะห์ ใช่/ไม่ใช่</td><td>รวมทุกบท</td><td class="non">ยาก</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="note timebox">
+    <span class="lbl">อ่านโครงนี้แล้วเห็นอะไร</span>
+    ข้อ <b>2 และ 4 คือคะแนนฟรี</b> — ชี้รูปตากับ flagellum/cilia เนื้อหารวมกันไม่ถึง 15 สไลด์
+    ส่วนข้อ 1 กับ 6 กินเวลามหาศาลเพราะต้อง<b>เขียนเหตุผล</b>
+    ถ้าคุณเริ่มที่ข้อ 1 แล้วไล่ไปเรื่อย ๆ แบบครั้งก่อน คุณจะไปติดหล่มตั้งแต่หน้าแรก
+    <b>ทำ 2 → 4 → 5 → 3 → 1 → 6</b>
+  </div>
+
+  <h3>แบบฝึกที่ 1 · กวาดข้อสอบ 90 วินาที</h3>
+  <p class="prose">กดเริ่ม แล้วให้คะแนนทุกข้อภายใน 90 วินาที: <b>○</b> = ทำได้เลย ·
+    <b>△</b> = ทำได้แต่ช้า · <b>✗</b> = ยังไม่ชัวร์ ห้ามคิดคำตอบตอนนี้ กวาดอย่างเดียว
+    ซ้อมจนกลายเป็นนิสัย ไม่ใช่อ่านผ่าน</p>
+  <div class="drill">
+    <div class="drillbar">
+      <button class="btn" id="sweepStart" type="button">เริ่มจับเวลา 90 วิ</button>
+      <span class="big" id="sweepClock">1:30</span>
+      <span class="pill" id="sweepMsg">ยังไม่เริ่ม</span>
+    </div>
+    <div class="paper" id="sweepPaper"></div>
+    <div id="sweepOut"></div>
+  </div>
+
+  <h3>แบบฝึกที่ 2 · งบเวลาต่อข้อ</h3>
+  <p class="prose">ใส่เวลาสอบจริง แล้วดูว่าแต่ละข้อมีเวลากี่นาที <b>เขียนตัวเลขนี้ลงหัวกระดาษตอนเริ่มสอบ</b>
+    ถ้าข้อไหนเกินงบ ให้ข้ามทันทีแล้วกลับมาทีหลัง — นี่คือกฎที่คุณพังทุกครั้ง</p>
+  <div class="drill">
+    <div class="drillbar">
+      <label for="totalMin">เวลาสอบทั้งหมด (นาที)</label>
+      <input type="number" id="totalMin" value="60" min="20" max="180" step="5">
+      <span class="pill">กันไว้ตรวจ 5 นาที</span>
+    </div>
+    <div class="clock" id="budget"></div>
+  </div>
+
+  <div class="note winbox">
+    <span class="lbl">จุดตรวจก่อนส่ง — คุณหยุดก่อนถึงเส้นชัยเสมอ</span>
+    <ol style="margin:6px 0 0;padding-inline-start:20px">
+      <li>ข้อ 1 และ 6 — ข้อที่ตอบ “ผิด” <b>เขียนเหตุผลครบทุกข้อหรือยัง</b> ตอบว่าผิดเฉย ๆ ได้ครึ่งเดียว</li>
+      <li>ข้อชี้รูป — <b>ตอบครบทุกหมายเลขไหม</b> นับหมายเลขในรูป เทียบกับจำนวนบรรทัดที่เขียน</li>
+      <li>ข้อกล้ามเนื้อ — บอกทั้ง <b>“หดตัว”</b> และ <b>“คลายตัว”</b> หรือเขียนแค่ตัวเดียว</li>
+      <li>พลิกไปหน้าสุดท้ายอีกครั้ง มีข้อที่ยังว่างอยู่ไหม</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ EYE ============ -->
+<section id="eye" style="--hue:var(--eye)">
+  <div class="sechead"><h2>ตากับการมองเห็น</h2><span class="tag">สไลด์ 05 · หน้า 9–49 · ออกข้อ 1, 2, 6</span></div>
+  <p class="lede">บทที่ออกหนักที่สุด และเป็นบทที่มี “ชี้รูปตอบชื่อ” แน่นอน
+    เป้าหมายของคุณคือ<b>ชี้ได้ทุกจุดโดยไม่ต้องคิด</b> แล้วค่อยไปสู้ข้อเขียนเหตุผล</p>
+
+  <h3>ผนังตา 3 ชั้น — เรียงจากนอกเข้าใน</h3>
+  <p class="prose">ลำดับนี้ออกสอบซ้ำทุกปี ท่องเป็นคำเดียว: <b>สเคลอรา → โครอยด์ → เรตินา</b>
+    (ขาว → เลือด → ฟิล์ม)</p>
+  <div class="tw"><table>
+    <thead><tr><th>ชั้น</th><th>ลักษณะ</th><th>หน้าที่ที่ต้องเขียนได้</th></tr></thead>
+    <tbody>
+      <tr><td><b>1. สเคลอรา</b> <em class="t">sclera</em></td>
+        <td>นอกสุด เหนียว <b>ไม่ยืดหยุ่น</b> คอลลาเจนมาก = ตาขาว</td>
+        <td>ป้องกันและคงรูปลูกตา</td></tr>
+      <tr><td><b>กระจกตา</b> <em class="t">cornea</em></td>
+        <td>คือ<b>ส่วนหน้าสุดของสเคลอราที่ใส</b> เพราะคอลลาเจนหนาใกล้เคียงกันและเรียงเป็นระเบียบ</td>
+        <td>ให้แสงผ่านเข้าตา · <b>ความโค้งคงที่เสมอ</b></td></tr>
+      <tr><td><b>2. โครอยด์</b> <em class="t">choroid</em></td>
+        <td>ชั้นกลาง หลอดเลือดมาก มีรงควัตถุ</td>
+        <td>ส่ง <b>ออกซิเจน</b> ให้เซลล์ในเรตินา · สารสีกันแสงสะท้อนไปมา</td></tr>
+      <tr><td><b>ม่านตา</b> <em class="t">iris</em></td>
+        <td><b>ยื่นออกมาจากโครอยด์</b> อยู่หน้าเลนส์ มีสารสี = สีตา</td>
+        <td>คุมขนาดรูม่านตา ทำงานเหมือน <b>ไดอะแฟรมของกล้อง</b></td></tr>
+      <tr><td><b>รูม่านตา</b> <em class="t">pupil</em></td>
+        <td>รูตรงกลางม่านตา คุมโดย<b>ระบบประสาทอัตโนวัติ</b></td>
+        <td>คุมปริมาณแสงเข้าตา — แสงน้อย<b>เปิดกว้าง</b> แสงมาก<b>หรี่ลง</b></td></tr>
+      <tr><td><b>3. เรตินา</b> <em class="t">retina</em></td>
+        <td>ในสุด มีเซลล์รับแสง</td>
+        <td>ทำหน้าที่เหมือน<b>ฟิล์มของกล้องถ่ายรูป</b></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="figure">
+    <div class="figtools">
+      <button class="btn on sm" data-mode="show" data-fig="eye" type="button">ดูเฉลย</button>
+      <button class="btn sm" data-mode="quiz" data-fig="eye" type="button">โหมดทดสอบ</button>
+      <span class="pill" id="eyeScore">คลิกหมายเลขในรูป</span>
+    </div>
+    <div class="figscroll">
+    <svg viewBox="0 0 720 480" role="img" aria-label="ภาพตัดขวางลูกตามนุษย์ ด้านหน้าอยู่ทางซ้าย">
+      <defs>
+        <radialGradient id="vitg" cx="55%" cy="45%"><stop offset="0" stop-color="#FBE3C4"/><stop offset="1" stop-color="#EFC79A"/></radialGradient>
+        <linearGradient id="lensg" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#F2F7FB"/><stop offset=".5" stop-color="#D9E9F4"/><stop offset="1" stop-color="#F2F7FB"/></linearGradient>
+      </defs>
+      <!-- interior / vitreous : r=157 so it reaches the choroid's inner edge and leaves no gap -->
+      <circle cx="400" cy="240" r="157" fill="url(#vitg)"/>
+      <!-- wall layers, nested. limbus at theta 160/200 deg, ora serrata at 145/215 deg -->
+      <!-- retina  : stroke centre r=150, width 12 -> spans 144..156 (INNERMOST) -->
+      <path d="M277.1,154.0 A150,150 0 1 1 277.1,326.0" fill="none" stroke="#E8C33B" stroke-width="12"/>
+      <!-- choroid : stroke centre r=161, width 10 -> spans 156..166 (MIDDLE) -->
+      <path d="M248.7,184.9 A161,161 0 1 1 248.7,295.1" fill="none" stroke="#8E4B3C" stroke-width="10"/>
+      <!-- sclera  : stroke centre r=173, width 14 -> spans 166..180 (OUTERMOST) -->
+      <path d="M237.4,180.8 A173,173 0 1 1 237.4,299.2" fill="none" stroke="#EDEBE2" stroke-width="14"/>
+      <path d="M237.4,180.8 A173,173 0 1 1 237.4,299.2" fill="none" stroke="#7A8886" stroke-width="1.4" opacity=".9"/>
+      <!-- cornea + anterior chamber (aqueous humor), reaching back to the iris -->
+      <path d="M237.4,180.8 C190,200 190,280 237.4,299.2 L268,266 L268,214 Z"
+            fill="#DCEEF5" stroke="#5E8FA3" stroke-width="2.2"/>
+      <!-- lens : drawn BEFORE the iris so the iris correctly overlaps its front edge -->
+      <ellipse cx="304" cy="240" rx="24" ry="42" fill="url(#lensg)" stroke="#5E8FA3" stroke-width="2"/>
+      <!-- ciliary body : small wedge at the wall between ora serrata and the root of the iris -->
+      <path d="M248,186 L275,158 L285,200 Z" fill="#6E4B86" stroke="#4A3260" stroke-width="1.4"/>
+      <path d="M248,294 L275,322 L285,280 Z" fill="#6E4B86" stroke="#4A3260" stroke-width="1.4"/>
+      <!-- iris : springs from the ciliary body inward-forward; the gap between tips IS the pupil -->
+      <path d="M285,194 L270,216 L263,212 L279,189 Z" fill="#4C3A6E"/>
+      <path d="M285,286 L270,264 L263,268 L279,291 Z" fill="#4C3A6E"/>
+      <!-- suspensory ligaments : ciliary body -> lens equator -->
+      <g stroke="#8C99A6" stroke-width="2">
+        <line x1="286" y1="196" x2="302" y2="200"/><line x1="286" y1="205" x2="302" y2="208"/>
+        <line x1="286" y1="284" x2="302" y2="280"/><line x1="286" y1="275" x2="302" y2="272"/>
+      </g>
+      <!-- fovea : on the retina at the posterior pole, cones only -->
+      <circle cx="550" cy="234" r="7" fill="#B8901F"/>
+      <!-- optic disc : separate from the fovea, below it; no photoreceptors -->
+      <path d="M528,276 L546,270 L550,300 L532,304 Z" fill="#F6EFC9" stroke="#B8901F" stroke-width="1.5"/>
+      <!-- optic nerve (CN II) : stroked, so the outline cannot self-intersect -->
+      <path d="M538,292 C578,322 616,350 652,378" fill="none" stroke="#B8901F" stroke-width="34" stroke-linecap="round"/>
+      <path d="M538,292 C578,322 616,350 652,378" fill="none" stroke="#F2D96B" stroke-width="28" stroke-linecap="round"/>
+      <!-- light path : refracted at cornea and lens, converging on the fovea -->
+      <g stroke="#D9534F" stroke-width="1.6" stroke-dasharray="5 4" opacity=".8" fill="none">
+        <path d="M120,196 L216,214 L286,224 L548,232"/>
+      </g>
+      <text x="118" y="188" font-family="IBM Plex Mono,monospace" font-size="12" fill="#D9534F">แสง</text>
+      <g id="eyeHots"></g>
+    </svg>
+    </div>
+    <ul class="legend" id="eyeLegend"></ul>
+    <p class="figcap">ภาพตัดขวางลูกตา ด้านหน้าอยู่ซ้าย · วาดตามภาพอ้างอิง Wikimedia
+      <em class="t">Schematic diagram of the human eye</em> — สังเกตว่า<b>โฟเวียกับจุดบอดเป็นคนละจุด</b>
+      และอยู่ติดกันด้านหลังลูกตา ข้อสอบชอบสลับสองอันนี้</p>
+  </div>
+
+  <h3>เรตินา — เซลล์รูปแท่ง vs เซลล์รูปกรวย</h3>
+  <p class="prose">ข่าวลือบอกชัดว่าออกแน่ ตารางนี้ต้องท่องได้ทั้งแถว ทริกจำ:
+    <b>แท่ง = ท่างมืด</b> (ทำงานตอนมืด ไม่เห็นสี เยอะ) · <b>กรวย = สีสวย</b> (ต้องมีแสง เห็นสี น้อย)</p>
+  <div class="tw"><table>
+    <thead><tr><th>เทียบ</th><th>เซลล์รูปแท่ง <em class="t">rod</em></th><th>เซลล์รูปกรวย <em class="t">cone</em></th></tr></thead>
+    <tbody>
+      <tr><td>ความไวต่อแสง</td><td class="yes">ไวต่อแสง (แสงน้อยก็ทำงาน)</td><td class="non">ไม่ไวต่อแสง (ต้องมีแสงสว่าง)</td></tr>
+      <tr><td>ภาพที่ได้</td><td>ขาวดำ ไม่เห็นรายละเอียด</td><td>เห็นสี เห็นรายละเอียด</td></tr>
+      <tr><td>รงควัตถุ</td><td><b>โรดอปซิน</b> <em class="t">rhodopsin</em> สีม่วงแดง</td><td><b>โฟทอปซิน</b> <em class="t">photopsin</em></td></tr>
+      <tr><td>จำนวน / ตา 1 ข้าง</td><td class="num">~125 ล้านเซลล์</td><td class="num">~6 ล้านเซลล์</td></tr>
+      <tr><td>จำนวนชนิด</td><td class="num">1 ชนิด</td><td class="num">3 ชนิด (น้ำเงิน แดง เขียว)</td></tr>
+      <tr><td>พบมากที่</td><td>สัตว์หากินกลางคืน เช่น ค้างคาว นกฮูก</td><td><b>โฟเวีย</b> (มีแต่กรวยล้วน)</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="grid2">
+    <div class="note"><span class="lbl">โฟเวีย · fovea</span>
+      บริเวณที่<b>แสงตกกระทบมากที่สุด เห็นภาพชัดที่สุด</b> เพราะพบ<b>เฉพาะเซลล์รูปกรวยเท่านั้น</b></div>
+    <div class="note"><span class="lbl">จุดบอด · blind spot / optic disc</span>
+      มองไม่เห็นเพราะ<b>ไม่มีเซลล์รับแสงอยู่เลย</b> เป็นที่ที่เส้นประสาทสมองคู่ที่ <b>II</b> มาเปิดออก
+      — เราไม่รู้สึกเพราะตาอีกข้างรับภาพแทน</div>
+  </div>
+
+  <h3>เลนส์ตาและการปรับโฟกัส <em class="t">accommodation</em></h3>
+  <p class="prose">เลนส์ตาแบ่งลูกตาเป็น 2 ช่อง และของเหลวสองตัวนี้<b>สลับกันบ่อยมากในข้อสอบ</b></p>
+  <div class="tw"><table>
+    <thead><tr><th>ของเหลว</th><th>อยู่ที่</th><th>หน้าที่</th></tr></thead>
+    <tbody>
+      <tr><td><b>aqueous humor</b><br>น้ำเลี้ยงลูกนัยน์ตา</td><td><b>ช่องหน้าเลนส์</b> (ระหว่างกระจกตากับเลนส์) ของเหลวใส</td>
+        <td>ทำให้<b>ความดันตาเป็นปกติ</b> + ลำเลียงอาหารและออกซิเจนแก่<b>กระจกตา</b></td></tr>
+      <tr><td><b>vitreous humor</b><br>น้ำวุ้นตา</td><td><b>ช่องหลังเลนส์</b> เป็นเมือกใส <b>ดัชนีหักเหสูงมาก</b></td>
+        <td>ช่วยให้<b>นัยน์ตาคงรูป</b>อยู่ได้</td></tr>
+    </tbody>
+  </table></div>
+
+  <p class="prose">การปรับรูปร่างเลนส์เรียกว่า <b>accommodation</b> ขึ้นกับ 2 โครงสร้าง:
+    <b>กล้ามเนื้อยึดเลนส์</b> (ciliary muscle, เรียงเป็นวง) และ <b>เอ็นยึดเลนส์</b> (suspensory ligament)</p>
+  <div class="tw"><table>
+    <thead><tr><th>มองวัตถุ</th><th>กล้ามเนื้อยึดเลนส์</th><th>เอ็นยึดเลนส์</th><th>รูปร่างเลนส์</th></tr></thead>
+    <tbody>
+      <tr><td><b>ระยะไกล</b></td><td class="yes">คลายตัว</td><td>ตึงตัว</td><td>เลนส์แฟบแบนลง โค้งนูน<b>น้อย</b></td></tr>
+      <tr><td><b>ระยะใกล้</b></td><td class="non">หดตัว</td><td>หย่อนตัว</td><td>เลนส์โป่งออก โค้งนูน<b>มาก</b></td></tr>
+    </tbody>
+  </table></div>
+  <div class="note trapbox"><span class="lbl">กับดักคลาสสิก</span>
+    สัญชาตญาณบอกว่า “กล้ามเนื้อหดตัว → เอ็นต้องตึง” <b>ผิด</b>
+    กล้ามเนื้อยึดเลนส์เรียงเป็น<b>วงกลมรอบเลนส์</b> เมื่อหดตัว วงจะ<b>เล็กลง</b> เอ็นที่ขึงอยู่จึง<b>หย่อน</b>
+    เลนส์เลยเด้งโป่งออกตามความยืดหยุ่นของมันเอง — คิดถึงหนังยางรัดปากถุงที่คลายออก
+    ตอบคำถาม “ทำไมอ่านหนังสือนาน ๆ แล้วเมื่อยตา” ได้ด้วย: <b>มองใกล้ = กล้ามเนื้อหดตัวค้างตลอดเวลา</b>
+    ส่วนมองไกลคือกล้ามเนื้อคลาย จึงมองได้นานกว่า</div>
+
+  <h3>ความผิดปกติของสายตา</h3>
+  <div class="tw"><table>
+    <thead><tr><th>ภาวะ</th><th>สาเหตุ</th><th>ภาพตกที่</th><th>แก้ด้วย</th></tr></thead>
+    <tbody>
+      <tr><td><b>สายตาสั้น</b><br><em class="t">myopia</em></td>
+        <td>เลนส์ตาโค้งนูน<b>มาก</b>เกินไป หรือ<b>กระบอกตายาว</b>เกินไป</td>
+        <td class="non"><b>ก่อนถึง</b>เรตินา</td><td><b>เลนส์เว้า</b></td></tr>
+      <tr><td><b>สายตายาว</b><br><em class="t">hyperopia</em></td>
+        <td>เลนส์<b>สูญเสียความยืดหยุ่น</b> + กล้ามเนื้อยึดเลนส์เสื่อม (มักอายุ 40+)<br>หรือ<b>กระบอกตาสั้น</b> / กระจกตาโค้งน้อยกว่าปกติ</td>
+        <td class="non"><b>เลยไปหลัง</b>เรตินา</td><td><b>เลนส์นูน</b></td></tr>
+      <tr><td><b>สายตาเอียง</b><br><em class="t">astigmatism</em></td>
+        <td>ความโค้งของ<b>กระจกตา</b>ในแนวต่าง ๆ ไม่เท่ากัน → เกิดจุดโฟกัสหลายจุด</td>
+        <td>หลายจุด</td><td><b>เลนส์ทรงกระบอก</b><br>(หน้าเว้า หลังนูน)</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>กลไกการมองเห็น — โรดอปซิน</h3>
+  <p class="prose"><b>โรดอปซิน = โปรตีนออปซิน (opsin) + เรตินอล (retinal)</b>
+    อยู่ในเมมเบรนของแผ่นคล้ายเหรียญที่เรียงซ้อนกันใน <b>outer segment</b> ของเซลล์รูปแท่ง</p>
+  <ul class="clean">
+    <li><b>ไม่มีแสง</b> — retinal อยู่ในรูป <b>cis-retinal</b> รวมอยู่กับ opsin เป็นโรดอปซินปกติ</li>
+    <li><b>มีแสงมากระตุ้น</b> — เปลี่ยนเป็น <b>trans-retinal</b> และ<b>แยกออกจาก</b> opsin
+      → เยื่อเซลล์เปลี่ยนศักย์ไฟฟ้า → เกิดกระแสประสาท → <b>เส้นประสาทสมองคู่ที่ II</b> → <b>สมองส่วนซีรีบรัม</b></li>
+    <li><b>กลับมาไม่มีแสง</b> — เอนไซม์เปลี่ยน trans กลับเป็น <b>cis-retinal</b> รวมกับ opsin เป็นโรดอปซินอีกครั้ง</li>
+  </ul>
+  <div class="grid2">
+    <div class="note"><span class="lbl">เข้าที่มืด · dark adaptation</span>
+      ตอนอยู่ที่สว่าง โรดอปซินถูกสลายไปมากจน<b>เหลือน้อย</b> พอเข้าที่มืดจึงมองไม่เห็นช่วงแรก
+      ต้องรอ<b>สังเคราะห์โรดอปซินขึ้นใหม่</b> แล้วจึงค่อย ๆ เห็น</div>
+    <div class="note"><span class="lbl">ออกที่สว่าง · light adaptation</span>
+      ตอนอยู่ในที่มืด โรดอปซินสลายตัวน้อย<b>จึงมีสะสมมาก</b> พอออกที่สว่างจึงพร่ามัว
+      เมื่อโรดอปซิน<b>สลายตัวมากขึ้น</b> ภาพจึงชัดขึ้น</div>
+    <div class="note"><span class="lbl">ตาฟางกลางคืน · night blindness</span>
+      <b>ขาดวิตามินเอ</b> → สังเคราะห์ <b>เรตินอล</b> ไม่ได้ → ขาดโรดอปซิน → มองในที่สลัวไม่เห็น</div>
+    <div class="note"><span class="lbl">ตาบอดสี · color blindness</span>
+      เซลล์รูปกรวย<b>ชนิดใดชนิดหนึ่ง</b>ผิดปกติ · <b>แดงกับเขียวพบมากที่สุด น้ำเงินพบน้อยมาก</b> ·
+      ถ่ายทอดทางพันธุกรรม <b>พบในเพศชายมากกว่าเพศหญิง</b></div>
+  </div>
+
+  <h3>โรคของตา — ต้อ 4 ชนิด</h3>
+  <div class="tw"><table>
+    <thead><tr><th>โรค</th><th>อวัยวะที่ผิดปกติ</th><th>อาการเด่น</th></tr></thead>
+    <tbody>
+      <tr><td><b>ต้อเนื้อ</b> <em class="t">pterygium</em></td><td><b>เยื่อตา</b>งอกไปยัง<b>กระจกตา</b></td><td>แสบตา เคืองตา ตาแห้ง · เหตุจากฝุ่น/แสงแดด</td></tr>
+      <tr><td><b>ต้อกระจก</b> <em class="t">cataract</em></td><td><b>เลนส์ตา</b>ขุ่นมัว</td><td>เห็นภาพมัวเหมือนมองผ่านหมอก · มักในผู้สูงอายุ · <b>ผ่าตัดเปลี่ยนเลนส์</b></td></tr>
+      <tr><td><b>ต้อลำไย</b> <em class="t">leukoma</em></td><td><b>กระจกตา</b>ขาวขุ่น</td><td>แสงผ่านไม่ได้ · <b>เปลี่ยนกระจกตา</b></td></tr>
+      <tr><td><b>ต้อหิน</b> <em class="t">glaucoma</em></td><td><b>ความดันในลูกตาสูง</b></td><td>ความดันไป<b>กดประสาทตา</b> → ประสาทตาเสื่อม · รักษาโดยลดความดัน/ระบายของเหลว</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note trapbox"><span class="lbl">แยกให้ออก</span>
+    <b>ต้อกระจก = เลนส์ขุ่น</b> · <b>ต้อลำไย = กระจกตาขุ่น</b> ทั้งคู่ “ขุ่น” เหมือนกัน แต่คนละอวัยวะ
+    ถ้าตอบสลับกันคือศูนย์ทั้งข้อ · และ<b>ต้อหินไม่ได้ขุ่นอะไรเลย</b> — มันคือเรื่อง<b>ความดัน</b></div>
+
+  <h3>ชนิดของตาในสัตว์</h3>
+  <div class="tw"><table>
+    <thead><tr><th>ชนิด</th><th>พบใน</th><th>ความสามารถ</th></tr></thead>
+    <tbody>
+      <tr><td><b>ตาเดี่ยว</b> <em class="t">simple eye / ocellus</em></td><td>หนอนตัวแบน · mollusk · arthropod บางชนิด</td><td>ตรวจ<b>ความเข้มแสง</b>ว่ามากหรือน้อย <b>สร้างภาพไม่ได้</b></td></tr>
+      <tr><td><b>ตาประกอบ</b> <em class="t">compound eye</em></td><td><b>แมลง</b>และ crustacean</td><td>ประกอบจากตาย่อย <b>ommatidium</b> จำนวนมาก</td></tr>
+      <tr><td><b>ตาเลนส์เดี่ยว</b> <em class="t">camera eye</em></td><td><b>หมึก</b>และ<b>สัตว์มีกระดูกสันหลัง</b></td><td>ทำงานคล้ายกล้องถ่ายรูป</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ EAR ============ -->
+<section id="ear" style="--hue:var(--ear)">
+  <div class="sechead"><h2>หูกับการได้ยิน</h2><span class="tag">สไลด์ 05 · หน้า 50–66 · ออกข้อ 1, 3</span></div>
+  <p class="lede">ข้อ 3 ให้ชี้รูปแล้วตอบ<b>ทั้งชื่อและหน้าที่</b> — ยากกว่าข้อตา
+    เพราะจำชื่อได้อย่างเดียวไม่พอ ทุกจุดในตารางข้างล่างต้องพูดหน้าที่ได้ 1 ประโยค</p>
+
+  <h3>โครงสร้าง 3 ส่วน</h3>
+  <div class="tw"><table>
+    <thead><tr><th>ส่วน</th><th>ประกอบด้วย</th><th>หน้าที่ (ต้องเขียนได้)</th></tr></thead>
+    <tbody>
+      <tr><td rowspan="3"><b>หูส่วนนอก</b></td><td><b>ใบหู</b> <em class="t">pinna</em></td>
+        <td><b>รับคลื่นเสียง</b>เข้าสู่รูหู · <b>พบเฉพาะสัตว์เลี้ยงลูกด้วยน้ำนม</b> · มีกระดูกอ่อนค้ำจุน</td></tr>
+      <tr><td><b>รูหู</b> <em class="t">auditory canal</em></td>
+        <td>เป็น<b>ทางผ่านของคลื่นเสียง</b> · มีขนและต่อมไขมัน ป้องกันแมลง/ฝุ่น/เชื้อรา → ไขสะสมเป็น<b>ขี้หู</b></td></tr>
+      <tr><td><b>เยื่อแก้วหู</b> <em class="t">tympanic membrane</em></td>
+        <td><b>เปลี่ยนพลังงานเสียงเป็นพลังงานกล</b>โดยการสั่น แล้วส่งต่อหูส่วนกลาง</td></tr>
+      <tr><td rowspan="2"><b>หูส่วนกลาง</b></td><td><b>ท่อยูสเตเชียน</b> <em class="t">eustachian tube</em></td>
+        <td>เชื่อมหูส่วนกลางกับ<b>คอหอย</b> · <b>ปรับความดันอากาศ 2 ด้านของเยื่อแก้วหูให้เท่ากัน</b>
+          (นี่คือเหตุผลที่กลืนน้ำลายแล้วหายหูอื้อ)</td></tr>
+      <tr><td><b>กระดูก 3 ชิ้น</b><br>ค้อน <em class="t">malleus</em> → ทั่ง <em class="t">incus</em> → โกลน <em class="t">stapes</em></td>
+        <td><b>รับและขยายแรงสั่นสะเทือน</b>แบบระบบคานงัด → แอมพลิจูดเพิ่มขึ้น <b>~22 เท่า</b></td></tr>
+      <tr><td rowspan="2"><b>หูส่วนใน</b></td><td><b>คอเคลีย</b> <em class="t">cochlea</em></td>
+        <td><b>การได้ยินเสียง</b></td></tr>
+      <tr><td><b>เซมิเซอร์คิวลาร์แคแนล</b> + <b>saccule</b> + <b>utricle</b></td>
+        <td><b>การทรงตัว</b></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="figure">
+    <div class="figtools">
+      <button class="btn on sm" data-mode="show" data-fig="ear" type="button">ดูเฉลย</button>
+      <button class="btn sm" data-mode="quiz" data-fig="ear" type="button">โหมดทดสอบ</button>
+      <span class="pill" id="earScore">คลิกหมายเลขในรูป</span>
+    </div>
+    <div class="figscroll">
+    <svg viewBox="0 0 780 460" role="img" aria-label="โครงสร้างหูมนุษย์ แบ่งเป็นหูส่วนนอก กลาง และใน">
+      <!-- zone bands -->
+      <rect x="16" y="70" width="272" height="330" fill="#F0E4E8" opacity=".5"/>
+      <rect x="288" y="70" width="120" height="330" fill="#F6E2D2" opacity=".55"/>
+      <rect x="408" y="70" width="356" height="330" fill="#E6E1F2" opacity=".55"/>
+      <text x="152" y="96" text-anchor="middle" font-family="Chakra Petch,sans-serif" font-size="15" font-weight="600" fill="#8A5566">หูส่วนนอก</text>
+      <text x="348" y="96" text-anchor="middle" font-family="Chakra Petch,sans-serif" font-size="15" font-weight="600" fill="#96602F">หูส่วนกลาง</text>
+      <text x="586" y="96" text-anchor="middle" font-family="Chakra Petch,sans-serif" font-size="15" font-weight="600" fill="#5B4E92">หูส่วนใน</text>
+
+      <!-- pinna -->
+      <path d="M104,150 C60,140 24,180 30,240 C36,300 66,340 104,330 C92,300 88,270 92,240 C96,205 100,175 104,150 Z"
+            fill="#E8C4A8" stroke="#9C6F52" stroke-width="2.4"/>
+      <path d="M96,178 C74,182 62,210 66,242 C70,276 84,300 98,302" fill="none" stroke="#9C6F52" stroke-width="1.8"/>
+      <!-- auditory canal -->
+      <path d="M104,214 L296,206 L296,272 L104,266 Z" fill="#F7EAE0" stroke="#9C6F52" stroke-width="2.2"/>
+      <!-- tympanic membrane -->
+      <line x1="296" y1="202" x2="310" y2="276" stroke="#2F7A55" stroke-width="6" stroke-linecap="round"/>
+      <!-- middle ear cavity -->
+      <path d="M310,190 L404,190 L404,300 L316,300 Z" fill="#FBEFE2" stroke="#96602F" stroke-width="1.6"/>
+      <!-- ossicles : MALLEUS touches the eardrum, STAPES touches the oval window -->
+      <g stroke="#3F3F3F" stroke-width="2.4" fill="#DCDCDC">
+        <!-- malleus (hammer): handle on the eardrum + head -->
+        <path d="M301,240 L320,210 L328,215 L309,245 Z"/><circle cx="324" cy="205" r="9"/>
+        <!-- incus (anvil): body + long process reaching the stapes -->
+        <circle cx="348" cy="199" r="9"/><path d="M344,206 L360,214 L356,222 L340,213 Z"/>
+        <!-- stapes (stirrup): an arch with a footplate on the oval window -->
+        <ellipse cx="382" cy="219" rx="13" ry="9" fill="none" stroke-width="4"/>
+        <rect x="394" y="210" width="6" height="19" rx="2"/>
+      </g>
+      <!-- oval + round window -->
+      <ellipse cx="406" cy="220" rx="4.5" ry="10" fill="#8A5CBF" stroke="#4B357A" stroke-width="2"/>
+      <circle cx="406" cy="264" r="8" fill="#C9B6E8" stroke="#4B357A" stroke-width="2"/>
+      <!-- eustachian tube down to pharynx -->
+      <path d="M356,300 L392,300 L470,414 L440,432 Z" fill="#FBE0C2" stroke="#96602F" stroke-width="2.2"/>
+      <text x="486" y="428" font-family="IBM Plex Sans Thai,sans-serif" font-size="13" fill="#96602F">ไปคอหอย</text>
+      <!-- inner ear : vestibule -->
+      <ellipse cx="486" cy="206" rx="34" ry="30" fill="#CDBEEA" stroke="#4B357A" stroke-width="2.4"/>
+      <circle cx="476" cy="200" r="9" fill="#9B7FD4" stroke="#4B357A" stroke-width="1.6"/>
+      <circle cx="496" cy="214" r="9" fill="#9B7FD4" stroke="#4B357A" stroke-width="1.6"/>
+      <!-- semicircular canals : 3 loops set at right angles to each other -->
+      <g fill="none" stroke="#6A4CA8" stroke-width="6.5" stroke-linecap="round">
+        <ellipse cx="458" cy="128" rx="17" ry="41" transform="rotate(-34 458 128)"/>
+        <ellipse cx="526" cy="130" rx="17" ry="41" transform="rotate(34 526 130)"/>
+        <ellipse cx="494" cy="180" rx="45" ry="13" transform="rotate(-6 494 180)"/>
+      </g>
+      <!-- ampullae : the swelling at the base of each canal -->
+      <circle cx="450" cy="170" r="8.5" fill="#8A5CBF" stroke="#4B357A" stroke-width="1.6"/>
+      <circle cx="534" cy="172" r="8.5" fill="#8A5CBF" stroke="#4B357A" stroke-width="1.6"/>
+      <!-- cochlea : 2-turn spiral -->
+      <path d="M588,224 A55,55 0 0 1 640,282 A49,49 0 0 1 588,328 A43,43 0 0 1 548,282
+               A37,37 0 0 1 588,248 A31,31 0 0 1 616,282 A25,25 0 0 1 588,304
+               A19,19 0 0 1 572,282 A13,13 0 0 1 588,272"
+            fill="none" stroke="#7B5BB8" stroke-width="15" stroke-linecap="round"/>
+      <path d="M506,226 C540,222 566,220 588,225" fill="none" stroke="#7B5BB8" stroke-width="15" stroke-linecap="round"/>
+      <!-- CN VIII : vestibular branch + cochlear branch, joining and leaving to the right -->
+      <g stroke="#C8A227" stroke-width="7" fill="none" stroke-linecap="round">
+        <path d="M522,196 C578,180 634,182 700,192"/>
+        <path d="M648,306 C676,272 684,226 700,204"/>
+      </g>
+      <text x="706" y="196" font-family="IBM Plex Mono,monospace" font-size="12" fill="#8A6F10">CN VIII</text>
+      <!-- sound arrow -->
+      <g stroke="#D9534F" stroke-width="2" fill="none" stroke-dasharray="6 4">
+        <path d="M112,240 L288,240"/></g>
+      <path d="M288,234 L300,240 L288,246 Z" fill="#D9534F"/>
+      <text x="150" y="232" font-family="IBM Plex Mono,monospace" font-size="12" fill="#D9534F">คลื่นเสียง</text>
+      <g id="earHots"></g>
+    </svg>
+    </div>
+    <ul class="legend" id="earLegend"></ul>
+    <p class="figcap">วาดตามภาพอ้างอิง Wikimedia <em class="t">Anatomy of the Human Ear</em> ·
+      สังเกตสามอย่าง: <b>กระดูกค้อนแตะเยื่อแก้วหู กระดูกโกลนแตะช่องรูปรี</b> ·
+      <b>ท่อยูสเตเชียนอยู่หูส่วนกลาง</b> ไม่ใช่หูส่วนใน ·
+      <b>เซมิเซอร์คิวลาร์แคแนลอยู่ด้านหลัง-บน ส่วนคอเคลียอยู่ด้านหน้า-ล่าง</b></p>
+  </div>
+
+  <h3>เส้นทางของเสียง — ท่องเป็นลูกโซ่</h3>
+  <p class="prose">ข้อสอบชอบให้เรียงลำดับ หรือถามว่า “ขั้นตอนไหนอยู่ก่อนขั้นตอนไหน” ท่องทั้งสายนี้:</p>
+  <div class="note"><span class="lbl">ลำดับ 10 ขั้น</span>
+    ใบหู → รูหู → <b>เยื่อแก้วหูสั่น</b> → กระดูกค้อน → กระดูกทั่ง → กระดูกโกลน →
+    <b>ช่องรูปรี (oval window)</b> → ของเหลวใน<b>คอเคลีย</b>สั่น → <b>basilar membrane</b> ใน organ of Corti สั่น →
+    <b>เซลล์ขนเกิดการเบน</b> → cochlear nerve (<b>CN VIII</b>) → <b>สมองส่วนซีรีบรัม</b> แปลผล</div>
+
+  <h3>คอเคลีย — ภาพตัดขวาง</h3>
+  <p class="prose">เมื่อผ่าตามขวาง คอเคลียมี <b>3 โพรง</b> เรียงจากบนลงล่าง และ <b>organ of Corti อยู่โพรงกลาง</b></p>
+  <div class="figure">
+    <div class="figscroll">
+    <svg viewBox="0 0 560 340" role="img" aria-label="ภาพตัดขวางคอเคลีย แสดง 3 โพรงและ organ of Corti">
+      <path d="M112,176 C112,88 196,52 306,58 C418,64 480,110 478,176 C476,248 408,294 296,296 C182,298 112,258 112,176 Z"
+            fill="#FBF6E8" stroke="#7B5BB8" stroke-width="3"/>
+      <!-- scala vestibuli (top) -->
+      <path d="M120,166 C126,92 200,60 306,64 C412,68 470,112 470,168 L440,116 Z" fill="#CFE8F2" opacity=".85"/>
+      <!-- scala tympani (bottom) -->
+      <path d="M120,190 C124,258 190,292 296,290 C400,288 468,246 470,186 L430,238 Z" fill="#CFE8F2" opacity=".85"/>
+      <!-- scala media wedge -->
+      <path d="M122,178 L446,116 L470,176 L434,238 Z" fill="#E4F0D4" opacity=".95"/>
+      <!-- Reissner's membrane -->
+      <line x1="122" y1="174" x2="446" y2="116" stroke="#C1447A" stroke-width="3.5"/>
+      <!-- basilar membrane -->
+      <line x1="122" y1="184" x2="434" y2="238" stroke="#B03030" stroke-width="5"/>
+      <!-- tectorial membrane -->
+      <path d="M150,182 C220,182 290,192 356,206 C330,214 260,204 150,192 Z" fill="#F0908C" stroke="#B03030" stroke-width="1.6"/>
+      <!-- organ of Corti : hair cells sitting ON the basilar membrane -->
+      <g fill="#F4C6D8" stroke="#A03A62" stroke-width="1.6">
+        <rect x="286" y="196" width="16" height="22" rx="3"/>
+        <rect x="308" y="200" width="16" height="22" rx="3"/>
+        <rect x="330" y="204" width="16" height="22" rx="3"/>
+      </g>
+      <g stroke="#A03A62" stroke-width="1.6">
+        <line x1="294" y1="196" x2="294" y2="186"/><line x1="316" y1="200" x2="316" y2="192"/>
+        <line x1="338" y1="204" x2="338" y2="198"/>
+      </g>
+      <text x="250" y="106" font-family="IBM Plex Sans Thai,sans-serif" font-size="15" fill="#2C5C72">scala vestibuli (บน)</text>
+      <text x="410" y="168" text-anchor="middle" font-family="IBM Plex Sans Thai,sans-serif" font-size="15" paint-order="stroke" stroke="#E4F0D4" stroke-width="4.5" stroke-linejoin="round" fill="#4A6B22">scala media (กลาง)</text>
+      <text x="250" y="272" font-family="IBM Plex Sans Thai,sans-serif" font-size="15" fill="#2C5C72">scala tympani (ล่าง)</text>
+      <text x="366" y="124" font-family="IBM Plex Mono,monospace" font-size="12"  paint-order="stroke" stroke="#FBF6E8" stroke-width="4.5" stroke-linejoin="round" fill="#C1447A">Reissner's membrane</text>
+      <text x="366" y="252" font-family="IBM Plex Mono,monospace" font-size="12"  paint-order="stroke" stroke="#FBF6E8" stroke-width="4.5" stroke-linejoin="round" fill="#B03030">basilar membrane</text>
+      <text x="286" y="182" font-family="IBM Plex Mono,monospace" font-size="12"  paint-order="stroke" stroke="#FBF6E8" stroke-width="4.5" stroke-linejoin="round" fill="#A03A62">organ of Corti</text>
+      <line x1="243" y1="162" x2="262" y2="192" stroke="#B03030" stroke-width="1.4"/><text x="150" y="158" font-family="IBM Plex Mono,monospace" font-size="12" paint-order="stroke" stroke="#FBF6E8" stroke-width="4.5" stroke-linejoin="round" fill="#B03030">tectorial membrane</text>
+    </svg>
+    </div>
+    <p class="figcap">วาดตามภาพอ้างอิง Wikimedia <em class="t">Cochlea cross-section</em> ·
+      <b>organ of Corti วางอยู่บน basilar membrane ในโพรง scala media</b> และมี
+      <b>tectorial membrane</b> อยู่ด้านบน — สามคำนี้มักถูกสลับกันในข้อถูก/ผิด</p>
+  </div>
+
+  <h3>ส่วนที่ทำหน้าที่ทรงตัว</h3>
+  <div class="tw"><table>
+    <thead><tr><th>โครงสร้าง</th><th>ตรวจจับอะไร</th><th>กลไก</th></tr></thead>
+    <tbody>
+      <tr><td><b>เซมิเซอร์คิวลาร์แคแนล</b><br><em class="t">semicircular canal</em></td>
+        <td><b>การหมุน</b>ของร่างกาย</td>
+        <td>หลอดครึ่งวงกลม <b>3 หลอด วางตั้งฉากกัน</b> · ภายในมี <b>endolymph</b> ·
+          โคนหลอดโป่งเป็น <b>ampulla</b> · เซลล์ขนฝังในวุ้นชื่อ <b>cupula</b> ·
+          ร่างกายหมุน → ของเหลวหมุน → เซลล์ขน<b>เบน</b> → ส่งกระแสประสาท</td></tr>
+      <tr><td><b>saccule และ utricle</b></td>
+        <td><b>ตำแหน่งของศีรษะ</b>เทียบกับลำตัว/แรงโน้มถ่วง</td>
+        <td>เซลล์ขนฝังในชั้นวุ้นที่มี<b>ผลึกหินปูน (otolith)</b> ·
+          ก้ม/เงยหน้า → ผลึกเคลื่อน → เซลล์ขนเบนต่างกัน</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note trapbox"><span class="lbl">คู่ที่สลับกันบ่อยที่สุด</span>
+    <b>endolymph</b> = ของเหลวในหลอด · <b>cupula</b> = วุ้นที่เซลล์ขนฝังอยู่ (ในเซมิเซอร์คิวลาร์) ·
+    <b>otolith</b> = ผลึกหินปูน (ใน saccule/utricle เท่านั้น) — สามคำนี้คนละอย่างกันหมด</div>
+
+  <div class="grid2">
+    <div class="note"><span class="lbl">ช่วงการได้ยิน</span>
+      คน <b>20–20,000 Hz</b> · สุนัข 64–45,000 · แมว 65–64,000 · ค้างคาว 2,000–100,000 ·
+      วาฬเบลูก้า 1,000–123,000 Hz</div>
+    <div class="note"><span class="lbl">โรคมีเนีย · Meniere’s disease</span>
+      <b>แรงดันของน้ำในหูชั้นในมากเกินปกติ</b> → เวียนศีรษะ · การได้ยินลดลง · หูอื้อมีเสียงดังในหู ·
+      รักษาด้วยยาขับปัสสาวะลดบวม</div>
+  </div>
+</section>
+
+<!-- ============ NOSE TONGUE SKIN ============ -->
+<section id="chemo" style="--hue:var(--ear)">
+  <div class="sechead"><h2>จมูก ลิ้น ผิวหนัง</h2><span class="tag">สไลด์ 05 · หน้า 67–84 · ออกข้อ 1, 6</span></div>
+  <p class="lede">ไม่มีข้อชี้รูป แต่<b>ตารางสรุปท้ายบทออกข้อถูก/ผิดแน่นอน</b> โดยเฉพาะเลขเส้นประสาทสมอง</p>
+
+  <div class="grid2">
+    <div class="card"><h4>จมูกกับการดมกลิ่น</h4>
+      <ul class="clean" style="margin-top:6px">
+        <li>เป็นการรับความรู้สึกประเภท <b>chemoreceptor</b></li>
+        <li>เซลล์ประสาท <b>olfactory receptor neuron (ORN)</b> มี<b>ซิเลีย</b>ยื่นออกมาเพิ่มพื้นที่สัมผัสโมเลกุลกลิ่น</li>
+        <li>เชื่อว่าเป็น<b>เซลล์ประสาทชนิดเดียวในร่างกายที่สร้างทดแทนได้</b></li>
+        <li>ส่งไป <b>เส้นประสาทสมองคู่ที่ I</b> → <b>olfactory bulb</b> → ซีรีบรัม</li>
+      </ul></div>
+    <div class="card"><h4>ลิ้นกับการรับรส</h4>
+      <ul class="clean" style="margin-top:6px">
+        <li>ลำดับโครงสร้าง: <b>ปุ่มรับรส (papilla)</b> → <b>ตุ่มรับรส (taste bud)</b> → <b>เซลล์รับรส (taste cell)</b>
+          โดยมี <b>taste pore</b> เป็นรูเปิด</li>
+        <li>ส่งไป <b>เส้นประสาทสมองคู่ที่ 7 และคู่ที่ 9</b> → ซีรีบรัม</li>
+        <li><b>ความเชื่อเดิมผิด</b> — ปัจจุบันพบว่า taste bud <b>ทุกบริเวณของลิ้นรับรสได้เท่ากัน</b></li>
+        <li><b>เผ็ดไม่ใช่รส</b> แต่เป็นความรู้สึกจากการ<b>ระคายเคือง</b>ของเซลล์</li>
+      </ul></div>
+  </div>
+
+  <div class="tw"><table>
+    <thead><tr><th>รส</th><th>taste cell ตรวจจับจาก</th></tr></thead>
+    <tbody>
+      <tr><td>เค็ม</td><td class="num">Na⁺</td></tr>
+      <tr><td>หวาน</td><td>น้ำตาลโมเลกุลเดี่ยว</td></tr>
+      <tr><td>เปรี้ยว</td><td class="num">H⁺</td></tr>
+      <tr><td>ขม</td><td>สารกลุ่ม <b>alkaloid</b> เช่น นิโคติน</td></tr>
+      <tr><td>อูมามิ</td><td>กรดอะมิโน<b>กลูตาเมต</b> (glutamate)</td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>ผิวหนังกับการรับความรู้สึก</h4>
+  <div class="tw"><table>
+    <thead><tr><th>ตัวรับ</th><th>อยู่ที่</th><th>รับอะไร</th></tr></thead>
+    <tbody>
+      <tr><td><b>Meissner’s corpuscle</b></td><td>ใกล้ชั้น<b>หนังกำพร้า</b> (epidermis)</td><td>สัมผัส<b>เบา</b> (light touch)</td></tr>
+      <tr><td><b>Pacinian corpuscle</b></td><td>ลึกในชั้น<b>หนังแท้</b> (dermis)</td><td><b>แรงกดที่แรงกว่า</b> (deep pressure)</td></tr>
+      <tr><td><b>Ruffini’s corpuscle</b></td><td>ชั้นหนังแท้</td><td>แรงกดลึก เช่นเดียวกับ Pacinian</td></tr>
+      <tr><td><b>Merkel’s disc</b></td><td>ผิวหนัง</td><td>สัมผัสเบาแบบ<b>ต่อเนื่อง</b></td></tr>
+      <tr><td><b>free nerve ending</b></td><td>แทรกในผิวหนัง</td><td><b>ความเจ็บปวด</b> (pain receptor)</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>ตารางสรุปท้ายบท — ท่องให้ได้ทั้งตาราง</h3>
+  <div class="tw"><table>
+    <thead><tr><th>อวัยวะ</th><th>สิ่งกระตุ้น</th><th>ชนิด receptor</th><th>ตัวรับ</th><th>เส้นประสาทสมองคู่ที่</th></tr></thead>
+    <tbody>
+      <tr><td><b>ตา</b></td><td>แสง (คลื่นแม่เหล็กไฟฟ้า)</td><td>photoreceptor</td><td>cone cell / rod cell</td><td class="num"><b>2</b></td></tr>
+      <tr><td><b>หู</b></td><td>เสียง (คลื่นกล) · ตำแหน่งของร่างกาย</td><td>mechanoreceptor</td><td>hair cell ใน cochlea / semicircular canal / utricle / saccule</td><td class="num"><b>8</b></td></tr>
+      <tr><td><b>จมูก</b></td><td>กลิ่น</td><td>chemoreceptor</td><td>olfactory receptor neuron</td><td class="num"><b>1</b></td></tr>
+      <tr><td><b>ลิ้น</b></td><td>รส</td><td>chemoreceptor</td><td>taste cell / gustatory cell</td><td class="num"><b>7 และ 9</b></td></tr>
+      <tr><td><b>ผิวหนัง</b></td><td>สัมผัส แรงกด เจ็บ ร้อน เย็น การยืด</td><td>mechano / pain / thermoreceptor</td><td>มีหลายชนิด</td><td><b>spinal nerve</b> (31 คู่)</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note winbox"><span class="lbl">ทริกจำเลขเส้นประสาท</span>
+    เรียงตามลำดับที่เจอบนใบหน้าจากบนลงล่าง: <b>จมูก 1 → ตา 2 → ลิ้น 7,9 → หู 8</b>
+    หรือจำสั้น ๆ ว่า <b>“ดม 1 · ดู 2 · ฟัง 8”</b> แล้วที่เหลือ (7 กับ 9) คือลิ้น</div>
+</section>
+
+<!-- ============ UNICELLULAR ============ -->
+<section id="uni" style="--hue:var(--uni)">
+  <div class="sechead"><h2>การเคลื่อนที่ของสิ่งมีชีวิตเซลล์เดียว</h2><span class="tag">สไลด์ 06 · 13 หน้า · ออกข้อ 4</span></div>
+  <p class="lede">บทที่<b>เล็กที่สุดแต่มีข้อสอบเต็มข้อหนึ่งข้อ</b> — คุ้มค่าที่สุดในการอ่าน
+    ข่าวลือระบุตรง ๆ ว่า “ถูกผิด flagellum cilia”</p>
+
+  <h3>อะมีบา — ตีนเทียม</h3>
+  <div class="tw"><table>
+    <thead><tr><th>ชั้นไซโทพลาซึม</th><th>ตำแหน่ง</th><th>สถานะ</th></tr></thead>
+    <tbody>
+      <tr><td><b>ectoplasm</b></td><td>ชั้น<b>นอก</b></td><td>กึ่งแข็งกึ่งเหลว = <b>เจล (gel)</b></td></tr>
+      <tr><td><b>endoplasm</b></td><td>ชั้น<b>ใน</b></td><td>ค่อนข้างเหลว = <b>ซอล (sol)</b></td></tr>
+    </tbody>
+  </table></div>
+  <ul class="clean">
+    <li>อะมีบา<b>ไม่มีโครงสร้างสำหรับการเคลื่อนที่โดยเฉพาะ</b> แต่สร้าง <b>ตีนเทียม (pseudopodium)</b> จากการไหลของไซโทพลาซึม</li>
+    <li>เกิดจาก <b>microfilament</b> ที่มีโปรตีน <b>แอกทิน (actin)</b> เป็นส่วนประกอบ</li>
+    <li><b>แอกทินแยกตัว</b>เป็นหน่วยย่อย → ไซโทพลาซึมเปลี่ยน <b>เจล → ซอล</b></li>
+    <li><b>แอกทินรวมตัว</b> → ไซโทพลาซึมเปลี่ยน <b>ซอล → เจล</b></li>
+    <li>เรียกการเคลื่อนที่แบบนี้ว่า <b>amoeboid movement</b> พบใน<b>เซลล์เม็ดเลือดขาว</b>ที่กินอาหารแบบ phagocytosis
+      และเซลล์ <b>amoebocyte</b> ในฟองน้ำ</li>
+  </ul>
+
+  <h3>ซิเลียและแฟลเจลลัม — 9+2 กับ 9+0</h3>
+  <p class="prose">นี่คือจุดที่ข้อสอบจะเล่นแน่นอน ตัวเลขต้องเป๊ะ: <b>9+2 ไม่ได้แปลว่ากลุ่มละ 3</b></p>
+  <div class="figure">
+    <div class="figscroll"><div id="axoFig"></div></div>
+    <p class="figcap">สร้างด้วยโปรแกรมเพื่อให้<b>จำนวนกลุ่มเป็น 9 พอดีเสมอ</b> ·
+      วาดตามภาพอ้างอิง Wikimedia <em class="t">Eukaryotic cilium diagram</em></p>
+  </div>
+  <div class="tw"><table>
+    <thead><tr><th>เทียบ</th><th>ตัวซิเลีย/แฟลเจลลัม (แกน)</th><th>เบซัลบอดี <em class="t">basal body</em></th></tr></thead>
+    <tbody>
+      <tr><td>รูปแบบ</td><td class="yes"><b>9 + 2</b></td><td class="non"><b>9 + 0</b></td></tr>
+      <tr><td>วงรอบนอก</td><td><b>9 กลุ่ม กลุ่มละ 2 หลอด</b> (doublet)</td><td><b>9 กลุ่ม กลุ่มละ 3 หลอด</b> (triplet)</td></tr>
+      <tr><td>ตรงกลาง</td><td><b>มี 2 หลอด</b></td><td><b>ไม่มีเลย</b></td></tr>
+      <tr><td>รวมทั้งหมด</td><td class="num">9×2 + 2 = <b>20 หลอด</b></td><td class="num">9×3 + 0 = <b>27 หลอด</b></td></tr>
+      <tr><td>อยู่ที่ไหน</td><td>ส่วนที่ยื่นพ้นเซลล์</td><td>ใน<b>เยื่อหุ้มบริเวณโคน</b> · อีกชื่อคือ <b>ไคนีโทโซม (kinetosome)</b></td></tr>
+    </tbody>
+  </table></div>
+  <ul class="clean">
+    <li>ทั้งคู่ประกอบขึ้นจาก <b>ไมโครทูบูล (microtubules)</b> ล้อมรอบด้วยเยื่อบางที่ติดต่อกับ<b>เยื่อหุ้มเซลล์</b></li>
+    <li>ที่พัดโบก/โค้งงอได้เพราะโปรตีน <b>ไดนีน (dynein)</b> ที่อยู่ระหว่างไมโครทูบูล ทำหน้าที่เหมือนแขนเกาะ
+      จึงเรียก <b>ไดนีนอาร์ม (dynein arm)</b></li>
+    <li><b>เบซัลบอดีเป็นตัวควบคุม</b> — มีการทดลอง<b>ตัดเบซัลบอดีออก แล้วพบว่าเคลื่อนไหวไม่ได้</b></li>
+  </ul>
+
+  <div class="tw"><table>
+    <thead><tr><th>เทียบ</th><th>flagellum (แฟลเจลลัม)</th><th>cilia (ซิเลีย)</th></tr></thead>
+    <tbody>
+      <tr><td>รูปแบบการเคลื่อนไหว</td><td>เคลื่อนไหวแบบ<b>คลื่น</b>อยู่เสมอ</td><td>แกว่งคล้าย<b>ใบพาย</b><br><span style="color:var(--muted)">(แต่ซิเลียในสิ่งมีชีวิตหลายเซลล์ = โค้งลงแล้วตวัดตั้งตรง คล้ายคลื่น)</span></td></tr>
+      <tr><td>ตัวอย่างสิ่งมีชีวิต</td><td><b>ยูกลีนา (euglena)</b> · <b>Trypanosoma</b> · trichomonad</td><td><b>พารามีเซียม (paramecium)</b></td></tr>
+    </tbody>
+  </table></div>
+  <div class="note trapbox"><span class="lbl">ทริกกันสลับ</span>
+    <b>พา</b>รามีเซียม = <b>พา</b>ย = ซิเลีย · <b>ยู</b>กลีนา = <b>ยู</b>่ยาว 1 เส้น = แฟลเจลลัม</div>
+
+  <h4>กลไกการสะบัด</h4>
+  <ul class="clean">
+    <li>เบซัลบอดีรับการกระตุ้น → ส่งแรงไปยัง<b>ไมโครทูบูลแกนกลาง 2 หลอด</b>
+      → ไมโครทูบูล<b>ด้านข้างหดตัวอย่างรวดเร็ว</b> → สะบัดอย่างแรง</li>
+    <li>ครั้งต่อไป แรงลดลง ไมโครทูบูลหดตัว<b>ช้า ๆ</b> → สะบัดกลับสู่ตำแหน่งเดิมอย่างช้า</li>
+    <li>สะบัดต่อเนื่อง → โพรทิสต์เคลื่อนที่</li>
+  </ul>
+</section>
+
+<!-- ============ INVERTEBRATES ============ -->
+<section id="inv" style="--hue:var(--inv)">
+  <div class="sechead"><h2>การเคลื่อนที่ของสัตว์ไม่มีกระดูกสันหลัง</h2><span class="tag">สไลด์ 07 · 27 หน้า · ออกข้อ 1, 5, 6</span></div>
+  <p class="lede">สัตว์เยอะแต่ตรรกะเดียวกันหมด: <b>กล้ามเนื้อ 2 ชุดทำงานตรงกันข้าม (antagonism)</b>
+    ตารางเดียวจบ แล้วค่อยจำข้อยกเว้น</p>
+
+  <h3>ภาพรวม — ใครใช้อะไร</h3>
+  <div class="tw"><table>
+    <thead><tr><th>สัตว์</th><th>โครงสร้างที่ใช้</th><th>กลไกสำคัญ</th></tr></thead>
+    <tbody>
+      <tr><td><b>ไฮดรา</b></td><td>เซลล์ในเนื้อเยื่อ<b>ชั้นนอก</b>ที่ทำหน้าที่<b>คล้ายกล้ามเนื้อ</b></td>
+        <td>ยืด-หดลำตัว + ขยับเทนทาเคิล · <b>คืบคลาน · ตีลังกา · แขวนตัว · ลอยตัว</b></td></tr>
+      <tr><td><b>แมงกะพรุน</b></td><td><b>hydrostatic skeleton</b> · มี <b>mesoglea</b> คล้ายเจลแทรกระหว่างเนื้อเยื่อ 2 ชั้น</td>
+        <td><b>jet repulsion</b> — หดตัวขอบกระดิ่งกับผนังลำตัว<b>สลับกัน</b> → เคลื่อนที่<b>ทิศตรงข้าม</b>กับน้ำที่พ่น</td></tr>
+      <tr><td><b>หมึก</b></td><td><b>mantle cavity</b> + <b>ไซฟอน (siphon)</b> + ครีบ</td>
+        <td>ปกติ<b>ใช้ครีบว่าย</b> · ตอนหนีศัตรูจึงพ่นน้ำออกทางไซฟอน · <b>ไซฟอนขยับได้ → เปลี่ยนทิศได้</b> ·
+          ความเร็วขึ้นกับ<b>แรงบีบของกล้ามเนื้อลำตัว</b> · ครีบช่วย<b>ทรงตัว</b></td></tr>
+      <tr><td><b>ดาวทะเล</b></td><td><b>ระบบท่อน้ำ</b> (water vascular system)</td>
+        <td>มีโครงร่างแข็ง <b>แต่ใช้ hydrostatic skeleton ในการเคลื่อนที่</b></td></tr>
+      <tr><td><b>พลานาเรีย</b></td><td>กล้ามเนื้อ <b>3 ชนิด</b> + ซิเลียใต้ลำตัว</td>
+        <td>สัตว์ไม่มีกระดูกสันหลัง<b>กลุ่มแรก ๆ ที่มีกล้ามเนื้อ</b>สำหรับเคลื่อนที่</td></tr>
+      <tr><td><b>หนอนตัวกลม</b></td><td>กล้ามเนื้อ <b>ชุดเดียว</b> = ตามยาว</td>
+        <td>จึง<b>สะบัดตัวไปมา บังคับทิศทางไม่ได้</b> · เช่น หนอนน้ำส้มสายชู</td></tr>
+      <tr><td><b>ไส้เดือนดิน</b></td><td>กล้ามเนื้อ <b>2 ชุด</b> + <b>เดือย (setae)</b></td>
+        <td><b>peristalsis</b> · เดือย<b>บังคับทิศทาง</b>และกันถอยหลัง</td></tr>
+      <tr><td><b>แมลง</b></td><td>โครงร่างแข็งภายนอก (ไคติน) ยึดกับกล้ามเนื้อภายใน</td>
+        <td>ขาเดิน = flexor/extensor · การบิน = กล้ามเนื้อ 2 ชุดที่<b>ไม่ติดปีกโดยตรง</b></td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>ดาวทะเล — ระบบท่อน้ำ เรียงลำดับให้ถูก</h3>
+  <div class="note"><span class="lbl">ทางเดินของน้ำ</span>
+    <b>madreporite</b> (ช่องต่อภายนอก ปรับปริมาณน้ำ) → <b>stone canal</b> →
+    <b>ring canal</b> (ท่อน้ำวงแหวนรอบปาก) → <b>radial canal</b> (ท่อน้ำแนวรัศมี) →
+    <b>ampulla</b> (กระเปาะ) → <b>tube feet</b> (มี <b>podium</b> และปลายเป็น <b>sucker</b> ยึดเกาะพื้น)</div>
+  <div class="tw"><table>
+    <thead><tr><th>ขั้น</th><th>กล้ามเนื้อ ampulla</th><th>tube feet</th><th>ผล</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td class="non"><b>หดตัว</b></td><td>—</td><td><b>ดันน้ำเข้า tube feet → tube feet ยืดยาวออก</b>ไปแตะพื้น
+        (ลิ้นใน ampulla ปิด กันน้ำไหลกลับ)</td></tr>
+      <tr><td>2</td><td>—</td><td class="non"><b>หดตัว</b></td><td><b>tube feet สั้นลง</b> ดันน้ำกลับเข้ากระเปาะ ampulla</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note trapbox"><span class="lbl">อ่านให้ดี</span>
+    “ampulla หด” ทำให้ tube feet <b>ยืดยาว</b> ไม่ใช่หดสั้น — เหมือนบีบหลอดหยดยา น้ำถูกดันออกไปข้างหน้า</div>
+
+  <h3>พลานาเรีย vs ไส้เดือน vs หนอนตัวกลม</h3>
+  <div class="tw"><table>
+    <thead><tr><th>สัตว์</th><th>กล้ามเนื้อวง</th><th>กล้ามเนื้อตามยาว</th><th>กล้ามเนื้อทแยง</th><th>โครงสร้างเสริม</th></tr></thead>
+    <tbody>
+      <tr><td><b>พลานาเรีย</b></td><td class="yes">มี (นอกสุด)</td><td class="yes">มี</td><td class="yes"><b>มี</b> — ทำให้ลำตัว<b>แบนและพลิ้ว</b>ไปตามน้ำ</td><td><b>ซิเลียใต้ลำตัว</b> ใช้ตอนอยู่ผิวน้ำ</td></tr>
+      <tr><td><b>ไส้เดือนดิน</b></td><td class="yes">มี</td><td class="yes">มี</td><td class="non">ไม่มี</td><td><b>เดือย (setae)</b></td></tr>
+      <tr><td><b>หนอนตัวกลม</b></td><td class="non">ไม่มี</td><td class="yes">มี (ชุดเดียว)</td><td class="non">ไม่มี</td><td>—</td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>ไส้เดือน — ปล้องไหนสั้น ปล้องไหนยาว</h4>
+  <div class="tw"><table>
+    <thead><tr><th>ลักษณะปล้อง</th><th>กล้ามเนื้อวง</th><th>กล้ามเนื้อตามยาว</th><th>เดือย</th></tr></thead>
+    <tbody>
+      <tr><td><b>สั้นและโป่งออก</b></td><td class="yes">คลายตัว</td><td class="non">หดตัว</td><td><b>จิกดินไว้</b> ไม่ให้ถอยหลัง</td></tr>
+      <tr><td><b>ยาวและยืดออก</b></td><td class="non">หดตัว</td><td class="yes">คลายตัว</td><td>ไม่จิก</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note winbox"><span class="lbl">วิธีคิดไม่ให้สับสน</span>
+    นึกถึงลูกโป่งยาว ๆ — <b>บีบรอบ ๆ (กล้ามเนื้อวงหด) มันก็ยืดยาวออก</b> ·
+    <b>ดึงหัวท้ายเข้าหากัน (กล้ามเนื้อตามยาวหด) มันก็สั้นและป่องออก</b>
+    การหดคลายเป็นจังหวะเหมือนระลอกคลื่นนี้เรียกว่า <b>peristalsis</b></div>
+
+  <h3>แมลง — ขาเดินและการบิน</h3>
+  <div class="tw"><table>
+    <thead><tr><th>การเคลื่อนไหวขา</th><th>กล้ามเนื้อเฟล็กเซอร์ <em class="t">flexor</em></th><th>กล้ามเนื้อเอ็กเทนเซอร์ <em class="t">extensor</em></th></tr></thead>
+    <tbody>
+      <tr><td><b>งอขา</b></td><td class="non">หดตัว</td><td class="yes">คลายตัว</td></tr>
+      <tr><td><b>เหยียดขา</b></td><td class="yes">คลายตัว</td><td class="non">หดตัว</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="figure">
+    <div class="figtools">
+      <button class="btn on sm" data-mode="show" data-fig="ins" type="button">ดูเฉลย</button>
+      <button class="btn sm" data-mode="quiz" data-fig="ins" type="button">โหมดทดสอบ</button>
+      <span class="pill" id="insScore">คลิกหมายเลขในรูป</span>
+    </div>
+    <div class="figscroll">
+    <svg viewBox="0 0 720 320" role="img" aria-label="กล้ามเนื้อการบินของแมลง เปรียบเทียบตอนปีกยกขึ้นและปีกกดลง">
+      <!-- ===== PANEL A : wings UP ===== -->
+      <text x="170" y="34" text-anchor="middle" font-family="Chakra Petch,sans-serif" font-size="17" font-weight="700" fill="#2E6B3E">ปีกยกขึ้น</text>
+      <!-- wings angled UP -->
+      <path d="M96,150 C50,110 30,86 18,70 C46,74 78,104 100,138 Z" fill="#C9C0E8" stroke="#6A5FA8" stroke-width="2"/>
+      <path d="M244,150 C290,110 310,86 322,70 C294,74 262,104 240,138 Z" fill="#C9C0E8" stroke="#6A5FA8" stroke-width="2"/>
+      <!-- thorax box, tergum LOW/flat -->
+      <path d="M92,152 L248,152 L248,250 L92,250 Z" fill="#F6EFD8" stroke="#8A6B2E" stroke-width="2.4"/>
+      <rect x="88" y="142" width="164" height="12" rx="3" fill="#C7A55C" stroke="#8A6B2E" stroke-width="2"/>
+      <rect x="88" y="246" width="164" height="12" rx="3" fill="#C7A55C" stroke="#8A6B2E" stroke-width="2"/>
+      <!-- vertical muscle CONTRACTED : short + thick + dark -->
+      <rect x="146" y="156" width="48" height="88" rx="6" fill="#C0392B" stroke="#7E241A" stroke-width="2.4"/>
+      <text x="170" y="206" text-anchor="middle" font-family="Chakra Petch,sans-serif" font-size="13" font-weight="700" fill="#fff">หดตัว</text>
+      <!-- longitudinal muscle RELAXED : long + thin + pale -->
+      <rect x="100" y="212" width="140" height="16" rx="6" fill="#EFC7C1" stroke="#B07A72" stroke-width="1.8"/>
+      <!-- arrows : tergum pulled DOWN, wings go UP -->
+      <g stroke="#2E6B3E" stroke-width="2.6" fill="none">
+        <path d="M170,146 L170,120"/><path d="M60,120 L44,96"/><path d="M280,120 L296,96"/>
+      </g>
+      <path d="M164,124 L170,110 L176,124 Z" fill="#2E6B3E" transform="rotate(180 170 118)"/>
+      <path d="M38,102 L44,88 L50,102 Z" fill="#2E6B3E"/><path d="M290,102 L296,88 L302,102 Z" fill="#2E6B3E"/>
+      <text x="182" y="140" font-family="IBM Plex Sans Thai,sans-serif" font-size="12.5" fill="#2E6B3E">เปลือกหุ้มอกเลื่อนลง</text>
+
+      <!-- ===== PANEL B : wings DOWN ===== -->
+      <text x="530" y="34" text-anchor="middle" font-family="Chakra Petch,sans-serif" font-size="17" font-weight="700" fill="#8A3E2E">ปีกกดลง</text>
+      <!-- wings angled DOWN -->
+      <path d="M456,158 C410,196 390,220 378,236 C406,232 438,202 460,170 Z" fill="#C9C0E8" stroke="#6A5FA8" stroke-width="2"/>
+      <path d="M604,158 C650,196 670,220 682,236 C654,232 622,202 600,170 Z" fill="#C9C0E8" stroke="#6A5FA8" stroke-width="2"/>
+      <!-- thorax, tergum ARCHED UP -->
+      <path d="M452,156 C490,120 570,120 608,156 L608,250 L452,250 Z" fill="#F6EFD8" stroke="#8A6B2E" stroke-width="2.4"/>
+      <path d="M448,158 C488,116 572,116 612,158" fill="none" stroke="#8A6B2E" stroke-width="12" stroke-linecap="round"/>
+      <path d="M448,158 C488,116 572,116 612,158" fill="none" stroke="#C7A55C" stroke-width="8" stroke-linecap="round"/>
+      <rect x="448" y="246" width="164" height="12" rx="3" fill="#C7A55C" stroke="#8A6B2E" stroke-width="2"/>
+      <!-- vertical muscle RELAXED : long + thin + pale -->
+      <rect x="516" y="136" width="26" height="112" rx="6" fill="#EFC7C1" stroke="#B07A72" stroke-width="1.8"/>
+      <!-- longitudinal muscle CONTRACTED : short + thick + dark -->
+      <rect x="474" y="200" width="116" height="34" rx="8" fill="#C0392B" stroke="#7E241A" stroke-width="2.4"/>
+      <text x="532" y="222" text-anchor="middle" font-family="Chakra Petch,sans-serif" font-size="13" font-weight="700" fill="#fff">หดตัว</text>
+      <!-- arrows : tergum bows UP, wings go DOWN -->
+      <g stroke="#8A3E2E" stroke-width="2.6" fill="none">
+        <path d="M530,118 L530,96"/><path d="M420,196 L404,220"/><path d="M640,196 L656,220"/>
+      </g>
+      <path d="M524,100 L530,86 L536,100 Z" fill="#8A3E2E"/>
+      <path d="M398,214 L404,228 L410,214 Z" fill="#8A3E2E"/><path d="M650,214 L656,228 L662,214 Z" fill="#8A3E2E"/>
+      <text x="544" y="112" font-family="IBM Plex Sans Thai,sans-serif" font-size="12.5" fill="#8A3E2E">เปลือกหุ้มอกสูงขึ้น</text>
+      <g id="insHots"></g>
+    </svg>
+    </div>
+    <ul class="legend" id="insLegend"></ul>
+    <p class="figcap">แดงเข้ม = กล้ามเนื้อที่<b>หดตัว</b> · ชมพูอ่อน = <b>คลายตัว</b> ·
+      <b>กล้ามเนื้อตามยาวหดตัว → เปลือกหุ้มอกโก่งขึ้น → ปีกกดลง</b></p>
+  </div>
+
+  <div class="tw"><table>
+    <thead><tr><th>การขยับปีก</th><th>กล้ามเนื้อยึดเปลือกหุ้มส่วนอก<br><em class="t">vertical muscle</em></th>
+      <th>กล้ามเนื้อตามยาว<br><em class="t">horizontal muscle</em></th><th>สิ่งที่เกิดกับเปลือกหุ้มอก</th></tr></thead>
+    <tbody>
+      <tr><td><b>ปีกยกขึ้น</b></td><td class="non">หดตัว</td><td class="yes">คลายตัว</td>
+        <td>ความสูงของเปลือกหุ้มอก<b>แคบลง</b> (เลื่อนลง) → <b>ดันให้ปีกยกสูงขึ้น</b></td></tr>
+      <tr><td><b>ปีกกดลง</b></td><td class="yes">คลายตัว</td><td class="non">หดตัว</td>
+        <td>เปลือกหุ้มอก<b>สูงขึ้น</b> → <b>กดให้ปีกลดต่ำลง</b></td></tr>
+    </tbody>
+  </table></div>
+  <div class="note trapbox"><span class="lbl">จุดที่คนตอบผิดมากที่สุดในบทนี้</span>
+    <b>กล้ามเนื้อทั้ง 2 ชุดไม่ได้ติดกับปีกโดยตรง</b> — มันยึดกับ<b>เปลือกหุ้มส่วนอก</b>
+    เมื่อเปลือกหุ้มส่วนอกเคลื่อนไหว ปีกที่ติดอยู่จึงเคลื่อนตาม
+    และผลลัพธ์<b>สวนสัญชาตญาณ</b>: กล้ามเนื้อ<b>แนวตั้ง</b>หด กลับทำให้ปีก<b>ยกขึ้น</b>
+    <br><br><b>ข้อยกเว้นที่ต้องจำ:</b> <b>แมลงปอ</b> (และแมลงใหญ่ปีกใหญ่) มี<b>กล้ามเนื้อยึดกับปีกโดยตรง</b>
+    — กล้ามเนื้อยกปีกยึดระหว่างโคนปีก<b>ด้านใน</b>กับส่วนท้อง กล้ามเนื้อกดปีกยึดระหว่างโคนปีก<b>ด้านนอก</b>กับส่วนท้อง</div>
+</section>
+
+<!-- ============ VERTEBRATES ============ -->
+<section id="vert" style="--hue:var(--vert)">
+  <div class="sechead"><h2>การเคลื่อนที่ของสัตว์มีกระดูกสันหลัง</h2><span class="tag">สไลด์ 08 · 21 หน้า · ออกข้อ 1, 5, 6</span></div>
+  <p class="lede">ทุกชนิดใช้ <b>โครงร่างแข็งภายใน (endoskeleton)</b> + กล้ามเนื้อที่ยึดกับกระดูก
+    ข้อ 5 ถามชื่อกล้ามเนื้อปีกนกแน่นอน</p>
+
+  <h3>ปลา</h3>
+  <div class="tw"><table>
+    <thead><tr><th>โครงสร้าง</th><th>รายละเอียด</th><th>หน้าที่</th></tr></thead>
+    <tbody>
+      <tr><td>รูปร่าง</td><td>เพรียว ผิวเรียบลื่น มีเมือก</td><td><b>ลดแรงเสียดทาน</b>ของน้ำ</td></tr>
+      <tr><td><b>ครีบคู่</b></td><td>ครีบอก <em class="t">pectoral</em> + ครีบสะโพก <em class="t">pelvic</em></td>
+        <td><b>พยุงตัว</b> + <b>เคลื่อนที่ขึ้นลงแนวดิ่ง</b></td></tr>
+      <tr><td><b>ครีบเดี่ยว</b></td><td>ครีบหลัง <em class="t">dorsal</em> + ครีบหาง <em class="t">caudal</em></td>
+        <td><b>พัดโบกให้เคลื่อนที่ไปข้างหน้า</b></td></tr>
+      <tr><td>กล้ามเนื้อ</td><td>ยึดกับกระดูกสันหลัง หดตัว<b>ตรงกันข้ามกัน 2 ข้างลำตัว</b> ไล่จาก<b>หัวไปหาง</b></td>
+        <td>ลำตัวโค้งไปมาคล้าย<b>รูปตัว S</b></td></tr>
+      <tr><td><b>กระเพาะลม</b> <em class="t">swim bladder</em></td><td>มีแก๊สบรรจุ · พบใน<b>ปลากระดูกแข็ง</b> เช่น ปลาตะเพียน ปลาดุก ปลาทู</td>
+        <td>ช่วยใน<b>การลอยตัว</b></td></tr>
+    </tbody>
+  </table></div>
+  <div class="note trapbox"><span class="lbl">อย่าสลับครีบ</span>
+    <b>ครีบคู่ = ขึ้นลง/พยุง</b> · <b>ครีบเดี่ยว = ไปข้างหน้า</b> · แต่<b>ครีบทุกชนิดช่วยทรงตัว</b>ทั้งหมด</div>
+
+  <div class="grid2">
+    <div class="note"><span class="lbl">โลมาและวาฬ</span>
+      เป็น<b>สัตว์เลี้ยงลูกด้วยน้ำนม</b> · <b>ครีบหางแบนขนาดใหญ่ วางขนานไปกับพื้น</b> →
+      เคลื่อนที่โดย<b>ตวัดหางและหัวขึ้นลง</b> (ต่างจากปลาที่โบกหางซ้าย-ขวา) ·
+      ครีบเปลี่ยนแปลงมาจาก<b>ขา</b> ช่วยพยุงลำตัวและควบคุมทิศทาง</div>
+    <div class="note"><span class="lbl">สัตว์เลื้อยคลาน</span>
+      <b>งู (ไม่มีขา)</b> = กล้ามเนื้อทำงานร่วมกับโครงกระดูก งอตัวสลับซ้าย-ขวา เรียก <b>การเลื้อย</b> ·
+      <b>กิ้งก่า จิ้งจก ตุ๊กแก</b> = ก้าวขา<b>ไม่พร้อมกัน</b>ระหว่างขาหน้ากับขาหลัง ลำตัวโค้งรูป <b>S</b> ·
+      <b>เต่าน้ำ</b> = ขาเปลี่ยนเป็นใบพายเรียก <b>ฟลิปเปอร์ (flipper)</b></div>
+    <div class="note"><span class="lbl">สัตว์สะเทินน้ำสะเทินบก</span>
+      ใช้ขาทั้ง 4 · กล้ามเนื้อเหยียด-งอแบบ antagonism ·
+      <b>กบ</b>: ขาหลัง<b>ยาวและแข็งแรง</b> ยืดออกอย่างแรง → <b>กระโดด</b>ได้ไกล ·
+      ในน้ำใช้<b>แผ่นหนังบาง (web) ระหว่างนิ้วเท้า</b>พัดโบกน้ำ</div>
+    <div class="note"><span class="lbl">เสือชีต้า</span>
+      สัตว์<b>สี่เท้า</b>ที่วิ่งเร็วที่สุด <b>110 km/h</b> · กล้ามเนื้อ<b>ขาหลัง</b>แข็งแรงเป็นพิเศษ ·
+      <b>กระดูกสันหลังงอและยืดหยุ่นได้ดี</b> · ขายาว ช่วงก้าวยาว</div>
+  </div>
+
+  <h3>นก — ออกสอบข้อ 5</h3>
+  <div class="figure">
+    <div class="figtools">
+      <button class="btn on sm" data-mode="show" data-fig="bird" type="button">ดูเฉลย</button>
+      <button class="btn sm" data-mode="quiz" data-fig="bird" type="button">โหมดทดสอบ</button>
+      <span class="pill" id="birdScore">คลิกหมายเลขในรูป</span>
+    </div>
+    <div class="figscroll">
+    <svg viewBox="0 0 720 420" role="img" aria-label="กล้ามเนื้อควบคุมการขยับปีกนก ยึดระหว่างกระดูกโคนปีกกับกระดูกหน้าอก">
+      <!-- sternum plate -->
+      <rect x="248" y="184" width="180" height="18" rx="6" fill="#EDE6D4" stroke="#8A7A52" stroke-width="2.4"/>
+      <!-- keel of sternum -->
+      <path d="M300,200 L372,200 L354,352 L318,352 Z" fill="#F5F0E0" stroke="#8A7A52" stroke-width="2.6"/>
+      <!-- scapula -->
+      <path d="M446,146 L372,108 L364,120 L440,160 Z" fill="#EDE6D4" stroke="#8A7A52" stroke-width="2.2"/>
+      <!-- coracoid : strut from sternum up to shoulder -->
+      <path d="M412,196 L448,152 L458,162 L424,204 Z" fill="#EDE6D4" stroke="#8A7A52" stroke-width="2.2"/>
+      <!-- shoulder joint / foramen triosseum -->
+      <circle cx="452" cy="150" r="13" fill="#DED5BC" stroke="#8A7A52" stroke-width="2.4"/>
+      <!-- humerus -->
+      <path d="M462,140 C510,128 566,116 618,110 L622,134 C568,140 512,152 466,164 Z"
+            fill="#EDE6D4" stroke="#8A7A52" stroke-width="2.6"/>
+      <circle cx="620" cy="122" r="14" fill="#EDE6D4" stroke="#8A7A52" stroke-width="2.4"/>
+      <!-- SUPRACORACOIDEUS : deep muscle, keel -> tendon over shoulder -> TOP of humerus -->
+      <path d="M344,236 L342,206 C388,202 424,190 442,172 L456,190 C434,212 396,230 348,240 Z"
+            fill="#5B7FBF" stroke="#31538A" stroke-width="2.2"/>
+      <!-- its tendon : up and OVER the shoulder, inserting on the DORSAL humerus -->
+      <path d="M450,178 C462,164 458,146 470,134 C480,124 494,120 508,118"
+            fill="none" stroke="#E8EDF6" stroke-width="9" stroke-linecap="round"/>
+      <path d="M450,178 C462,164 458,146 470,134 C480,124 494,120 508,118"
+            fill="none" stroke="#31538A" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="1 0"/>
+      <!-- PECTORALIS : big superficial muscle, keel -> UNDERSIDE of humerus -->
+      <path d="M352,346 L350,262 C412,246 452,218 470,192 L490,208 C470,250 424,306 358,350 Z"
+            fill="#C0392B" stroke="#7E241A" stroke-width="2.4"/>
+      <!-- force arrows -->
+      <g stroke="#7E241A" stroke-width="3" fill="none"><path d="M556,168 L556,214"/></g>
+      <path d="M548,208 L556,226 L564,208 Z" fill="#7E241A"/>
+      <text x="568" y="204" font-family="Chakra Petch,sans-serif" font-size="15" font-weight="700" fill="#7E241A">ปีกลง</text>
+      <g stroke="#31538A" stroke-width="3" fill="none"><path d="M556,92 L556,48"/></g>
+      <path d="M548,54 L556,36 L564,54 Z" fill="#31538A"/>
+      <text x="568" y="60" font-family="Chakra Petch,sans-serif" font-size="15" font-weight="700" fill="#31538A">ปีกขึ้น</text>
+      <text x="196" y="286" font-family="IBM Plex Sans Thai,sans-serif" font-size="13" fill="#8A7A52">กระดูกอก</text>
+      <g id="birdHots"></g>
+    </svg>
+    </div>
+    <ul class="legend" id="birdLegend"></ul>
+    <p class="figcap"><b>กล้ามเนื้อทั้งสองมัดยึดกับกระดูกหน้าอก (keel) เหมือนกัน</b> —
+      แต่กล้ามเนื้อยกปีกอยู่<b>ลึกกว่า</b> และ<b>เอ็นของมันลอดขึ้นไปข้ามหัวไหล่</b>
+      ไปเกาะที่<b>ด้านบน</b>ของกระดูกโคนปีก จึงดึงปีก<b>ขึ้น</b>ได้ทั้งที่ตัวกล้ามเนื้ออยู่ข้างล่าง
+      (ทำงานเหมือน<b>รอก</b>)</p>
+  </div>
+
+  <div class="tw"><table>
+    <thead><tr><th>การเปลี่ยนแปลง</th><th>กล้ามเนื้อยกปีก <em class="t">supracoracoideus</em></th><th>กล้ามเนื้อกดปีก <em class="t">pectoralis</em></th></tr></thead>
+    <tbody>
+      <tr><td><b>ปีกของนกยกตัวสูงขึ้น</b></td><td class="non">หดตัว</td><td class="yes">คลายตัว</td></tr>
+      <tr><td><b>ปีกของนกถูกดึงลง</b></td><td class="yes">คลายตัว</td><td class="non">หดตัว</td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>อีก 3 ปัจจัยที่ทำให้นกบินได้</h4>
+  <div class="tw"><table>
+    <thead><tr><th>ปัจจัย</th><th>กลไก</th></tr></thead>
+    <tbody>
+      <tr><td><b>2) ปีกนก</b></td><td>โครงสร้างภายใน<b>คล้ายแขนคน</b> · <b>ด้านบนของปีกยาวกว่าด้านล่าง</b> เหมือนปีกเครื่องบิน
+        → อากาศด้านบนเคลื่อนที่<b>เร็วกว่า</b>ด้านล่าง → <b>ความดันอากาศใต้ปีกสูงกว่าด้านบน</b> → พยุงลำตัวให้ลอยอยู่ได้</td></tr>
+      <tr><td><b>3) ขนนก</b></td><td>ขนแบบก้าน/แผง (feather) เบา <b>อุ้มอากาศ</b> ·
+        <b>หุบปีกลง → ขนปิด อากาศผ่านไม่ได้</b> เกิดความดันดันตัวนกไปข้างหน้า ·
+        <b>ยกปีกขึ้น → ขนเปิด อากาศผ่านได้</b> จึง<b>ไม่เกิดแรงต้าน</b></td></tr>
+      <tr><td><b>4) ลำตัวเบา</b></td><td><b>กระดูกเป็นโพรง</b> · <b>ถุงลม</b>เจริญดีติดกับปอด แทรกในช่องว่างลำตัวและโพรงกระดูก ·
+        <b>ไม่มีกระเพาะปัสสาวะ</b></td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>การหายใจของนก — 1 รอบใช้ 4 จังหวะ</h4>
+  <p class="prose">อากาศผ่าน <b>parabronchi</b> (แขนงหลอดลม) ใน<b>ทิศทางเดียว</b>
+    จึง<b>ไม่มีอากาศที่ใช้แล้วมาผสม</b> · ใน 1 รอบ นก<b>หายใจเข้า 2 ครั้ง และออก 2 ครั้ง</b></p>
+  <div class="tw"><table>
+    <thead><tr><th>จังหวะ</th><th>สิ่งที่เกิดขึ้น</th></tr></thead>
+    <tbody>
+      <tr><td><b>หายใจเข้าครั้งที่ 1</b></td><td>ถุงลม<b>ส่วนหลัง</b>ขยายตัว อากาศภายนอกเข้าท่อลม → <b>ถุงลมส่วนหลัง</b></td></tr>
+      <tr><td><b>หายใจออกครั้งที่ 1</b></td><td>ถุงลมส่วนหลังหดตัว อากาศจากถุงลมส่วนหลัง → <b>เข้าสู่ปอด</b></td></tr>
+      <tr><td><b>หายใจเข้าครั้งที่ 2</b></td><td>ถุงลม<b>ส่วนหน้า</b>ขยายตัว อากาศจากปอด → <b>ถุงลมส่วนหน้า</b></td></tr>
+      <tr><td><b>หายใจออกครั้งที่ 2</b></td><td>ถุงลมส่วนหน้าหดตัว <b>ขับอากาศออกสู่ภายนอก</b>ทางท่อลม</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ TRAPS ============ -->
+<section id="traps">
+  <div class="sechead"><h2>คลังกับดัก ถูก/ผิด</h2><span class="tag">65 ข้อ · ตรงกับข้อ 1 และ 6</span></div>
+  <p class="lede">นี่คือส่วนที่สำคัญที่สุดของหน้านี้ เพราะข้อสอบไม่ได้ถามว่า “ผิดไหม” เฉย ๆ
+    แต่ให้<b>เขียนเหตุผล</b> ทุกใบจึงบังคับให้คุณอ่าน<b>ประโยคที่ถูกต้อง</b> ก่อนไปข้อถัดไป
+    — ฝึกให้ปากพูดออกมาได้ ไม่ใช่แค่รู้สึกว่าใช่</p>
+  <div class="drill">
+    <div class="drillbar">
+      <button class="btn sm" data-topic="all" type="button">ทุกบท</button>
+      <button class="btn sm" data-topic="ตา" type="button">ตา</button>
+      <button class="btn sm" data-topic="หู" type="button">หู</button>
+      <button class="btn sm" data-topic="ประสาทสัมผัส" type="button">จมูก ลิ้น ผิวหนัง</button>
+      <button class="btn sm" data-topic="เซลล์เดียว" type="button">เซลล์เดียว</button>
+      <button class="btn sm" data-topic="ไม่มีกระดูกสันหลัง" type="button">ไม่มีกระดูก</button>
+      <button class="btn sm" data-topic="มีกระดูกสันหลัง" type="button">มีกระดูก</button>
+      <span class="score" id="trapScore"></span>
+    </div>
+    <div id="trapBody"></div>
+  </div>
+</section>
+
+<!-- ============ MOCKS ============ -->
+<section id="mock">
+  <div class="sechead"><h2>ข้อสอบเสมือน</h2><span class="tag">2 ชุด · จับเวลา</span></div>
+  <p class="lede">ชุด A เขียนด้วยภาษาตรงไปตรงมา เพื่อดูว่าคุณ<b>รู้เนื้อหาไหม</b> ·
+    ชุด B ใช้<b>สำนวนกวนแบบข้อสอบจริง</b> — คำถามซ้อนปฏิเสธ สลับคู่คำ ถามย้อนศร
+    เพื่อดูว่าคุณ<b>อ่านโจทย์ทันไหม</b> ทำชุด A ก่อน แล้วเว้นวันค่อยทำชุด B</p>
+  <div class="drill">
+    <div class="drillbar">
+      <button class="btn on sm" data-mock="A" type="button">ชุด A · เนื้อหาตรง</button>
+      <button class="btn sm" data-mock="B" type="button">ชุด B · สำนวนกวน</button>
+      <button class="btn sm" id="mockTimerBtn" type="button">▶ จับเวลา</button>
+      <span class="big" id="mockClock">60:00</span>
+    </div>
+    <div id="mockBody"></div>
+  </div>
+</section>
+
+<!-- ============ GLOSSARY ============ -->
+<section id="gloss">
+  <div class="sechead"><h2>ศัพท์ข้อสอบ</h2><span class="tag">คำสั่งและคำเทคนิคที่ทำให้เสียคะแนน</span></div>
+  <p class="lede">คุณเคยเสียคะแนนเพราะ<b>อ่านคำสั่งไม่แตก</b> ไม่ใช่เพราะไม่รู้เนื้อหา
+    อ่านสองบล็อกนี้ก่อนเข้าห้องสอบ</p>
+  <h3>คำสั่งข้อสอบ — ทำผิดคำสั่ง = เสียคะแนนทั้งที่รู้</h3>
+  <div class="gloss" id="glossCmd"></div>
+  <h3>คำเทคนิคในบทนี้</h3>
+  <div class="gloss" id="glossTerm"></div>
+</section>
+
+<!-- ============ FINAL ============ -->
+<section id="final">
+  <div class="sechead"><h2>แผ่นคืนก่อนสอบ</h2><span class="tag">อ่านแผ่นเดียว 10 นาที</span></div>
+  <p class="lede">ถ้าเหลือเวลาน้อย อ่านแค่หน้านี้ · กด <b>Ctrl+P</b> เพื่อพิมพ์ออกกระดาษ</p>
+  <div class="sheet">
+    <ol>
+      <li><b>ผนังตานอก→ใน:</b> สเคลอรา → โครอยด์ → เรตินา · <b>กระจกตาคือส่วนหน้าของสเคลอรา</b></li>
+      <li><b>แท่ง 125 ล้าน ขาวดำ โรดอปซิน · กรวย 6 ล้าน เห็นสี โฟทอปซิน 3 ชนิด</b> ·
+        โฟเวีย = กรวยล้วน ชัดสุด · จุดบอด = ไม่มีเซลล์รับแสง มี CN II ออก</li>
+      <li><b>มองใกล้:</b> กล้ามเนื้อยึดเลนส์<b>หด</b> เอ็น<b>หย่อน</b> เลนส์<b>โป่ง</b> · มองไกลกลับกันทุกอย่าง</li>
+      <li><b>สั้น=ตกก่อนเรตินา แก้ด้วยเลนส์เว้า · ยาว=ตกหลังเรตินา แก้ด้วยเลนส์นูน</b></li>
+      <li><b>หูเรียง:</b> ใบหู→รูหู→เยื่อแก้วหู→<b>ค้อน→ทั่ง→โกลน</b>→ช่องรูปรี→คอเคลีย→เซลล์ขนเบน→<b>CN VIII</b>→ซีรีบรัม</li>
+      <li><b>คอเคลีย=ได้ยิน · เซมิเซอร์คิวลาร์=การหมุน · saccule/utricle=ตำแหน่งศีรษะ (otolith)</b> ·
+        organ of Corti อยู่บน basilar membrane ในโพรง <b>scala media</b></li>
+      <li><b>ท่อยูสเตเชียนอยู่หูส่วนกลาง</b> เชื่อมคอหอย ปรับความดัน · กระดูก 3 ชิ้นขยาย <b>22 เท่า</b></li>
+      <li><b>แกน 9+2 (กลุ่มละ 2) · เบซัลบอดี 9+0 (กลุ่มละ 3)</b> · ไดนีนทำให้โค้งงอ ·
+        <b>พารามีเซียม=ซิเลีย · ยูกลีนา=แฟลเจลลัม</b></li>
+      <li><b>แมลง:</b> vertical หด → ปีก<b>ขึ้น</b> · longitudinal หด → ปีก<b>ลง</b> · ไม่ติดปีกโดยตรง · <b>แมลงปอ=ติดโดยตรง</b></li>
+      <li><b>นก:</b> ยกปีกหด→ปีกขึ้น · กดปีกหด→ปีกลง · <b>ทั้งคู่เกาะ keel of sternum</b> ·
+        ความดันใต้ปีก<b>สูงกว่า</b>ด้านบน · หายใจเข้า-ออก<b>อย่างละ 2 ครั้ง</b>/รอบ</li>
+      <li><b>ไส้เดือน:</b> ปล้อง<b>สั้นป่อง</b>=วงคลาย+ตามยาวหด+เดือยจิก · <b>ampulla หด → tube feet ยืด</b></li>
+      <li><b>ก่อนส่ง:</b> ข้อที่ตอบ “ผิด” เขียนเหตุผลครบไหม · ชี้รูปตอบครบทุกเลขไหม ·
+        กล้ามเนื้อบอกทั้ง<b>หด</b>และ<b>คลาย</b>ไหม · <b>พลิกหน้าสุดท้ายอีกรอบ</b></li>
+    </ol>
+  </div>
+</section>
+
+</div>
+
+<script>
+/* ===== theme ===== */
+(function(){
+  var b=document.getElementById('themebtn');
+  b.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    var dark=window.matchMedia('(prefers-color-scheme:dark)').matches;
+    var next=cur? (cur==='dark'?'light':'dark') : (dark?'light':'dark');
+    document.documentElement.setAttribute('data-theme',next);
+    try{localStorage.setItem('biotheme',next)}catch(e){}
+  });
+  try{var s=localStorage.getItem('biotheme'); if(s)document.documentElement.setAttribute('data-theme',s)}catch(e){}
+})();
+
+/* ================= LABEL DIAGRAMS ================= */
+var FIGS={
+ eye:{hot:'eyeHots',leg:'eyeLegend',score:'eyeScore',items:[
+  ['กระจกตา','cornea',200,258],['น้ำเลี้ยงลูกนัยน์ตา','aqueous humor',238,214],
+  ['ม่านตา','iris',266,212],['รูม่านตา','pupil',276,240],['เลนส์ตา','lens',302,240],
+  ['กล้ามเนื้อยึดเลนส์','ciliary muscle',268,176],['เอ็นยึดเลนส์','suspensory ligament',294,277],
+  ['สเคลอรา','sclera',392,68],['โครอยด์','choroid',492,108],['เรตินา','retina',520,149],
+  ['น้ำวุ้นตา','vitreous humor',412,258],['โฟเวีย','fovea',550,234],
+  ['จุดบอด / จานประสาทตา','blind spot / optic disc',538,294],['ประสาทตา คู่ที่ 2','optic nerve',624,354]]},
+ ear:{hot:'earHots',leg:'earLegend',score:'earScore',items:[
+  ['ใบหู','pinna',62,238],['รูหู','auditory canal',205,240],['เยื่อแก้วหู','tympanic membrane',303,240],
+  ['กระดูกค้อน','malleus',320,208],['กระดูกทั่ง','incus',350,196],['กระดูกโกลน','stapes',376,214],
+  ['ช่องรูปรี','oval window',408,222],['ช่องรูปกลม','round window',406,264],
+  ['ท่อยูสเตเชียน','eustachian tube',420,352],['เซมิเซอร์คิวลาร์แคแนล','semicircular canal',435,94],
+  ['saccule และ utricle','—',486,208],['คอเคลีย','cochlea',600,300],
+  ['ประสาทสมองคู่ที่ 8','vestibulocochlear nerve',664,196]]},
+ ins:{hot:'insHots',leg:'insLegend',score:'insScore',items:[
+  ['ปีก','wing',60,104],['เปลือกหุ้มส่วนอก (เทอกัม)','tergum',170,148],
+  ['กล้ามเนื้อยึดเปลือกหุ้มส่วนอก','vertical muscle',170,180],
+  ['กล้ามเนื้อตามยาว','horizontal / longitudinal muscle',120,220],
+  ['เปลือกหุ้มอกโก่งขึ้น','tergum arched up',530,132],
+  ['กล้ามเนื้อตามยาว (หดตัว)','longitudinal contracted',532,236]]},
+ bird:{hot:'birdHots',leg:'birdLegend',score:'birdScore',items:[
+  ['กระดูกโคนปีก','humerus',560,124],['กระดูกหน้าอก / สันอก','keel of sternum',336,320],
+  ['กล้ามเนื้อกดปีก','pectoralis',404,286],['กล้ามเนื้อยกปีก','supracoracoideus',392,214],
+  ['เอ็นที่ลอดข้ามหัวไหล่','tendon',470,138],['กระดูกไหปลาร้า','coracoid',432,178],
+  ['กระดูกสะบัก','scapula',404,124]]}
+};
+function buildFig(key){
+  var f=FIGS[key],g=document.getElementById(f.hot),leg=document.getElementById(f.leg);
+  if(!g||!leg) return;
+  var svgNS='http://www.w3.org/2000/svg';
+  f.items.forEach(function(it,i){
+    var grp=document.createElementNS(svgNS,'g');
+    grp.setAttribute('class','hotdot'); grp.dataset.i=i;
+    var c=document.createElementNS(svgNS,'circle');
+    c.setAttribute('cx',it[2]); c.setAttribute('cy',it[3]); c.setAttribute('r',12);
+    c.setAttribute('fill','#1B2B28'); c.setAttribute('stroke','#fff'); c.setAttribute('stroke-width',2);
+    var t=document.createElementNS(svgNS,'text');
+    t.setAttribute('x',it[2]); t.setAttribute('y',it[3]+4); t.setAttribute('text-anchor','middle');
+    t.textContent=i+1;
+    grp.appendChild(c); grp.appendChild(t); g.appendChild(grp);
+    grp.addEventListener('click',function(){ pick(key,i); });
+  });
+  leg.innerHTML=f.items.map(function(it,i){
+    return '<li data-i="'+i+'"><span class="n">'+(i+1)+'</span><span class="nm">'+
+      '<span class="hide">'+it[0]+'</span>'+
+      '<span class="en">'+it[1]+'</span></span></li>';
+  }).join('');
+  leg.querySelectorAll('li').forEach(function(li){
+    li.addEventListener('click',function(){ pick(key,+li.dataset.i); });
+  });
+}
+function pick(key,i){
+  var f=FIGS[key],leg=document.getElementById(f.leg);
+  var li=leg.querySelector('li[data-i="'+i+'"]');
+  li.classList.add('shown');
+  leg.querySelectorAll('li').forEach(function(x){x.classList.remove('lit')});
+  document.getElementById(f.hot).querySelectorAll('.hotdot').forEach(function(x){x.classList.remove('lit')});
+  li.classList.add('lit');
+  document.getElementById(f.hot).querySelector('[data-i="'+i+'"]').classList.add('lit');
+  li.scrollIntoView({block:'nearest',behavior:'smooth'});
+  if(leg.classList.contains('quiz')){
+    var done=leg.querySelectorAll('li.shown').length;
+    document.getElementById(f.score).textContent='เปิดแล้ว '+done+' / '+f.items.length;
+  }
+}
+Object.keys(FIGS).forEach(buildFig);
+document.querySelectorAll('[data-mode]').forEach(function(b){
+  b.addEventListener('click',function(){
+    var key=b.dataset.fig,mode=b.dataset.mode,f=FIGS[key];
+    var leg=document.getElementById(f.leg);
+    b.parentNode.querySelectorAll('[data-mode]').forEach(function(x){x.classList.remove('on')});
+    b.classList.add('on');
+    leg.querySelectorAll('li').forEach(function(x){x.classList.remove('shown','lit')});
+    if(mode==='quiz'){
+      leg.classList.add('quiz');
+      document.getElementById(f.score).textContent='เปิดแล้ว 0 / '+f.items.length;
+    }else{
+      leg.classList.remove('quiz');
+      document.getElementById(f.score).textContent='คลิกหมายเลขในรูป';
+    }
+  });
+});
+
+/* ========= axoneme 9+2 vs 9+0 : generated so the count is always exactly 9 ========= */
+(function(){
+  var host=document.getElementById('axoFig'); if(!host) return;
+  function ring(cx,cy,R,perGroup,centre,title,sub,accent){
+    var s='<svg viewBox="-26 0 352 320" style="min-width:280px"><text x="150" y="26" text-anchor="middle" '+
+      'font-family="Chakra Petch,sans-serif" font-size="18" font-weight="700" fill="'+accent+'">'+title+'</text>'+
+      '<circle cx="'+cx+'" cy="'+cy+'" r="'+(R+30)+'" fill="none" stroke="'+accent+'" stroke-width="6" opacity=".35"/>';
+    for(var k=0;k<9;k++){                      // exactly 9 groups, every time
+      var a=(-90+k*40)*Math.PI/180;
+      var bx=cx+R*Math.cos(a), by=cy+R*Math.sin(a);
+      var tx=-Math.sin(a), ty=Math.cos(a);     // tangent, so groups sit side-by-side
+      for(var j=0;j<perGroup;j++){
+        var off=(j-(perGroup-1)/2)*17;
+        s+='<circle cx="'+(bx+tx*off).toFixed(1)+'" cy="'+(by+ty*off).toFixed(1)+
+           '" r="8" fill="#fff" stroke="'+accent+'" stroke-width="3"/>';
+      }
+      if(perGroup===2){                        // dynein arm on subfiber A
+        s+='<path d="M'+(bx+tx*10).toFixed(1)+','+(by+ty*10).toFixed(1)+' q'+(tx*14).toFixed(1)+','+
+           (ty*14).toFixed(1)+' '+(tx*4-Math.cos(a)*9).toFixed(1)+','+(ty*4-Math.sin(a)*9).toFixed(1)+
+           '" fill="none" stroke="#E08A2B" stroke-width="4" stroke-linecap="round"/>';
+        s+='<line x1="'+(bx-Math.cos(a)*10).toFixed(1)+'" y1="'+(by-Math.sin(a)*10).toFixed(1)+
+           '" x2="'+(cx-Math.cos(a)*20).toFixed(1)+'" y2="'+(cy-Math.sin(a)*20).toFixed(1)+
+           '" stroke="#9AA7A4" stroke-width="2"/>';
+      }
+    }
+    for(var m=0;m<centre;m++){
+      s+='<circle cx="'+(cx-14+m*28)+'" cy="'+cy+'" r="8" fill="#fff" stroke="'+accent+'" stroke-width="3"/>';
+    }
+    s+='<text x="150" y="300" text-anchor="middle" font-family="IBM Plex Sans Thai,sans-serif" '+
+       'font-size="13.5" fill="#5B6B67">'+sub+'</text></svg>';
+    return s;
+  }
+  host.style.display='flex'; host.style.gap='18px'; host.style.flexWrap='wrap';
+  host.innerHTML =
+    '<div style="flex:1;min-width:280px">'+ring(150,165,88,2,2,
+      'แกนซิเลีย / แฟลเจลลัม  9 + 2','9 กลุ่ม × 2 หลอด + แกนกลาง 2 = 20 หลอด','#A0711A')+'</div>'+
+    '<div style="flex:1;min-width:280px">'+ring(150,165,88,3,0,
+      'เบซัลบอดี  9 + 0','9 กลุ่ม × 3 หลอด + ไม่มีแกนกลาง = 27 หลอด','#3A7549')+'</div>';
+})();
+
+/* ================= SWEEP DRILL ================= */
+var PAPER=[
+ {n:1,t:'ข้อ 1 · ถูก/ผิด + เหตุผล',d:'หน้าที่ตา/หู · เซลล์แท่ง-กรวย · คอเคลีย · ให้ชื่อมาแล้วถามว่าหน้าที่ถูกไหม',w:3},
+ {n:2,t:'ข้อ 2 · ชี้องค์ประกอบตา',d:'ชี้รูป แล้วตอบว่าคืออะไร',w:1.5},
+ {n:3,t:'ข้อ 3 · องค์ประกอบหู',d:'ถูก/ผิด องค์ประกอบหู + หน้าที่ของอันในรูป',w:2},
+ {n:4,t:'ข้อ 4 · flagellum / cilia',d:'ถูก/ผิด เรื่องซิเลียและแฟลเจลลัม',w:1},
+ {n:5,t:'ข้อ 5 · ชื่อกล้ามเนื้อ',d:'กล้ามเนื้อการบินของแมลง + กล้ามเนื้อปีกนก',w:1.5},
+ {n:6,t:'ข้อ 6 · วิเคราะห์ประโยค',d:'ให้ประโยคมา แล้ววิเคราะห์ว่า ใช่ / ไม่ใช่',w:3}];
+(function(){
+  var box=document.getElementById('sweepPaper'); if(!box) return;
+  box.innerHTML=PAPER.map(function(q){
+    return '<div class="qcard"><div class="t">'+q.t+'</div><div class="d">'+q.d+'</div>'+
+      '<div class="marks" data-n="'+q.n+'">'+
+      ['○','△','✗'].map(function(m){return '<button type="button" data-m="'+m+'">'+m+'</button>'}).join('')+
+      '</div></div>';
+  }).join('');
+  box.querySelectorAll('.marks button').forEach(function(b){
+    b.addEventListener('click',function(){
+      b.parentNode.querySelectorAll('button').forEach(function(x){x.classList.remove('sel')});
+      b.classList.add('sel');
+    });
+  });
+  var t=null,left=90,btn=document.getElementById('sweepStart'),
+      cl=document.getElementById('sweepClock'),msg=document.getElementById('sweepMsg'),
+      out=document.getElementById('sweepOut');
+  function fmt(s){return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
+  btn.addEventListener('click',function(){
+    if(t){clearInterval(t);t=null;btn.textContent='เริ่มจับเวลา 90 วิ';msg.textContent='หยุดแล้ว';return}
+    left=90; cl.textContent=fmt(left); out.innerHTML='';
+    box.querySelectorAll('button.sel').forEach(function(x){x.classList.remove('sel')});
+    btn.textContent='หยุด'; msg.textContent='กวาดอย่างเดียว ห้ามคิดคำตอบ';
+    t=setInterval(function(){
+      left--; cl.textContent=fmt(Math.max(0,left));
+      if(left<=0){clearInterval(t);t=null;btn.textContent='เริ่มใหม่';finish()}
+    },1000);
+  });
+  function finish(){
+    var marked=box.querySelectorAll('button.sel').length;
+    var easy=[],hard=[];
+    box.querySelectorAll('.marks').forEach(function(m){
+      var s=m.querySelector('button.sel'); if(!s) return;
+      var n=+m.dataset.n;
+      if(s.dataset.m==='○') easy.push(n); else if(s.dataset.m==='✗') hard.push(n);
+    });
+    var msgs='';
+    if(marked<6){ msgs='<b class="non">ให้คะแนนได้ '+marked+' จาก 6 ข้อ</b> — ในห้องสอบจริงแปลว่าคุณยังไม่รู้ว่าข้อไหนคุ้มทำก่อน ลองใหม่'; }
+    else { msgs='<b class="yes">ครบ 6 ข้อใน 90 วินาที</b> — นี่คือสิ่งที่ต้องทำได้อัตโนมัติในห้องสอบ'; }
+    out.innerHTML='<div class="note timebox" style="margin-top:18px"><span class="lbl">ผลการกวาด</span>'+msgs+
+      '<br><br><b>ลำดับที่ควรทำ:</b> '+(easy.length?easy.join(' → '):'(ยังไม่ได้ทำเครื่องหมาย ○)')+
+      ' แล้วค่อยไปข้อที่เหลือ ส่วนข้อที่ให้ ✗ ('+(hard.length?hard.join(', '):'ไม่มี')+') <b>ทำท้ายสุด</b>'+
+      '<br>คำแนะนำจากโครงข้อสอบ: <b>2 → 4 → 5 → 3 → 1 → 6</b></div>';
+  }
+})();
+
+/* ================= TIME BUDGET ================= */
+(function(){
+  var inp=document.getElementById('totalMin'),box=document.getElementById('budget');
+  if(!inp||!box) return;
+  function draw(){
+    var grand=Math.max(20,+inp.value||60);
+    var check=Math.max(3,Math.round(grand*0.07));   // reserve ~7% to check the paper
+    var total=grand-check;
+    var sum=PAPER.reduce(function(a,q){return a+q.w},0);
+    /* largest-remainder rounding so the parts add up to `total` EXACTLY -
+       a budget whose numbers do not sum to the real time limit is worse than none */
+    var raw=PAPER.map(function(q){return total*q.w/sum});
+    var mins=raw.map(Math.floor);
+    var short=total-mins.reduce(function(a,b){return a+b},0);
+    raw.map(function(v,i){return [v-Math.floor(v),i]})
+       .sort(function(a,b){return b[0]-a[0]})
+       .slice(0,short).forEach(function(p){mins[p[1]]++});
+    /* running clock in the recommended answer order - more useful than raw durations */
+    var order=[2,4,5,3,1,6],at=0;
+    box.innerHTML=order.map(function(no){
+      var i=PAPER.findIndex(function(q){return q.n===no}); at+=mins[i];
+      return '<div class="cell"><div class="k">ข้อ '+no+' · '+mins[i]+' นาที</div>'+
+             '<div class="v">'+at+"'"+' <span style="font-size:13px;color:var(--muted)">เสร็จภายในนาทีที่</span></div></div>';
+    }).join('')+
+    '<div class="cell" style="border-color:var(--warn)"><div class="k">ตรวจ · '+check+' นาที</div>'+
+    '<div class="v">'+grand+"'"+' <span style="font-size:13px;color:var(--muted)">ส่ง</span></div></div>';
+  }
+  inp.addEventListener('input',draw); draw();
+})();
+
+/* ================= TRAP BANK ================= */
+var T=[
+['ตา','เรตินาเป็นผนังตาชั้นนอกสุดของลูกตา',0,'สลับลำดับชั้น','เรตินาเป็นชั้น<b>ในสุด</b> · เรียงจากนอกเข้าใน คือ สเคลอรา → โครอยด์ → เรตินา'],
+['ตา','กระจกตาคือส่วนหน้าสุดของชั้นสเคลอราที่มีลักษณะใส',1,'','ใสเพราะเส้นใยคอลลาเจนหนาใกล้เคียงกันและเรียงตัวเป็นระเบียบ'],
+['ตา','เซลล์รูปแท่งทำให้มองเห็นสีของภาพได้',0,'สลับหน้าที่แท่ง/กรวย','เซลล์รูป<b>แท่ง</b>เห็นเป็นภาพ<b>ขาวดำ</b> · เซลล์รูป<b>กรวย</b>ต่างหากที่แยกสีได้'],
+['ตา','เซลล์รูปกรวยมีจำนวนมากกว่าเซลล์รูปแท่ง',0,'สลับจำนวน','เซลล์รูปแท่ง ~<b>125 ล้าน</b>เซลล์/ตา 1 ข้าง · เซลล์รูปกรวยเพียง ~<b>6 ล้าน</b>เซลล์'],
+['ตา','โฟเวียเป็นบริเวณที่ไม่มีเซลล์รับแสงจึงมองไม่เห็นภาพ',0,'สลับโฟเวียกับจุดบอด','บริเวณที่<b>ไม่มีเซลล์รับแสง</b>คือ<b>จุดบอด (optic disc)</b> · ส่วน<b>โฟเวีย</b>มี<b>เซลล์รูปกรวยล้วน</b> และเห็นภาพ<b>ชัดที่สุด</b>'],
+['ตา','เมื่อมองวัตถุระยะใกล้ กล้ามเนื้อยึดเลนส์หดตัวและเอ็นยึดเลนส์หย่อนตัว',1,'','เลนส์จึงโป่งออก ผิวโค้งนูนมาก'],
+['ตา','เมื่อมองวัตถุระยะไกล เลนส์ตาจะโป่งนูนมากขึ้น',0,'กลับด้าน','มองไกล เลนส์<b>แฟบแบนลง โค้งนูนน้อย</b> (กล้ามเนื้อยึดเลนส์คลายตัว เอ็นตึงตัว)'],
+['ตา','vitreous humor เป็นของเหลวในช่องหน้าเลนส์',0,'สลับช่องหน้า/หลัง','<b>vitreous humor (น้ำวุ้นตา) อยู่ช่องหลังเลนส์</b> · ช่องหน้าเลนส์คือ <b>aqueous humor</b>'],
+['ตา','aqueous humor ทำหน้าที่ลำเลียงอาหารและออกซิเจนแก่กระจกตา',1,'','และทำให้ความดันตาเป็นปกติด้วย'],
+['ตา','รูม่านตาจะหรี่ลงเมื่ออยู่ในที่ที่มีแสงน้อย',0,'กลับด้าน','แสง<b>น้อย</b> รูม่านตา<b>เปิดกว้าง</b> เพื่อรับแสงให้มากขึ้น · แสง<b>มาก</b>จึงจะ<b>หรี่ลง</b>'],
+['ตา','ม่านตาเป็นส่วนที่ยื่นออกมาจากผนังชั้นสเคลอรา',0,'ผิดชั้น','ม่านตายื่นออกมาจากผนังชั้น<b>โครอยด์</b>'],
+['ตา','สายตาสั้นเกิดจากจุดโฟกัสตกหลังเรตินา แก้ไขด้วยเลนส์นูน',0,'สลับสั้น/ยาว','สายตา<b>สั้น</b> จุดโฟกัสตก<b>ก่อนถึง</b>เรตินา แก้ด้วย<b>เลนส์เว้า</b> · ที่ตกหลังเรตินาและใช้เลนส์นูนคือสายตา<b>ยาว</b>'],
+['ตา','สายตาเอียงเกิดจากความโค้งของกระจกตาในแนวต่าง ๆ ไม่เท่ากัน',1,'','ทำให้เกิดจุดโฟกัสหลายจุด แก้ด้วยเลนส์ทรงกระบอก'],
+['ตา','โรดอปซินประกอบด้วยโปรตีนออปซินกับเรตินอล',1,'','เป็นรงควัตถุสีม่วงแดงที่ไวต่อแสง อยู่ในเซลล์รูปแท่ง'],
+['ตา','เมื่อมีแสงมากระตุ้น retinal จะเปลี่ยนไปอยู่ในรูป cis-retinal',0,'สลับ cis/trans','มีแสง → เปลี่ยนเป็น <b>trans-retinal</b> และ<b>แยกออกจาก</b>โปรตีนออปซิน · <b>cis-retinal</b> คือรูปตอน<b>ไม่มีแสง</b>'],
+['ตา','อาการตาฟางตอนกลางคืนเกิดจากการขาดวิตามินซี',0,'ผิดวิตามิน','เกิดจากการขาด<b>วิตามินเอ</b> → สังเคราะห์เรตินอลไม่ได้ → ขาดโรดอปซิน'],
+['ตา','ต้อกระจกคืออาการที่กระจกตาขาวขุ่นคล้ายเนื้อลำไย',0,'สลับต้อกระจก/ต้อลำไย','<b>ต้อกระจก = เลนส์ตาขุ่นมัว</b> · ที่<b>กระจกตา</b>ขาวขุ่นคล้ายเนื้อลำไยคือ<b>ต้อลำไย</b>'],
+['ตา','ต้อหินเกิดจากความดันในลูกนัยน์ตาสูงจนไปกดประสาทตา',1,'','ทำให้ประสาทตาสูญเสียการทำงานและเสื่อมได้'],
+['ตา','ตาประกอบพบในแมลง ประกอบขึ้นจากตาย่อยที่เรียกว่า ommatidium',1,'','พบใน crustacean ด้วย'],
+['ตา','ตาเดี่ยว (ocellus) สามารถสร้างภาพของวัตถุได้ชัดเจน',0,'เกินความจริง','ตาเดี่ยวตรวจจับได้เพียง<b>ความเข้มของแสง</b>ว่ามีมากหรือน้อย <b>สร้างเป็นภาพไม่ได้</b>'],
+['ตา','ตาบอดสีน้ำเงินเป็นชนิดที่พบมากที่สุด',0,'สลับความถี่','<b>ตาบอดสีแดงและสีเขียวพบมากที่สุด</b> · <b>สีน้ำเงินพบน้อยมาก</b>'],
+['ตา','อาการตาบอดสีพบในเพศชายมากกว่าเพศหญิง',1,'','เป็นการถ่ายทอดลักษณะทางพันธุกรรม'],
+['หู','กระดูกโกลนเป็นกระดูกที่ติดอยู่กับเยื่อแก้วหู',0,'สลับหัว-ท้ายของโซ่กระดูก','<b>กระดูกค้อน (malleus)</b> ต่างหากที่ติดกับเยื่อแก้วหู · <b>กระดูกโกลน (stapes)</b> ติดกับเยื่อที่กั้นหูส่วนกลางกับหูส่วนใน คือ<b>ช่องรูปรี</b>'],
+['หู','แรงสั่นสะเทือนถ่ายทอดจากเยื่อแก้วหู → ค้อน → ทั่ง → โกลน',1,'','แล้วส่งต่อไปยังช่องรูปรีของคอเคลีย'],
+['หู','ท่อยูสเตเชียนเป็นโครงสร้างที่อยู่ในหูส่วนใน',0,'ผิดส่วนของหู','ท่อยูสเตเชียนอยู่ใน<b>หูส่วนกลาง</b> เชื่อมระหว่างหูส่วนกลางกับ<b>คอหอย</b> เพื่อปรับความดันอากาศ'],
+['หู','ท่อคอเคลียทำหน้าที่เกี่ยวกับการทรงตัวของร่างกาย',0,'สลับหน้าที่ในหูส่วนใน','<b>คอเคลีย = การได้ยินเสียง</b> · การ<b>ทรงตัว</b>เป็นหน้าที่ของ<b>เซมิเซอร์คิวลาร์แคแนล</b> กับ <b>saccule/utricle</b>'],
+['หู','เซมิเซอร์คิวลาร์แคแนลมี 3 หลอดวางตั้งฉากกัน ใช้ตรวจจับการหมุนของร่างกาย',1,'','ภายในมีของเหลว endolymph'],
+['หู','saccule และ utricle ทำหน้าที่ระบุตำแหน่งของศีรษะเทียบกับลำตัว',1,'','อาศัยผลึกหินปูน otolith ในชั้นวุ้น'],
+['หู','organ of Corti อยู่ในโพรง scala vestibuli',0,'ผิดโพรง','organ of Corti อยู่ในโพรง<b>ตรงกลาง คือ scala media</b> · scala vestibuli คือช่อง<b>บนสุด</b>'],
+['หู','organ of Corti วางอยู่บน basilar membrane และมี tectorial membrane อยู่ด้านบน',1,'','เซลล์ขนอยู่บน basilar membrane'],
+['หู','ของเหลวภายในเซมิเซอร์คิวลาร์แคแนลเรียกว่า otolith',0,'สลับชื่อสามคำ','ของเหลวคือ <b>endolymph</b> · <b>cupula</b> คือวุ้นที่เซลล์ขนฝังอยู่ · <b>otolith</b> คือ<b>ผลึกหินปูน</b>ใน saccule/utricle'],
+['หู','เยื่อแก้วหูทำหน้าที่เปลี่ยนพลังงานเสียงให้อยู่ในรูปพลังงานกลโดยการสั่น',1,'','แล้วส่งคลื่นเสียงเข้าสู่หูส่วนกลาง'],
+['หู','กระดูก 3 ชิ้นในหูส่วนกลางขยายแอมพลิจูดของคลื่นเสียงประมาณ 22 เท่า',1,'','เพราะเรียงตัวเป็นระบบคานงัด คานดีด'],
+['หู','เส้นประสาทที่นำกระแสประสาทเรื่องการได้ยินคือเส้นประสาทสมองคู่ที่ 7',0,'ผิดเลขคู่','การได้ยินคือ<b>คู่ที่ 8</b> (vestibulocochlear) · <b>คู่ที่ 7</b> เกี่ยวกับการ<b>รับรส</b> (ร่วมกับคู่ที่ 9)'],
+['หู','ใบหูพบได้ในสัตว์มีกระดูกสันหลังทุกชนิด',0,'ขยายขอบเขตเกินจริง','ใบหู (pinna) <b>พบเฉพาะสัตว์เลี้ยงลูกด้วยน้ำนม</b>'],
+['หู','cupula คือกลุ่มวุ้นที่มีเซลล์ขนฝังตัวอยู่บริเวณโคนของเซมิเซอร์คิวลาร์แคแนล',1,'','อยู่ในส่วนโป่งที่เรียกว่า ampulla'],
+['หู','โรคน้ำในหูไม่เท่ากันเกิดจากแรงดันของน้ำในหูชั้นในมากเกินปกติ',1,'','อาการ: เวียนศีรษะ การได้ยินลดลง หูอื้อมีเสียงดังในหู'],
+['ประสาทสัมผัส','เส้นประสาทที่เกี่ยวข้องกับการดมกลิ่นคือเส้นประสาทสมองคู่ที่ 1',1,'','ส่งไป olfactory bulb แล้วต่อไปซีรีบรัม'],
+['ประสาทสัมผัส','บริเวณปลายลิ้นรับรสหวานได้ดีที่สุด ส่วนโคนลิ้นรับรสขม',0,'ใช้ความเชื่อเก่าที่ถูกล้มแล้ว','<b>ปัจจุบันพบว่า taste bud ทุกบริเวณของลิ้นรับรสต่าง ๆ ได้เท่ากัน</b> ความเชื่อเรื่องแบ่งโซนลิ้นเป็นความเชื่อเดิมที่ไม่ถูกต้อง'],
+['ประสาทสัมผัส','รสเผ็ดเป็นหนึ่งใน 5 รสหลักที่ลิ้นรับได้',0,'เผ็ดไม่ใช่รส','5 รสหลักคือ <b>เปรี้ยว เค็ม หวาน ขม อูมามิ</b> · <b>เผ็ดไม่จัดเป็นรส</b> แต่เป็นความรู้สึกจากการ<b>ระคายเคือง</b>ของเซลล์'],
+['ประสาทสัมผัส','Pacinian corpuscle อยู่ลึกในชั้นหนังแท้ ทำหน้าที่รับแรงกดที่แรง',1,'','ส่วน Meissner’s corpuscle รับสัมผัสเบา อยู่ใกล้ชั้นหนังกำพร้า'],
+['ประสาทสัมผัส','olfactory receptor neuron เป็นเซลล์ประสาทชนิดเดียวในร่างกายที่สร้างทดแทนได้',1,'','เป็นความรู้ปัจจุบันที่ระบุไว้ในสไลด์'],
+['เซลล์เดียว','ทั้ง cilia และ flagellum มีการจัดเรียงไมโครทูบูลแบบ 9+2',1,'','คือ 9 กลุ่ม กลุ่มละ 2 หลอด และตรงกลางอีก 2 หลอด'],
+['เซลล์เดียว','เบซัลบอดีมีการจัดเรียงไมโครทูบูลแบบ 9+2 เช่นเดียวกับตัวซิเลีย',0,'สลับ 9+2 กับ 9+0','เบซัลบอดีเป็นแบบ <b>9+0</b> — 9 กลุ่ม <b>กลุ่มละ 3 หลอด</b> และ<b>ไม่มีหลอดตรงกลาง</b>'],
+['เซลล์เดียว','การจัดเรียงแบบ 9+2 หมายถึง 9 กลุ่ม กลุ่มละ 3 หลอด และตรงกลาง 2 หลอด',0,'จำนวนหลอดต่อกลุ่มผิด','9+2 คือ 9 กลุ่ม <b>กลุ่มละ 2 หลอด</b> + ตรงกลาง 2 หลอด (รวม 20 หลอด) · กลุ่มละ 3 หลอดคือ<b>เบซัลบอดี</b>'],
+['เซลล์เดียว','พารามีเซียมเคลื่อนที่โดยใช้ flagellum',0,'สลับตัวอย่างสิ่งมีชีวิต','<b>พารามีเซียมใช้ cilia</b> · ที่ใช้ <b>flagellum</b> คือ<b>ยูกลีนา</b>, Trypanosoma และ trichomonad'],
+['เซลล์เดียว','โปรตีนที่ทำให้ cilia และ flagellum พัดโบกหรือโค้งงอได้คือไดนีน',1,'','อยู่ระหว่างไมโครทูบูล ทำหน้าที่เหมือนแขน เรียก dynein arm'],
+['เซลล์เดียว','flagellum เคลื่อนไหวแบบคลื่น ส่วน cilia เคลื่อนไหวแบบแกว่งคล้ายใบพาย',1,'','แต่ cilia ในสิ่งมีชีวิตหลายเซลล์จะโค้งลงแล้วตวัดตั้งตรง คล้ายคลื่น'],
+['เซลล์เดียว','เมื่อตัดเบซัลบอดีออก flagellum ยังคงเคลื่อนไหวได้ตามปกติ',0,'ผลการทดลองตรงกันข้าม','มีการทดลองตัดเบซัลบอดีออก พบว่า flagellum และ cilia <b>เคลื่อนไหวไม่ได้</b> เพราะเบซัลบอดีเป็นตัวควบคุม'],
+['เซลล์เดียว','ectoplasm ของอะมีบามีลักษณะเป็นซอล (sol) ส่วน endoplasm เป็นเจล (gel)',0,'สลับชั้นนอก/ชั้นใน','<b>ectoplasm = ชั้นนอก เป็นเจล (gel)</b> · <b>endoplasm = ชั้นใน เป็นซอล (sol)</b>'],
+['เซลล์เดียว','เมื่อแอกทินแยกตัวออกเป็นหน่วยย่อย ไซโทพลาซึมจะเปลี่ยนจากเจลเป็นซอล',1,'','และเมื่อแอกทินรวมตัวกัน ไซโทพลาซึมจะเปลี่ยนจากซอลเป็นเจล'],
+['เซลล์เดียว','อะมีบามีโครงสร้างพิเศษสำหรับการเคลื่อนที่โดยเฉพาะ',0,'ตรงข้ามกับสไลด์','อะมีบา<b>ไม่มี</b>โครงสร้างสำหรับการเคลื่อนที่โดยเฉพาะ แต่สร้าง<b>ตีนเทียม</b>จากการไหลของไซโทพลาซึม'],
+['ไม่มีกระดูกสันหลัง','หนอนตัวกลมมีกล้ามเนื้อ 2 ชุดจึงบังคับทิศทางการเคลื่อนที่ได้ดี',0,'จำนวนชุดกล้ามเนื้อผิด','หนอนตัวกลมมีกล้ามเนื้อ<b>ชุดเดียว คือกล้ามเนื้อตามยาว</b> จึงได้แค่<b>สะบัดตัวไปมา บังคับทิศทางไม่ได้</b>'],
+['ไม่มีกระดูกสันหลัง','พลานาเรียมีกล้ามเนื้อลำตัว 3 ชนิด คือ กล้ามเนื้อวง ตามยาว และทแยง',1,'','กล้ามเนื้อทแยงช่วยให้ลำตัวแบนและพลิ้วไปตามน้ำ'],
+['ไม่มีกระดูกสันหลัง','ปล้องของไส้เดือนที่สั้นและโป่งออก คือปล้องที่กล้ามเนื้อวงหดตัว',0,'สลับการหด/คลาย','ปล้องที่<b>สั้นและโป่งออก</b> คือ <b>กล้ามเนื้อวงคลายตัว + กล้ามเนื้อตามยาวหดตัว</b> (และเดือยจิกดินไว้)'],
+['ไม่มีกระดูกสันหลัง','เดือย (setae) ของไส้เดือนดินช่วยบังคับทิศทางในการเคลื่อนที่',1,'','และช่วยจิกดินไม่ให้ลำตัวเคลื่อนถอยหลัง'],
+['ไม่มีกระดูกสันหลัง','แมงกะพรุนและหมึกเคลื่อนที่ไปในทิศทางตรงกันข้ามกับน้ำที่พ่นออกมา',1,'','แมงกะพรุนเรียก jet repulsion · หมึกพ่นทางไซฟอน'],
+['ไม่มีกระดูกสันหลัง','น้ำเข้าสู่ระบบท่อน้ำของดาวทะเลทางทิวบ์ฟีท',0,'ผิดทางเข้า','น้ำเข้าทาง <b>madreporite</b> → stone canal → ring canal → radial canal → ampulla → tube feet'],
+['ไม่มีกระดูกสันหลัง','เมื่อกล้ามเนื้อบริเวณ ampulla หดตัว ทิวบ์ฟีทจะหดสั้นลง',0,'ผลตรงกันข้าม','ampulla หดตัวจะ<b>ดันน้ำเข้าสู่ tube feet ทำให้ tube feet ยืดยาวออก</b>ไปแตะพื้น · ที่ทำให้สั้นลงคือตอน<b>กล้ามเนื้อของ tube feet เอง</b>หดตัว'],
+['ไม่มีกระดูกสันหลัง','ดาวทะเลมีโครงร่างแข็ง แต่ใช้ hydrostatic skeleton ในการเคลื่อนที่',1,'','ผ่านระบบท่อน้ำ (water vascular system)'],
+['ไม่มีกระดูกสันหลัง','กล้ามเนื้อยึดเปลือกหุ้มส่วนอกของแมลงยึดติดกับปีกโดยตรง',0,'จุดยึดผิด','<b>ไม่ได้ติดกับปีกโดยตรง</b> แต่ยึดกับ<b>เปลือกหุ้มส่วนอก</b> เมื่อเปลือกหุ้มส่วนอกเคลื่อนไหว ปีกที่ติดอยู่จึงเคลื่อนตาม'],
+['ไม่มีกระดูกสันหลัง','เมื่อกล้ามเนื้อยึดเปลือกหุ้มส่วนอกหดตัว ปีกของแมลงจะยกตัวสูงขึ้น',1,'','เพราะเปลือกหุ้มอกเลื่อนลง ความสูงแคบลง จึงดันปีกขึ้น (กล้ามเนื้อตามยาวคลายตัว)'],
+['ไม่มีกระดูกสันหลัง','เมื่อกล้ามเนื้อตามยาวของแมลงหดตัว ปีกจะยกตัวสูงขึ้น',0,'กลับด้าน','กล้ามเนื้อ<b>ตามยาวหดตัว</b> → เปลือกหุ้มอก<b>สูงขึ้น</b> → <b>กดให้ปีกลดต่ำลง</b>'],
+['ไม่มีกระดูกสันหลัง','แมลงปอมีกล้ามเนื้อยึดกับปีกโดยตรง',1,'','เป็นข้อยกเว้น พบในแมลงขนาดใหญ่ที่มีปีกขนาดใหญ่'],
+['ไม่มีกระดูกสันหลัง','แมลงจะงอขาเมื่อกล้ามเนื้อเอ็กเทนเซอร์หดตัว',0,'สลับ flexor/extensor','<b>งอขา = flexor หดตัว, extensor คลายตัว</b> · <b>เหยียดขา</b>จึงจะเป็น extensor หดตัว'],
+['มีกระดูกสันหลัง','กล้ามเนื้อควบคุมการขยับปีกนกยึดอยู่ระหว่างกระดูกโคนปีกกับกระดูกหน้าอก',1,'','ระหว่าง humerus กับ keel of sternum · <b>กล้ามเนื้อทั้งยกและกดปีกเกาะที่ keel เหมือนกัน</b>'],
+['มีกระดูกสันหลัง','ปีกของนกยกตัวสูงขึ้นเมื่อกล้ามเนื้อกดปีกหดตัว',0,'สลับกล้ามเนื้อ','ปีกยกสูงขึ้นเมื่อ<b>กล้ามเนื้อยกปีกหดตัว</b> และ<b>กล้ามเนื้อกดปีกคลายตัว</b>'],
+['มีกระดูกสันหลัง','โครงสร้างปีกนกด้านบนยาวกว่าด้านล่าง ทำให้ความดันอากาศใต้ปีกสูงกว่าด้านบน',1,'','อากาศด้านบนเคลื่อนที่เร็วกว่า ความดันใต้ปีกจึงช่วยพยุงลำตัว'],
+['มีกระดูกสันหลัง','ขณะนกยกปีกขึ้น ขนนกจะปิดสนิททำให้อากาศผ่านไม่ได้',0,'สลับจังหวะขนเปิด/ปิด','<b>ยกปีกขึ้น ขนเปิดออก อากาศผ่านได้</b> จึงไม่เกิดแรงต้าน · ที่<b>ขนปิด อากาศผ่านไม่ได้</b> คือตอน<b>หุบปีกลง</b>'],
+['มีกระดูกสันหลัง','นกไม่มีกระเพาะปัสสาวะ ซึ่งช่วยให้น้ำหนักตัวเบา',1,'','ร่วมกับกระดูกที่เป็นโพรงและถุงลมที่เจริญดี'],
+['มีกระดูกสันหลัง','ในการหมุนเวียนอากาศครบ 1 รอบ นกหายใจเข้า 1 ครั้งและหายใจออก 1 ครั้ง',0,'จำนวนจังหวะผิด','นกหายใจ<b>เข้า 2 ครั้ง และออก 2 ครั้ง</b> ต่อการหมุนเวียนอากาศครบ 1 รอบ'],
+['มีกระดูกสันหลัง','ครีบอกและครีบสะโพกของปลาจัดเป็นครีบคู่',1,'','ทำหน้าที่พยุงตัวและเคลื่อนที่ขึ้นลงในแนวดิ่ง'],
+['มีกระดูกสันหลัง','ครีบหลังและครีบหางทำหน้าที่ช่วยพยุงตัวและเคลื่อนที่ขึ้นลงในแนวดิ่ง',0,'สลับหน้าที่ครีบคู่/ครีบเดี่ยว','ครีบหลังและครีบหางเป็น<b>ครีบเดี่ยว</b> ทำหน้าที่<b>พัดโบกให้ปลาเคลื่อนที่ไปข้างหน้า</b> · ที่พยุงตัวและขึ้นลงแนวดิ่งคือ<b>ครีบคู่</b>'],
+['มีกระดูกสันหลัง','กระเพาะลม (swim bladder) พบในปลากระดูกอ่อน เช่น ปลาฉลาม',0,'ผิดกลุ่มปลา','กระเพาะลมพบใน<b>ปลากระดูกแข็ง</b> เช่น ปลาตะเพียน ปลาดุก ปลาทู'],
+['มีกระดูกสันหลัง','โลมามีครีบหางแบนวางขนานกับพื้น เคลื่อนที่โดยตวัดหางขึ้นลง',1,'','ต่างจากปลาที่โบกหางไปทางซ้าย-ขวา'],
+['มีกระดูกสันหลัง','เสือชีต้าวิ่งได้เร็วถึง 110 กิโลเมตรต่อชั่วโมง และมีกระดูกสันหลังที่ยืดหยุ่นได้ดี',1,'','กล้ามเนื้อขาหลังแข็งแรงเป็นพิเศษ ขายาว ช่วงก้าวยาว'],
+['มีกระดูกสันหลัง','กบเคลื่อนที่ในน้ำโดยอาศัยแผ่นหนังบางระหว่างนิ้วเท้า',1,'','เรียกว่า web เช่นเดียวกับเท้าเป็ด'],
+['มีกระดูกสันหลัง','งูเคลื่อนที่โดยการงอตัวสลับระหว่างซ้ายและขวา เรียกว่าการเลื้อย',1,'','อาศัยการหดและคลายตัวของกล้ามเนื้อร่วมกับโครงกระดูก']
+];
+(function(){
+  var body=document.getElementById('trapBody'),scoreEl=document.getElementById('trapScore');
+  if(!body) return;
+  var pool=[],idx=0,right=0,done=0;
+  function setTopic(t){
+    pool=T.map(function(r,i){return i}).filter(function(i){return t==='all'||T[i][0]===t});
+    for(var i=pool.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var tmp=pool[i];pool[i]=pool[j];pool[j]=tmp}
+    idx=0;right=0;done=0;render();
+  }
+  function render(){
+    if(idx>=pool.length){
+      body.innerHTML='<div class="note winbox"><span class="lbl">จบชุด</span>'+
+        'ได้ <b>'+right+' / '+done+'</b> ข้อ'+
+        (right===done?' — เก็บครบ ลองบทอื่นต่อ':' — ข้อที่ผิด กลับไปอ่าน “ประโยคที่ถูกต้อง” อีกรอบแล้วทำซ้ำ')+
+        '<br><br><button class="btn" type="button" id="again">ทำชุดนี้ใหม่</button></div>';
+      document.getElementById('again').addEventListener('click',function(){setTopic(cur)});
+      return;
+    }
+    var r=T[pool[idx]];
+    body.innerHTML=
+      '<span class="qnum">ข้อ '+(idx+1)+' / '+pool.length+' · '+r[0]+'</span>'+
+      '<div class="q">'+r[1]+'</div>'+
+      '<div class="answers"><button class="btn" type="button" data-v="1">ถูก</button>'+
+      '<button class="btn" type="button" data-v="0">ผิด</button></div>'+
+      '<div class="reveal" id="rv" hidden></div>';
+    body.querySelectorAll('[data-v]').forEach(function(b){
+      b.addEventListener('click',function(){ answer(r,+b.dataset.v) });
+    });
+    scoreEl.textContent=done? ('คะแนน '+right+' / '+done):'';
+  }
+  function answer(r,v){
+    var ok=(v===r[2]); done++; if(ok)right++;
+    var rv=document.getElementById('rv'); rv.hidden=false;
+    body.querySelectorAll('[data-v]').forEach(function(b){b.disabled=true;b.style.opacity=.55});
+    rv.innerHTML=
+      '<div class="verdict '+(ok?'ok':'no')+'">'+(ok?'✓ ตอบถูก':'✗ ตอบผิด')+
+      ' — ประโยคนี้'+(r[2]?'<b>ถูกต้อง</b>':'<b>ผิด</b>')+'</div>'+
+      (r[3]?'<div style="color:var(--muted);font-size:14px;margin-bottom:8px">ชนิดของกับดัก: <b>'+r[3]+'</b></div>':'')+
+      '<div class="fix"><span class="lbl">'+(r[2]?'ขยายความ':'เหตุผลที่ต้องเขียนในกระดาษคำตอบ')+'</span>'+r[4]+'</div>'+
+      '<div style="margin-top:14px"><button class="btn" type="button" id="nx">ข้อถัดไป →</button></div>';
+    document.getElementById('nx').addEventListener('click',function(){idx++;render()});
+    scoreEl.textContent='คะแนน '+right+' / '+done;
+  }
+  var cur='all';
+  document.querySelectorAll('#traps [data-topic]').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('#traps [data-topic]').forEach(function(x){x.classList.remove('on')});
+      b.classList.add('on'); cur=b.dataset.topic; setTopic(cur);
+    });
+  });
+  document.querySelector('#traps [data-topic="all"]').classList.add('on');
+  setTopic('all');
+})();
+
+/* ================= MOCK EXAMS ================= */
+var THAIORD='กขคงจฉชซฌญ'.split('');
+var MOCKS={
+A:[
+ {n:1,t:'จงพิจารณาว่าข้อความต่อไปนี้ถูกหรือผิด ถ้าผิดให้อธิบายเหตุผล',m:'12 คะแนน',
+  items:[
+   ['เซลล์รูปแท่งมีรงควัตถุชื่อโรดอปซิน และทำให้มองเห็นภาพเป็นสี',
+    '<b>ผิด</b> — เซลล์รูปแท่งมีโรดอปซินจริง แต่<b>ไม่สามารถแยกสีได้</b> ทำให้เห็นเป็นภาพ<b>ขาวดำ</b> · เซลล์ที่แยกสีได้คือเซลล์รูปกรวยซึ่งมีรงควัตถุโฟทอปซิน'],
+   ['โฟเวียเป็นบริเวณของเรตินาที่มีเฉพาะเซลล์รูปกรวย จึงเห็นภาพชัดที่สุด','<b>ถูก</b>'],
+   ['คอเคลียในหูส่วนในทำหน้าที่เกี่ยวกับการทรงตัวของร่างกาย',
+    '<b>ผิด</b> — คอเคลียทำหน้าที่เกี่ยวกับ<b>การได้ยินเสียง</b> · ส่วนที่ทำหน้าที่ทรงตัวคือ<b>เซมิเซอร์คิวลาร์แคแนล</b> (ตรวจจับการหมุน) และ <b>saccule กับ utricle</b> (ระบุตำแหน่งศีรษะ)'],
+   ['ท่อยูสเตเชียนทำหน้าที่ปรับความดันอากาศ 2 ด้านของเยื่อแก้วหูให้เท่ากัน','<b>ถูก</b>'],
+   ['กระดูกโกลนเป็นกระดูกชิ้นที่ติดอยู่กับเยื่อแก้วหู',
+    '<b>ผิด</b> — ชิ้นที่ติดกับเยื่อแก้วหูคือ<b>กระดูกค้อน</b> · <b>กระดูกโกลน</b>ติดกับเยื่อที่กั้นหูส่วนกลางกับหูส่วนใน คือบริเวณ<b>ช่องรูปรี (oval window)</b>'],
+   ['เมื่อมองวัตถุระยะใกล้ กล้ามเนื้อยึดเลนส์จะหดตัวและเอ็นยึดเลนส์จะหย่อนตัว','<b>ถูก</b>']]},
+ {n:2,t:'จากภาพตัดขวางลูกตา จงระบุชื่อโครงสร้างที่หมายเลขชี้',m:'10 คะแนน',
+  items:[['หมายเลข 1–14 ในแผนภาพหัวข้อ “ตากับการมองเห็น”',
+   'ใช้ปุ่ม <b>โหมดทดสอบ</b> ในแผนภาพด้านบน แล้วไล่ตอบทีละหมายเลขจนครบ 14 จุด · เกณฑ์ผ่านของคุณคือ <b>ตอบได้ 14/14 ภายใน 3 นาที</b>']]},
+ {n:3,t:'จากภาพหู จงระบุชื่อและหน้าที่ของโครงสร้างที่กำหนด',m:'10 คะแนน',
+  items:[
+   ['เยื่อแก้วหู','<b>หน้าที่:</b> เปลี่ยน<b>พลังงานเสียงเป็นพลังงานกล</b>โดยการสั่น แล้วส่งคลื่นเสียงเข้าสู่หูส่วนกลาง'],
+   ['กระดูก 3 ชิ้นในหูส่วนกลาง','<b>ชื่อ:</b> ค้อน (malleus) → ทั่ง (incus) → โกลน (stapes) · <b>หน้าที่:</b> รับและ<b>ขยายแรงสั่นสะเทือน</b>แบบระบบคานงัด ทำให้แอมพลิจูดเพิ่มขึ้น<b>ประมาณ 22 เท่า</b>'],
+   ['เซมิเซอร์คิวลาร์แคแนล','<b>หน้าที่:</b> ตรวจจับ<b>การหมุน</b>ของร่างกาย · หลอดครึ่งวงกลม 3 หลอดวางตั้งฉากกัน ภายในมี endolymph · โคนหลอดโป่งเป็น ampulla มีเซลล์ขนฝังในวุ้น cupula'],
+   ['organ of Corti','<b>หน้าที่:</b> เกี่ยวกับ<b>การได้ยินเสียง</b> · อยู่บน <b>basilar membrane</b> ในโพรง <b>scala media</b> มีเซลล์ขนรับความรู้สึก และมี tectorial membrane อยู่ด้านบน']]},
+ {n:4,t:'จงพิจารณาข้อความเกี่ยวกับ flagellum และ cilia ว่าถูกหรือผิด',m:'8 คะแนน',
+  items:[
+   ['ทั้ง cilia และ flagellum มีการจัดเรียงไมโครทูบูลแบบ 9+2 คือ 9 กลุ่ม กลุ่มละ 2 หลอด และตรงกลาง 2 หลอด','<b>ถูก</b>'],
+   ['เบซัลบอดีมีการจัดเรียงแบบ 9+0 คือ 9 กลุ่ม กลุ่มละ 3 หลอด และไม่มีหลอดตรงกลาง','<b>ถูก</b>'],
+   ['พารามีเซียมใช้ flagellum ในการเคลื่อนที่',
+    '<b>ผิด</b> — พารามีเซียมใช้ <b>cilia</b> · สิ่งมีชีวิตที่ใช้ flagellum คือ <b>ยูกลีนา</b>, Trypanosoma และ trichomonad'],
+   ['ถ้าตัดเบซัลบอดีออก flagellum จะยังเคลื่อนไหวได้',
+    '<b>ผิด</b> — จากการทดลอง เมื่อตัดเบซัลบอดีออกแล้ว flagellum และ cilia <b>เคลื่อนไหวไม่ได้</b> เพราะเบซัลบอดีเป็นตัวควบคุมการทำงาน']]},
+ {n:5,t:'จงระบุชื่อกล้ามเนื้อและเติมตารางการทำงาน',m:'10 คะแนน',
+  items:[
+   ['กล้ามเนื้อ 2 ชุดที่ใช้ในการบินของแมลง (ส่วนใหญ่) มีชื่อว่าอะไร และทำงานอย่างไร',
+    '<b>ชื่อ:</b> ① กล้ามเนื้อยึดเปลือกหุ้มส่วนอก (vertical muscle) ② กล้ามเนื้อตามยาว (horizontal muscle)<br>'+
+    '<b>ปีกยกขึ้น:</b> ยึดเปลือกหุ้มส่วนอก<b>หดตัว</b> · ตามยาว<b>คลายตัว</b> → เปลือกหุ้มอกเลื่อนลง ดันปีกขึ้น<br>'+
+    '<b>ปีกกดลง:</b> ยึดเปลือกหุ้มส่วนอก<b>คลายตัว</b> · ตามยาว<b>หดตัว</b> → เปลือกหุ้มอกสูงขึ้น กดปีกลง<br>'+
+    '<b>ข้อสังเกตที่ควรเขียนเพิ่ม:</b> กล้ามเนื้อทั้งสองชุด<b>ไม่ได้ยึดติดกับปีกโดยตรง</b>'],
+   ['กล้ามเนื้อที่ควบคุมการขยับปีกนกยึดอยู่ระหว่างกระดูกใด และทำงานอย่างไร',
+    '<b>ยึดระหว่าง:</b> กระดูกโคนปีก (humerus) กับ<b>กระดูกหน้าอก (keel of sternum)</b><br>'+
+    '<b>ปีกยกตัวสูงขึ้น:</b> กล้ามเนื้อ<b>ยกปีกหดตัว</b> · กล้ามเนื้อ<b>กดปีกคลายตัว</b><br>'+
+    '<b>ปีกถูกดึงลง:</b> กล้ามเนื้อ<b>ยกปีกคลายตัว</b> · กล้ามเนื้อ<b>กดปีกหดตัว</b>']]},
+ {n:6,t:'จงวิเคราะห์ว่าข้อความต่อไปนี้ ใช่ หรือ ไม่ใช่ พร้อมให้เหตุผล',m:'10 คะแนน',
+  items:[
+   ['“เมื่อคนหมุนตัวหลาย ๆ รอบแล้วหยุด จะยืนตรงได้ทันที”',
+    '<b>ไม่ใช่</b> — เมื่อหยุดหมุน <b>endolymph ในเซมิเซอร์คิวลาร์แคแนลยังคงหมุนต่อ</b>เพราะความเฉื่อย ทำให้<b>เซลล์ขนยังเบนอยู่</b> และยังส่งกระแสประสาทบอกว่าร่างกายกำลังหมุน จึงรู้สึกเวียนศีรษะและยืนตรงไม่ได้ทันที'],
+   ['“คนที่ขาดวิตามินเอจะมองเห็นในที่สลัวได้แย่ลง”',
+    '<b>ใช่</b> — ขาดวิตามินเอ → ร่างกาย<b>สังเคราะห์เรตินอลไม่ได้</b> → <b>ขาดโรดอปซิน</b>ในเซลล์รูปแท่ง ซึ่งเป็นเซลล์ที่ทำงานในที่แสงน้อย จึงเกิดอาการ<b>ตาฟางตอนกลางคืน</b>'],
+   ['“ไส้เดือนดินและหนอนตัวกลมเคลื่อนที่ด้วยกลไกเดียวกัน”',
+    '<b>ไม่ใช่</b> — <b>ไส้เดือนดิน</b>มีกล้ามเนื้อ <b>2 ชุด</b> (วง + ตามยาว) ทำงานแบบ antagonism ร่วมกับ<b>เดือย (setae)</b> เกิดเป็น <b>peristalsis</b> จึงบังคับทิศทางได้ · <b>หนอนตัวกลม</b>มีกล้ามเนื้อ<b>ชุดเดียว</b> คือตามยาว จึงได้แค่<b>สะบัดตัวไปมา บังคับทิศทางไม่ได้</b>']]}],
+B:[
+ {n:1,t:'ข้อใดต่อไปนี้ “ไม่ถูกต้อง” เกี่ยวกับหน้าที่ของโครงสร้าง จงระบุและแก้ให้ถูก',m:'12 คะแนน',
+  items:[
+   ['“โครอยด์ — ทำหน้าที่รับภาพเช่นเดียวกับฟิล์มของกล้องถ่ายรูป”',
+    '<b>ไม่ถูกต้อง</b> — ที่ทำหน้าที่เหมือนฟิล์มคือ<b>เรตินา</b> · <b>โครอยด์</b>เป็นชั้นกลางที่มีหลอดเลือดมาก ทำหน้าที่<b>ให้ออกซิเจนแก่เซลล์ในชั้นเรตินา</b> และมีสารสีกันแสงสะท้อน'],
+   ['“aqueous humor — ทำหน้าที่ช่วยให้ลูกนัยน์ตาคงรูปอยู่ได้”',
+    '<b>ไม่ถูกต้อง</b> — ที่ช่วยให้<b>คงรูป</b>คือ <b>vitreous humor</b> ในช่องหลังเลนส์ · <b>aqueous humor</b> ในช่องหน้าเลนส์ทำให้<b>ความดันตาเป็นปกติ</b> และ<b>ลำเลียงอาหารกับออกซิเจนแก่กระจกตา</b>'],
+   ['“utricle — ตรวจจับการหมุนของร่างกาย”',
+    '<b>ไม่ถูกต้อง</b> — ที่ตรวจจับ<b>การหมุน</b>คือ<b>เซมิเซอร์คิวลาร์แคแนล</b> · <b>utricle และ saccule</b> ตรวจจับ<b>ตำแหน่งของศีรษะเทียบกับลำตัว/แรงโน้มถ่วง</b> โดยอาศัย<b>ผลึกหินปูน otolith</b>'],
+   ['“basal body — เป็นโครงสร้างที่มีการจัดเรียงไมโครทูบูล 9 กลุ่ม กลุ่มละ 2 หลอด”',
+    '<b>ไม่ถูกต้อง</b> — basal body เป็นแบบ <b>9+0</b> คือ 9 กลุ่ม <b>กลุ่มละ 3 หลอด</b> และ<b>ไม่มีตรงกลาง</b> · ที่เป็นกลุ่มละ 2 หลอดคือ<b>แกนของซิเลีย/แฟลเจลลัม (9+2)</b>'],
+   ['“เยื่อแก้วหู — ขยายแอมพลิจูดของคลื่นเสียงประมาณ 22 เท่า”',
+    '<b>ไม่ถูกต้อง</b> — ที่ขยาย ~22 เท่าคือ<b>กระดูก 3 ชิ้น</b>ในหูส่วนกลาง (ระบบคานงัด) · <b>เยื่อแก้วหู</b>ทำหน้าที่<b>เปลี่ยนพลังงานเสียงเป็นพลังงานกล</b>โดยการสั่น']]},
+ {n:2,t:'จงระบุโครงสร้างที่ลูกศรชี้ โดยตอบเป็นภาษาไทยและภาษาอังกฤษ',m:'10 คะแนน',
+  items:[['เปิด “โหมดทดสอบ” ในแผนภาพตา แล้วบังคับตัวเองให้ตอบ <b>ทั้งชื่อไทยและชื่ออังกฤษ</b>',
+   'จุดที่คนมักตอบไม่ได้เป็นภาษาอังกฤษ: <b>เอ็นยึดเลนส์ = suspensory ligament</b> · <b>กล้ามเนื้อยึดเลนส์ = ciliary muscle</b> · <b>จานประสาทตา = optic disc</b> · <b>น้ำวุ้นตา = vitreous humor</b>']]},
+ {n:3,t:'จากรูปหู ข้อความใดกล่าวถึงโครงสร้างในรูป “ผิด” มากที่สุด',m:'10 คะแนน',
+  items:[
+   ['“โครงสร้างที่ขดเป็นก้นหอย ภายในมี 3 โพรง โดยโพรงตรงกลางเรียกว่า scala tympani”',
+    '<b>ผิด</b> — โครงสร้างคือ<b>คอเคลีย</b> ถูกต้อง แต่<b>โพรงตรงกลางคือ scala media</b> ซึ่งเป็นที่อยู่ของ organ of Corti · <b>scala tympani คือช่องด้านล่าง</b> · ช่องบนสุดคือ scala vestibuli'],
+   ['“ท่อที่เชื่อมหูส่วนกลางกับคอหอย เมื่อกลืนอาหารจะปิดสนิทเพื่อกันอาหารเข้าหู”',
+    '<b>ผิด</b> — ท่อยูสเตเชียนเมื่อ<b>เคี้ยวหรือกลืนอาหารจะขยับ “เปิดออก”</b> เพื่อ<b>ปรับความดันอากาศ 2 ด้านของเยื่อแก้วหูให้เท่ากัน</b> ไม่ใช่ปิดสนิท']]},
+ {n:4,t:'ข้อความคู่ใดที่ “ทั้งคู่ถูกต้อง”',m:'8 คะแนน',
+  items:[
+   ['ก. flagellum เคลื่อนไหวแบบคลื่น &nbsp;/&nbsp; ข. ยูกลีนาเคลื่อนที่ด้วย cilia',
+    '<b>ไม่ใช่ทั้งคู่</b> — ก. <b>ถูก</b> · ข. <b>ผิด</b> ยูกลีนาใช้ <b>flagellum</b> · ที่ใช้ cilia คือพารามีเซียม'],
+   ['ก. ไดนีนอาร์มอยู่ระหว่างไมโครทูบูล &nbsp;/&nbsp; ข. ไมโครทูบูลถูกล้อมรอบด้วยเยื่อที่ติดต่อกับเยื่อหุ้มเซลล์',
+    '<b>ทั้งคู่ถูก</b> — ไดนีนทำหน้าที่เหมือนแขนที่เกาะกับไมโครทูบูล ทำให้เกิดการโค้งงอ'],
+   ['ก. ectoplasm เป็นซอล &nbsp;/&nbsp; ข. แอกทินรวมตัวกันทำให้ไซโทพลาซึมเปลี่ยนจากซอลเป็นเจล',
+    '<b>ไม่ใช่ทั้งคู่</b> — ก. <b>ผิด</b> ectoplasm เป็นชั้น<b>นอก</b>และเป็น<b>เจล</b> · ข. <b>ถูก</b>']]},
+ {n:5,t:'จงเติมคำในช่องว่างให้สมบูรณ์ (ตอบผิดคำเดียวถือว่าผิดทั้งข้อ)',m:'10 คะแนน',
+  items:[
+   ['เมื่อกล้ามเนื้อ ______(1)______ ของแมลงหดตัว เปลือกหุ้มส่วนอกจะ ______(2)______ ทำให้ปีก ______(3)______',
+    '(1) <b>ตามยาว (horizontal muscle)</b> · (2) <b>สูงขึ้น</b> · (3) <b>ถูกกดลง</b><br>'+
+    '<span style="color:var(--muted)">ถ้าโจทย์เปลี่ยนเป็น “กล้ามเนื้อยึดเปลือกหุ้มส่วนอกหดตัว” คำตอบคือ เปลือกหุ้มอก<b>เลื่อนลง</b> ปีก<b>ยกขึ้น</b></span>'],
+   ['กล้ามเนื้อยกปีกและกล้ามเนื้อกดปีกของนก ยึดอยู่ระหว่าง ______(1)______ กับ ______(2)______ และทำงานแบบ ______(3)______',
+    '(1) <b>กระดูกโคนปีก (humerus)</b> · (2) <b>กระดูกหน้าอก (keel of sternum)</b> · (3) <b>สภาวะตรงกันข้าม (antagonism)</b>'],
+   ['ในไส้เดือนดิน ปล้องที่สั้นและโป่งออกเกิดจากกล้ามเนื้อวง ______(1)______ และกล้ามเนื้อตามยาว ______(2)______ โดยมี ______(3)______ จิกดินไว้',
+    '(1) <b>คลายตัว</b> · (2) <b>หดตัว</b> · (3) <b>เดือย (setae)</b>']]},
+ {n:6,t:'จงวิเคราะห์ข้อความต่อไปนี้ว่า ใช่ หรือ ไม่ใช่ พร้อมเหตุผลประกอบ',m:'10 คะแนน',
+  items:[
+   ['“นกที่มีปีกทุกชนิดย่อมบินได้ เพราะมีกล้ามเนื้อยกปีกและกดปีกครบ”',
+    '<b>ไม่ใช่</b> — นกบางชนิดมีปีกแต่บินไม่ได้ เช่น <b>นกกระจอกเทศ เพนกวิน</b> เพราะ<b>กระดูกหน้าอก (keel) ไม่พัฒนา</b> จึงไม่มีพื้นที่ให้กล้ามเนื้อบินขนาดใหญ่มายึด ประกอบกับลำตัวหนักและปีกเล็กเมื่อเทียบกับตัว จึงเคลื่อนที่ด้วยการ<b>วิ่ง</b>หรือใช้ปีกเป็น<b>ใบพายว่ายน้ำ</b>แทน'],
+   ['“ถ้าเซลล์รูปกรวยที่ไวต่อแสงสีแดงผิดปกติ คนคนนั้นจะมองไม่เห็นภาพเลยในที่มืด”',
+    '<b>ไม่ใช่</b> — ความผิดปกติของเซลล์รูปกรวยทำให้เกิด<b>ตาบอดสี</b> (แยกสีไม่ได้) เท่านั้น · การมองเห็นใน<b>ที่มืด</b>เป็นหน้าที่ของ<b>เซลล์รูปแท่ง</b>ซึ่งยังทำงานปกติ'],
+   ['“ดาวทะเลไม่มีกล้ามเนื้อจึงเคลื่อนที่ด้วยแรงดันน้ำเพียงอย่างเดียว”',
+    '<b>ไม่ใช่</b> — ดาวทะเล<b>มีกล้ามเนื้อ</b> ทั้งที่ <b>ampulla</b> และที่ <b>tube feet</b> · การเคลื่อนที่เกิดจาก<b>กล้ามเนื้อหดตัวดันน้ำ</b>ในระบบท่อน้ำ ไม่ใช่แรงดันน้ำที่เกิดขึ้นเอง']]}]
+};
+(function(){
+  var body=document.getElementById('mockBody'); if(!body) return;
+  function draw(set){
+    body.innerHTML=MOCKS[set].map(function(q,qi){
+      return '<div style="margin-bottom:26px"><h4 style="margin-top:0">ข้อ '+q.n+' · '+q.t+
+        ' <span class="pill">'+q.m+'</span></h4>'+
+        q.items.map(function(it,i){
+          var id=set+'-'+qi+'-'+i;
+          return '<div style="margin:12px 0;padding:13px 16px;border:1px solid var(--line);border-radius:10px;background:var(--panel2)">'+
+            '<div style="margin-bottom:9px">'+(q.items.length>1?('<b>'+THAIORD[i]+'.</b> '):'')+it[0]+'</div>'+
+            '<button class="btn sm" type="button" data-r="'+id+'">เฉลย</button>'+
+            '<div class="reveal" id="r-'+id+'" hidden>'+it[1]+'</div></div>';
+        }).join('')+'</div>';
+    }).join('');
+    body.querySelectorAll('[data-r]').forEach(function(b){
+      b.addEventListener('click',function(){
+        var d=document.getElementById('r-'+b.dataset.r);
+        d.hidden=!d.hidden; b.textContent=d.hidden?'เฉลย':'ซ่อนเฉลย';
+      });
+    });
+  }
+  document.querySelectorAll('[data-mock]').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('[data-mock]').forEach(function(x){x.classList.remove('on')});
+      b.classList.add('on'); draw(b.dataset.mock);
+    });
+  });
+  draw('A');
+  /* mock timer, driven by the same total the budget uses */
+  var mt=null,mleft=3600,btn=document.getElementById('mockTimerBtn'),cl=document.getElementById('mockClock');
+  function f(s){return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
+  btn.addEventListener('click',function(){
+    if(mt){clearInterval(mt);mt=null;btn.textContent='▶ จับเวลา';return}
+    mleft=(+document.getElementById('totalMin').value||60)*60;
+    cl.textContent=f(mleft); btn.textContent='■ หยุด';
+    mt=setInterval(function(){
+      mleft--; cl.textContent=f(Math.max(0,mleft));
+      cl.style.color = mleft<300 ? 'var(--no)' : '';
+      if(mleft<=0){clearInterval(mt);mt=null;btn.textContent='▶ จับเวลา'}
+    },1000);
+  });
+})();
+
+/* ================= GLOSSARY ================= */
+var GCMD=[
+ ['จงระบุ / จงบอก','ตอบ<b>ชื่อ</b>สั้น ๆ พอ ไม่ต้องอธิบาย — เขียนยาวไม่ได้คะแนนเพิ่ม เสียเวลาเปล่า'],
+ ['จงอธิบาย','ต้องมี<b>กลไกหรือเหตุผล</b> ไม่ใช่แค่ชื่อ — ถ้าเขียนแค่ชื่อจะได้ไม่เต็ม'],
+ ['จงเปรียบเทียบ','ต้องพูดถึง<b>ทั้งสองฝั่งในประเด็นเดียวกัน</b> เช่น “แท่งไวแสง / กรวยไม่ไวแสง” ไม่ใช่บรรยายทีละตัว'],
+ ['จงยกตัวอย่าง','ต้องมี<b>ชื่อสิ่งมีชีวิตหรือกรณีจริง</b> เช่น “พารามีเซียม” ไม่ใช่ “โพรทิสต์ชนิดหนึ่ง”'],
+ ['พร้อมให้เหตุผล','คะแนนแบ่งเป็น 2 ส่วน — ตอบถูก/ผิดได้ครึ่งหนึ่ง <b>เหตุผลอีกครึ่งหนึ่ง</b> ห้ามข้าม'],
+ ['ข้อใด<b>ไม่</b>ถูกต้อง','กำลังหา<b>ข้อผิด</b> — วงคำว่า “ไม่” ไว้ทุกครั้งที่เจอ นี่คือจุดที่เสียคะแนนเพราะอ่านเร็ว'],
+ ['ข้อใดกล่าวถูกต้อง','กำลังหา<b>ข้อถูก</b> — ตรงข้ามกับข้างบน อ่านให้ช้าลงหนึ่งจังหวะ'],
+ ['วิเคราะห์ว่า ใช่ / ไม่ใช่','ไม่ได้ถามความจำ แต่ถามว่า<b>ข้อสรุปนี้ตามมาจากหลักการหรือเปล่า</b> — ต้องอ้างหลักการในคำตอบ']
+];
+var GTERM=[
+ ['สภาวะตรงกันข้าม <em class="t">antagonism</em>','กล้ามเนื้อ 2 ชุดทำงานสวนกัน ชุดหนึ่ง<b>หด</b> อีกชุด<b>คลาย</b> — คำนี้โผล่แทบทุกหน้าของบทการเคลื่อนที่'],
+ ['หดตัว / คลายตัว','<b>หดตัว = contract</b> · <b>คลายตัว = relax</b> — ตอบต้องบอกทั้งคู่ ไม่ใช่ตัวเดียว'],
+ ['ตึงตัว <em class="t">taut</em> / หย่อนตัว','ใช้กับ<b>เอ็นยึดเลนส์</b> เท่านั้น อย่าใช้คำว่า “หด/คลาย” กับเอ็น'],
+ ['โครงร่างแข็งภายใน <em class="t">endoskeleton</em>','ของสัตว์มีกระดูกสันหลัง'],
+ ['โครงร่างที่ค้ำจุนด้วยของเหลว <em class="t">hydrostatic skeleton</em>','แมงกะพรุน หมึก ไส้เดือนดิน และดาวทะเล (ตอนเคลื่อนที่)'],
+ ['รงควัตถุ <em class="t">pigment</em>','สารสี เช่น โรดอปซิน โฟทอปซิน'],
+ ['เซลล์รับความรู้สึก <em class="t">sensory receptor</em>','เซลล์ที่ตรวจจับสิ่งเร้า'],
+ ['สิ่งเร้า <em class="t">stimulus</em>','สิ่งที่มากระตุ้น เช่น แสง เสียง ความร้อน'],
+ ['เบน','ใช้กับ<b>เซลล์ขน</b> — “เซลล์ขนเกิดการเบน” แปลว่าโค้งเอียงไปจนเกิดกระแสประสาท'],
+ ['การทรงตัว','ความสามารถรักษาสมดุลของร่างกาย — หน้าที่ของหูส่วนใน ไม่ใช่การได้ยิน'],
+ ['ตั้งฉาก','ใช้กับ<b>เซมิเซอร์คิวลาร์แคแนล 3 หลอด</b>'],
+ ['ตามยาว <em class="t">longitudinal</em> / ตามขวาง <em class="t">transverse</em>','ทิศทางการวางตัวของกล้ามเนื้อ · กล้ามเนื้อวงคือ circular หรือ transverse'],
+ ['แนวรัศมี <em class="t">radial</em>','ท่อน้ำแนวรัศมีของดาวทะเล = แยกออกจากวงแหวนเหมือนซี่ล้อ'],
+ ['ปล้อง <em class="t">segment</em>','ของไส้เดือนดิน'],
+ ['รยางค์ <em class="t">appendage</em>','ส่วนที่ยื่นออกจากลำตัว เช่น ขาแมลง'],
+ ['พัดโบก','การโบกไปมาของครีบ ซิเลีย หรือแฟลเจลลัม'],
+ ['คืบคลาน','การเคลื่อนที่แบบหนอน เช่น ไฮดรา พลานาเรีย'],
+ ['ดัชนีหักเหของแสง','คุณสมบัติของ vitreous humor ที่ “สูงมาก”'],
+ ['แอมพลิจูด <em class="t">amplitude</em>','ความสูงของคลื่นเสียง — กระดูก 3 ชิ้นขยายให้ ~22 เท่า'],
+ ['ปฏิกิริยาแบบขั้น <em class="t">grade response</em>','การตอบสนองของเซลล์รับความรู้สึก เกิดเป็น <b>receptor potential</b> ก่อนรวมกันเป็น action potential']
+];
+(function(){
+  function fill(id,arr){
+    var el=document.getElementById(id); if(!el) return;
+    el.innerHTML=arr.map(function(g){
+      return '<div class="gterm"><div class="w">'+g[0]+'</div><div class="m">'+g[1]+'</div></div>';
+    }).join('');
+  }
+  fill('glossCmd',GCMD); fill('glossTerm',GTERM);
+})();
+</script>
