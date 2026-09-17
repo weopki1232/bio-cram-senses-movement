@@ -1,0 +1,2658 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ซ้อมชีวะ ปลายภาค · เคลื่อนที่ + ต่อมไร้ท่อ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+
+<style>
+:root{
+  --bg:#F4F7F5; --panel:#FFFFFF; --panel2:#EDF2EF;
+  --ink:#15211E; --muted:#5B6B67; --line:#DAE3DF;
+  --accent:#0E7C6B; --accent-ink:#FFFFFF;
+  --hum:#2A6C99; --mv:#3A7549; --gl:#8A4A9E; --hr:#BC3F6B; --dis:#A8571A;
+  --ok:#2C7A57; --no:#BC3A2C; --warn:#A8710F;
+  --okbg:#E4F2EA; --nobg:#FBE7E3; --warnbg:#FBF0DC;
+  --shadow:0 1px 2px rgba(20,40,35,.06),0 6px 20px rgba(20,40,35,.06);
+  --r:12px;
+  --f-disp:"Chakra Petch","IBM Plex Sans Thai","Segoe UI",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans Thai","Segoe UI",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1518; --panel:#161F23; --panel2:#1C272C;
+    --ink:#E5EDEA; --muted:#93A5A0; --line:#26333A;
+    --accent:#35C2A8; --accent-ink:#06231E;
+    --hum:#66B1DF; --mv:#71C286; --gl:#C49BE0; --hr:#F2839F; --dis:#E0A05E;
+    --ok:#5FD3A0; --no:#FF8574; --warn:#E8B44E;
+    --okbg:#12312A; --nobg:#3A1E1B; --warnbg:#332714;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 26px rgba(0,0,0,.32);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1518; --panel:#161F23; --panel2:#1C272C;
+  --ink:#E5EDEA; --muted:#93A5A0; --line:#26333A;
+  --accent:#35C2A8; --accent-ink:#06231E;
+  --hum:#66B1DF; --mv:#71C286; --gl:#C49BE0; --hr:#F2839F; --dis:#E0A05E;
+  --ok:#5FD3A0; --no:#FF8574; --warn:#E8B44E;
+  --okbg:#12312A; --nobg:#3A1E1B; --warnbg:#332714;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 26px rgba(0,0,0,.32);
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);
+  font-size:16px;line-height:1.72;-webkit-text-size-adjust:100%}
+h1,h2,h3,h4{font-family:var(--f-disp);font-weight:600;text-wrap:balance;line-height:1.3;margin:0}
+p{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:2.5px solid var(--accent);outline-offset:2px;border-radius:4px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px 120px}
+.masthead{border-bottom:1px solid var(--line);background:var(--panel)}
+.masthead .inner{max-width:1180px;margin:0 auto;padding:34px 20px 28px;
+  display:flex;flex-wrap:wrap;gap:22px;align-items:flex-end;justify-content:space-between}
+.eyebrow{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);display:block;margin-bottom:10px}
+.masthead h1{font-size:clamp(27px,5vw,42px);font-weight:700;letter-spacing:-.01em}
+.masthead .sub{color:var(--muted);font-size:15px;margin-top:8px;max-width:62ch}
+.themebtn{font-family:var(--f-mono);font-size:12px;background:var(--panel2);color:var(--ink);
+  border:1px solid var(--line);border-radius:99px;padding:8px 14px;cursor:pointer}
+.themebtn:hover{border-color:var(--accent)}
+
+nav.topics{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--bg) 92%,transparent);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--line);margin-bottom:40px}
+nav.topics .inner{max-width:1180px;margin:0 auto;padding:10px 20px;
+  display:flex;gap:8px;overflow-x:auto;scrollbar-width:thin}
+nav.topics a{flex:0 0 auto;font-family:var(--f-disp);font-size:13.5px;font-weight:600;
+  text-decoration:none;color:var(--muted);padding:7px 13px;border-radius:99px;
+  border:1px solid transparent;white-space:nowrap}
+nav.topics a:hover{color:var(--ink);background:var(--panel2)}
+nav.topics a .dot{display:inline-block;width:7px;height:7px;border-radius:99px;margin-inline-end:7px;
+  vertical-align:middle;background:currentColor}
+
+section{margin-bottom:72px;scroll-margin-top:70px}
+.sechead{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+  border-top:3px solid var(--hue,var(--accent));padding-top:14px;margin-bottom:8px}
+.sechead h2{font-size:clamp(21px,3.4vw,29px);color:var(--hue,var(--ink))}
+.sechead .tag{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted)}
+.lede{color:var(--muted);max-width:66ch;margin-bottom:24px;font-size:15.5px}
+
+h3{font-size:19px;margin:34px 0 12px;display:flex;align-items:center;gap:10px}
+h3::before{content:"";width:4px;height:19px;background:var(--hue,var(--accent));border-radius:2px;flex:0 0 auto}
+h4{font-size:16px;margin:22px 0 8px;color:var(--ink)}
+.prose{max-width:68ch}
+.prose p+p{margin-top:12px}
+ul.clean{margin:10px 0;padding-inline-start:22px;max-width:70ch}
+ul.clean li{margin:7px 0}
+ol.steps{margin:12px 0;padding-inline-start:22px;max-width:70ch}
+ol.steps li{margin:9px 0}
+b,strong{font-weight:600;color:var(--ink)}
+em.t{font-style:normal;font-family:var(--f-mono);font-size:.9em;color:var(--muted)}
+
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
+  padding:20px 22px;box-shadow:var(--shadow)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:16px;margin:18px 0}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:14px;margin:18px 0}
+.note{background:color-mix(in srgb,var(--hue,var(--accent)) 7%,var(--panel));
+  border:1px solid color-mix(in srgb,var(--hue,var(--accent)) 30%,var(--line));
+  border-radius:var(--r);padding:15px 20px 17px;margin:20px 0;max-width:72ch}
+.note .lbl{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--hue,var(--accent));display:block;margin-bottom:6px}
+.trapbox{--hue:var(--no)}
+.winbox{--hue:var(--ok)}
+.timebox{--hue:var(--warn)}
+
+.tw{overflow-x:auto;margin:18px 0;border:1px solid var(--line);border-radius:var(--r);background:var(--panel)}
+table{border-collapse:collapse;width:100%;min-width:460px;font-size:14.5px}
+th,td{text-align:start;padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{font-family:var(--f-disp);font-weight:600;font-size:13px;background:var(--panel2);
+  color:var(--ink);position:sticky;top:0}
+tbody tr:last-child td{border-bottom:none}
+td.num,th.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono)}
+.yes{color:var(--ok);font-weight:600}
+.non{color:var(--no);font-weight:600}
+table.tight td,table.tight th{padding:8px 12px;font-size:14px}
+
+.figure{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
+  padding:18px;margin:24px 0;box-shadow:var(--shadow)}
+.figscroll{overflow-x:auto}
+.figure svg{display:block;width:100%;height:auto}
+.figcap{font-size:13px;color:var(--muted);margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
+.figtools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.btn{font-family:var(--f-disp);font-weight:600;font-size:13.5px;cursor:pointer;
+  border:1px solid var(--line);background:var(--panel2);color:var(--ink);
+  padding:8px 14px;border-radius:99px}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.sm{font-size:12.5px;padding:6px 11px}
+.btn:disabled{cursor:default;opacity:.55}
+
+.drill{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
+  box-shadow:var(--shadow);padding:22px;margin:22px 0}
+.drillbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+  padding-bottom:14px;margin-bottom:16px;border-bottom:1px solid var(--line)}
+.pill{font-family:var(--f-mono);font-size:11.5px;padding:4px 10px;border-radius:99px;
+  background:var(--panel2);color:var(--muted);border:1px solid var(--line)}
+.q{font-size:17px;line-height:1.68;margin-bottom:16px}
+.qnum{font-family:var(--f-mono);font-size:12px;color:var(--muted);display:block;margin-bottom:8px}
+.answers{display:flex;gap:10px;flex-wrap:wrap}
+.choices{display:grid;gap:9px;margin:4px 0}
+.choices button{font-family:var(--f-body);font-size:15.5px;text-align:start;cursor:pointer;
+  border:1px solid var(--line);background:var(--panel2);color:var(--ink);
+  padding:11px 15px;border-radius:10px;line-height:1.6}
+.choices button:hover{border-color:var(--accent)}
+.choices button .ck{font-family:var(--f-mono);font-weight:500;color:var(--muted);margin-inline-end:9px}
+.choices button.right{background:var(--okbg);border-color:var(--ok)}
+.choices button.wrong{background:var(--nobg);border-color:var(--no)}
+.reveal{margin-top:16px;padding-top:16px;border-top:1px dashed var(--line)}
+.reveal[hidden]{display:none}
+.verdict{font-family:var(--f-disp);font-weight:700;font-size:16px;margin-bottom:10px}
+.verdict.ok{color:var(--ok)} .verdict.no{color:var(--no)}
+.fix{background:var(--okbg);border:1px solid var(--ok);border-radius:10px;padding:12px 15px;margin-top:10px}
+.fix .lbl{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ok);display:block;margin-bottom:4px}
+.score{font-family:var(--f-mono);font-size:13px;color:var(--muted)}
+.bar{height:7px;border-radius:99px;background:var(--panel2);overflow:hidden;margin:12px 0 0}
+.bar i{display:block;height:100%;background:var(--accent);width:0}
+
+.clock{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:18px 0}
+.clock .cell{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:13px 15px}
+.clock .k{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.clock .v{font-family:var(--f-disp);font-weight:700;font-size:25px;font-variant-numeric:tabular-nums;margin-top:3px}
+input[type=number]{font-family:var(--f-mono);font-size:15px;width:88px;padding:8px 10px;
+  border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink)}
+.big{font-family:var(--f-mono);font-size:38px;font-variant-numeric:tabular-nums;font-weight:500}
+.mid{font-family:var(--f-mono);font-size:22px;font-variant-numeric:tabular-nums;font-weight:500}
+
+.paper{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:12px;margin:16px 0}
+.qcard{border:1px solid var(--line);border-radius:10px;padding:13px 15px;background:var(--panel2)}
+.qcard .t{font-family:var(--f-disp);font-weight:600;font-size:14.5px;margin-bottom:5px}
+.qcard .d{font-size:13px;color:var(--muted);line-height:1.55}
+.qcard .marks{display:flex;gap:6px;margin-top:10px}
+.qcard .marks button{flex:1;font-family:var(--f-mono);font-size:15px;padding:5px;cursor:pointer;
+  border:1px solid var(--line);border-radius:7px;background:var(--panel);color:var(--muted)}
+.qcard .marks button.sel{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+
+.gloss{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin:18px 0}
+.gterm{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:13px 16px}
+.gterm .w{font-family:var(--f-disp);font-weight:600;font-size:15.5px}
+.gterm .m{font-size:13.5px;color:var(--muted);margin-top:3px;line-height:1.55}
+
+.sheet{background:var(--panel);border:2px solid var(--hue,var(--accent));border-radius:var(--r);padding:24px}
+.sheet ol{padding-inline-start:20px;margin:0}
+.sheet li{margin:9px 0}
+
+.chain{display:grid;gap:10px;margin:18px 0}
+.chain .row{display:grid;grid-template-columns:minmax(116px,1fr) 18px minmax(116px,1fr) 18px minmax(140px,1.3fr);
+  gap:7px;align-items:center;font-size:14px}
+.chain .b{background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:8px 11px;line-height:1.45}
+.chain .b.h{border-color:var(--gl);background:color-mix(in srgb,var(--gl) 11%,var(--panel))}
+.chain .b.p{border-color:var(--hr);background:color-mix(in srgb,var(--hr) 11%,var(--panel))}
+.chain .ar{text-align:center;color:var(--muted);font-family:var(--f-mono)}
+.chain .hd{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+@media (max-width:700px){
+  .chain .row{grid-template-columns:1fr;gap:4px}
+  .chain .ar{text-align:start;transform:rotate(90deg);width:18px}
+}
+
+.flash{display:grid;place-items:center;min-height:132px;background:var(--panel2);
+  border:1px solid var(--line);border-radius:var(--r);padding:20px;text-align:center}
+.flash .qq{font-family:var(--f-disp);font-weight:600;font-size:19px;line-height:1.5}
+.flash .aa{font-family:var(--f-mono);font-size:30px;font-weight:500;color:var(--accent);margin-top:10px}
+.flash .nn{font-size:14px;color:var(--muted);margin-top:8px;line-height:1.55}
+
+.match{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.match .col{display:grid;gap:8px;align-content:start}
+.match .it{border:1px solid var(--line);background:var(--panel2);border-radius:9px;
+  padding:10px 13px;cursor:pointer;font-size:14.5px;line-height:1.5}
+.match .it:hover{border-color:var(--accent)}
+.match .it.sel{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 14%,var(--panel))}
+.match .it.done{opacity:.42;cursor:default;border-style:dashed}
+.match .hd{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+@media (max-width:560px){.match{grid-template-columns:1fr}}
+
+.xref{background:color-mix(in srgb,var(--accent) 9%,var(--panel));
+  border:1px solid color-mix(in srgb,var(--accent) 35%,var(--line));
+  border-radius:var(--r);padding:14px 18px;margin:0 0 30px;font-size:15px}
+.mockq{margin:0 0 14px;padding:14px 16px;border:1px solid var(--line);
+  border-radius:11px;background:var(--panel)}
+.mockq.flag{border-color:var(--warn);background:color-mix(in srgb,var(--warn) 8%,var(--panel))}
+.mockq .st{font-size:15.5px;line-height:1.62;margin-bottom:10px}
+.mockq .st .no{font-family:var(--f-mono);color:var(--muted);margin-inline-end:8px}
+.mockq .opts{display:grid;gap:6px}
+.mockq .opts label{display:flex;gap:9px;align-items:flex-start;font-size:14.5px;
+  padding:6px 9px;border-radius:8px;cursor:pointer;line-height:1.55}
+.mockq .opts label:hover{background:var(--panel2)}
+.mockq .opts input{margin-top:6px;flex:0 0 auto}
+.mockq .opts label.ok{background:var(--okbg)}
+.mockq .opts label.bad{background:var(--nobg)}
+.mockq .why{margin-top:10px;font-size:14px;color:var(--muted);
+  border-top:1px dashed var(--line);padding-top:9px;line-height:1.6}
+.mockq .why[hidden]{display:none}
+.mockbar{position:sticky;top:52px;z-index:30;background:color-mix(in srgb,var(--bg) 95%,transparent);
+  backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:var(--r);
+  padding:12px 16px;margin:0 0 18px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+
+@media print{
+  nav.topics,.themebtn,.figtools,.btn,.drill,.mockbar{display:none}
+  body{background:#fff;color:#000}
+  section{page-break-inside:avoid}
+}
+@media (max-width:640px){
+  .masthead .inner{padding:24px 20px 20px}
+  .wrap{padding:0 14px 90px}
+  table{min-width:420px}
+}
+</style>
+
+<header class="masthead">
+  <div class="inner">
+    <div>
+      <span class="eyebrow">สอบปลายภาค · ชีวะคิดเร็ว · ปรนัย 60 ข้อ / 60 นาที / 20 คะแนน</span>
+      <h1>ซ้อมชีวะ ปลายภาค</h1>
+      <p class="sub">หน่วยการเคลื่อนที่ของสิ่งมีชีวิต 30 ข้อ + หน่วยระบบต่อมไร้ท่อ 30 ข้อ ·
+        หน้านี้เขียนขึ้นสำหรับ<b>ข้อสอบปรนัย 4 ตัวเลือก ไม่ติดลบ</b> ซึ่งเป็นเกมที่ต่างจากข้อสอบเขียนตอนกลางภาคคนละเรื่อง</p>
+    </div>
+    <button class="themebtn" id="themebtn" type="button">สลับธีม</button>
+  </div>
+</header>
+
+<nav class="topics"><div class="inner">
+  <a href="#plan"><span class="dot"></span>แผนทำข้อสอบ</a>
+  <a href="#human" style="color:var(--hum)"><span class="dot"></span>เคลื่อนที่ของมนุษย์</a>
+  <a href="#mv" style="color:var(--mv)"><span class="dot"></span>ทบทวนเร็ว สัตว์อื่น</a>
+  <a href="#gland" style="color:var(--gl)"><span class="dot"></span>ต่อมไร้ท่อ</a>
+  <a href="#horm" style="color:var(--hr)"><span class="dot"></span>ตารางฮอร์โมน</a>
+  <a href="#dis" style="color:var(--dis)"><span class="dot"></span>โรค</a>
+  <a href="#fb"><span class="dot"></span>ป้อนกลับ</a>
+  <a href="#num"><span class="dot"></span>ตัวเลข</a>
+  <a href="#pair"><span class="dot"></span>จับคู่</a>
+  <a href="#fast"><span class="dot"></span>ปรนัยคิดเร็ว</a>
+  <a href="#mock"><span class="dot"></span>ข้อสอบเสมือน 60 ข้อ</a>
+  <a href="#tq"><span class="dot"></span>คำถามของครู</a>
+  <a href="#gloss"><span class="dot"></span>ศัพท์ข้อสอบ</a>
+  <a href="#sheet"><span class="dot"></span>แผ่นคืนก่อนสอบ</a>
+</div></nav>
+
+<div class="wrap">
+
+<p class="xref">หน้านี้คือ<b>ภาคปลาย</b> · ส่วนตา หู จมูก ลิ้น ผิวหนัง <b>ไม่อยู่ในแนวข้อสอบชุดนี้</b>
+  (แนวบอกไว้แค่ 2 หน่วย รวม 60 ข้อพอดี) ถ้าต้องการทบทวนบทประสาทสัมผัสหรือรูปละเอียดของสัตว์แต่ละกลุ่ม
+  กลับไปหน้า <a href="./index.html">ซ้อมชีวะ สัมผัสและการเคลื่อนที่</a></p>
+
+<!-- ============ PLAN ============ -->
+<section id="plan">
+  <div class="sechead"><h2>แผนทำข้อสอบ</h2><span class="tag">อ่านก่อนทุกอย่าง · 6 นาที</span></div>
+  <p class="lede">ข้อสอบชุดนี้ชื่อ “<b>ชีวะคิดเร็ว</b>” และมันตรงตามชื่อ — 60 ข้อใน 60 นาที คือ
+    <b>1 นาทีต่อข้อเป๊ะ ๆ ไม่มีเวลาเหลือให้คิดยาว</b> สิ่งที่ทำให้เสียคะแนนในกระดาษแบบนี้ไม่ใช่การไม่รู้เนื้อหา
+    แต่เป็นการ<b>ติดอยู่กับข้อยาก</b>จนข้อที่ทำได้อยู่ท้ายกระดาษไม่ได้ทำ — ซึ่งเป็นสิ่งที่เกิดขึ้นจริงกับคุณในข้อสอบเลข 26 ส.ค.</p>
+
+  <h3>เลขที่ต้องรู้ก่อนเข้าห้อง</h3>
+  <div class="clock">
+    <div class="cell"><div class="k">จำนวนข้อ</div><div class="v">60</div></div>
+    <div class="cell"><div class="k">เวลา</div><div class="v">60<span style="font-size:14px;color:var(--muted)"> นาที</span></div></div>
+    <div class="cell"><div class="k">ต่อข้อ</div><div class="v">60<span style="font-size:14px;color:var(--muted)"> วินาที</span></div></div>
+    <div class="cell"><div class="k">ค่าของ 1 ข้อ</div><div class="v">0.33<span style="font-size:14px;color:var(--muted)"> คะแนน</span></div></div>
+    <div class="cell"><div class="k">3 ข้อ =</div><div class="v">1<span style="font-size:14px;color:var(--muted)"> คะแนน</span></div></div>
+  </div>
+  <div class="note timebox"><span class="lbl">ผลที่ตามมาจากเลขข้างบน</span>
+    ถ้าคุณใช้เวลา <b>4 นาที</b> กับข้อยาก 1 ข้อ คุณจ่ายไปด้วย <b>3 ข้อที่ทำได้</b> = <b>1 คะแนนเต็ม ๆ</b>
+    ในข้อสอบปรนัย <b>การยอมทิ้งข้อยากไม่ใช่การยอมแพ้ มันคือวิธีเก็บคะแนน</b>
+    และเพราะ<b>ไม่ติดลบ</b> ข้อที่ทิ้งก็ยังต้องฝนไว้ตอนท้ายอยู่ดี — โอกาสได้ฟรี 25%</div>
+
+  <h3>วิธีทำ 3 รอบ — วิธีเดียวที่ทำให้ 60 ข้อจบใน 60 นาที</h3>
+  <div class="tw"><table>
+    <thead><tr><th style="width:76px">รอบ</th><th style="width:110px">นาทีที่</th><th>ทำอะไร</th><th>กฎเหล็ก</th></tr></thead>
+    <tbody>
+      <tr><td class="num"><b>รอบ 1</b></td><td class="num">0 – 30</td>
+        <td>ไล่ตั้งแต่ข้อ 1 ถึง 60 <b>ทำเฉพาะข้อที่เห็นคำตอบทันที</b> (≤ 30 วินาที)
+          ข้อไหนอ่านจบแล้วยังไม่เห็นคำตอบ <b>วงเลขข้อไว้ ข้ามทันที</b></td>
+        <td><b>ห้ามคิด</b> ข้อที่ไม่ปิ๊งใน 30 วินาที ปิ๊งช้ากว่านั้นก็ไม่คุ้ม
+          เป้าหมายรอบนี้คือ<b>ได้เห็นทั้ง 60 ข้อ</b></td></tr>
+      <tr><td class="num"><b>รอบ 2</b></td><td class="num">30 – 50</td>
+        <td>กลับมาเฉพาะข้อที่วงไว้ ใช้<b>การตัดตัวเลือก</b>ไม่ใช่การนึกคำตอบ</td>
+        <td>ข้อละไม่เกิน <b>90 วินาที</b> เกินแล้วเดา แล้วไปต่อ</td></tr>
+      <tr><td class="num"><b>รอบ 3</b></td><td class="num">50 – 57</td>
+        <td>ข้อที่ยังว่าง <b>ฝนให้ครบทุกข้อ</b> ใช้กฎการเดาข้างล่าง</td>
+        <td>ห้ามมีข้อว่างแม้ข้อเดียว — ว่าง 1 ข้อ = โยนโอกาส 25% ทิ้งฟรี</td></tr>
+      <tr><td class="num"><b>ตรวจ</b></td><td class="num">57 – 60</td>
+        <td>นับจำนวนที่ฝนว่าครบ 60 · เช็กว่า<b>เลขข้อในกระดาษคำตอบไม่เลื่อน</b> · <b>พลิกหน้าสุดท้ายอีกรอบ</b></td>
+        <td>นี่คือจุดที่คุณพลาดซ้ำ ๆ — ทำถูกแล้วแต่ไม่จบขั้นตอนสุดท้าย</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>แบบฝึกที่ 1 · รอบ 1 จำลอง — 60 วินาที</h3>
+  <p class="prose">นี่ไม่ใช่ส่วนให้อ่าน มันคือส่วนให้<b>ทำ</b> ด้านล่างเป็นโจทย์ตัวอย่าง 10 ข้อแบบที่จะเจอจริง
+    กดเริ่มจับเวลา แล้วไล่ให้เครื่องหมายทุกข้อภายใน <b>60 วินาที</b> โดย
+    <b>○ = ตอบได้เลย</b> · <b>△ = ต้องตัดตัวเลือก</b> · <b>✗ = ไม่รู้ ไว้เดา</b>
+    <b>ห้ามหาคำตอบ</b> — ฝึกแค่การตัดสินใจว่าข้อไหนคุ้มทำก่อน</p>
+  <div class="drill">
+    <div class="drillbar">
+      <button class="btn" id="sweepStart" type="button">เริ่มจับเวลา 60 วิ</button>
+      <span class="big" id="sweepClock">1:00</span>
+      <span class="score" id="sweepMsg">ยังไม่เริ่ม</span>
+    </div>
+    <div class="paper" id="sweepPaper"></div>
+    <div id="sweepOut"></div>
+  </div>
+
+  <h3>แบบฝึกที่ 2 · นาฬิกาจุดตรวจ</h3>
+  <p class="prose">คุณเคยไม่มีงบเวลาต่อข้อ แล้วอยู่กับข้อยากเกินจุดที่คุ้ม
+    ในข้อสอบ 60 ข้อจะจำงบทีละข้อไม่ได้ ให้จำเป็น<b>จุดตรวจ</b> 6 จุดแทน
+    ถ้าถึงนาทีนั้นแล้วยังไม่ถึงข้อนั้น แปลว่า<b>ต้องเร่ง ไม่ใช่ต้องคิดให้หนักขึ้น</b></p>
+  <div class="figtools">
+    <label style="font-size:14px;color:var(--muted)">เวลาสอบจริง (นาที)
+      <input type="number" id="totalMin" value="60" min="20" max="180" step="5"></label>
+  </div>
+  <div class="clock" id="budget"></div>
+  <div class="note"><span class="lbl">วิธีใช้ในห้องสอบ</span>
+    เขียนเลข 6 ตัวนี้ไว้มุมกระดาษทดตอนได้รับข้อสอบ แล้วเหลือบนาฬิกาแค่ 6 ครั้ง
+    <b>ไม่ต้องดูนาฬิกาบ่อยกว่านั้น</b> — การดูนาฬิกาทุกข้อทำให้ตื่นตระหนกและคิดเลขพลาด ซึ่งเป็นจุดอ่อนของคุณอยู่แล้ว</div>
+
+  <h3>กฎการเดาสำหรับ 4 ตัวเลือก ไม่ติดลบ</h3>
+  <p class="prose">เดาแบบมีหลักได้มากกว่า 25% จริง ๆ เพราะคนออกข้อสอบเขียนตัวลวงด้วยรูปแบบเดิม ๆ
+    ใช้ตามลำดับนี้ หยุดทันทีที่ตัดเหลือคำตอบเดียว</p>
+  <ol class="steps">
+    <li><b>วงคำว่า “ไม่” ทุกครั้ง</b> — “ข้อใด<b>ไม่</b>ถูกต้อง” คือจุดที่คุณเสียคะแนนเพราะอ่านเร็ว ไม่ใช่เพราะไม่รู้
+      ในกระดาษที่ต้องเร็ว ข้อสอบจะใช้คำนี้เยอะขึ้น</li>
+    <li><b>ตัดตัวเลือกที่มีคำสุดโต่ง</b> — <em class="t">เสมอ / ทุกชนิด / เท่านั้น / ไม่มีเลย / ทันที</em>
+      ชีววิทยาแทบทุกเรื่องมีข้อยกเว้น ตัวเลือกที่พูดแบบไม่มีข้อยกเว้นมักเป็นตัวลวง
+      <span style="color:var(--muted)">(ยกเว้นข้อที่เนื้อหาสอนไว้แบบเด็ดขาดจริง เช่น “กล้ามเนื้อหัวใจอยู่นอกอำนาจจิตใจ”)</span></li>
+    <li><b>ถ้า 2 ตัวเลือกพูดตรงกันข้ามกัน คำตอบมักอยู่ในคู่นั้น</b> — เลิกอ่านอีก 2 ตัว ตัดสินในคู่นี้ ความน่าจะเป็นขึ้นเป็น 50%</li>
+    <li><b>ตัวเลือกที่เจาะจงกว่าและใช้ศัพท์ถูกต้องกว่า มักถูก</b> ในข้อ “ข้อใดกล่าวถูกต้อง”
+      เพราะคนออกข้อสอบเขียนตัวถูกจากเนื้อหาจริง แต่เขียนตัวลวงจากการสลับคำ</li>
+    <li><b>เดาไม่ออกเลย ให้ฝนตัวเดิมทุกครั้ง</b> (เลือกไว้ล่วงหน้า เช่น ข้อ 3)
+      ไม่ใช่เพราะข้อ 3 ถูกบ่อยกว่า แต่เพราะ<b>ไม่ต้องคิด = ไม่เสียเวลา</b> และไม่เผลอฝนซ้ำบรรทัด</li>
+  </ol>
+  <div class="note trapbox"><span class="lbl">กับดักของหน่วยนี้โดยเฉพาะ</span>
+    ตัวลวงของทั้ง 2 หน่วยนี้ทำจาก <b>การสลับคู่</b> เกือบทั้งหมด —
+    สลับ<b>ชื่อต่อมกับฮอร์โมน</b> · สลับ<b>หดกับคลาย</b> · สลับ<b>เพิ่มกับลด</b> ·
+    สลับ<b>ตัวเลข</b> · สลับ<b>ส่วนนอกกับส่วนใน</b> · สลับ<b>ก่อนกับหลัง</b>
+    เพราะฉะนั้นเวลาอ่านตัวเลือก ให้มองหา<b>คู่ที่ถูกสลับ</b> เร็วกว่ามองหาคำตอบที่ถูก
+    ส่วน <b>จับคู่</b> และ <b>ตัวเลข</b> ด้านล่างคือส่วนที่ฝึกเรื่องนี้ตรง ๆ</div>
+
+  <h3>ก่อนส่งกระดาษ — เช็ก 4 อย่างนี้</h3>
+  <div class="grid2">
+    <div class="card"><b>1. ฝนครบ 60 ข้อไหม</b><br>
+      <span style="color:var(--muted)">นับเป็นแถวละ 10 เร็วกว่านับทีละข้อ · ไม่ติดลบ ข้อว่างคือคะแนนที่โยนทิ้งฟรี</span></div>
+    <div class="card"><b>2. เลขข้อเลื่อนไหม</b><br>
+      <span style="color:var(--muted)">ข้ามข้อในรอบ 1 แล้วฝนต่อบรรทัดถัดไป = ผิดทั้งกระดาษ เช็กข้อ 30 กับข้อ 60 ว่าตรงช่อง</span></div>
+    <div class="card"><b>3. ข้อที่วง ✗ ฝนหมดแล้วไหม</b><br>
+      <span style="color:var(--muted)">นี่คือจุดที่คุณ “ทำถูกแต่ไม่จบขั้นตอนสุดท้าย” แบบเดิมกับตอนลืมลบ F(a)</span></div>
+    <div class="card"><b>4. พลิกหน้าสุดท้ายอีกรอบ</b><br>
+      <span style="color:var(--muted)">26 ส.ค. คุณเสียคะแนนจากข้อง่ายที่อยู่หน้าหลังโดยไม่ได้แตะ</span></div>
+  </div>
+</section>
+
+<!-- ============ HUMAN MOVEMENT ============ -->
+<section id="human" style="--hue:var(--hum)">
+  <div class="sechead"><h2>การเคลื่อนที่ของมนุษย์</h2><span class="tag">สไลด์ 09 · 52 หน้า · บทที่ยังไม่เคยซ้อม</span></div>
+  <p class="lede">บทนี้<b>ไม่มีในหน้าซ้อมกลางภาค</b> และมันคือครึ่งหนึ่งของ 30 ข้อฝั่งการเคลื่อนที่
+    จุดที่ออกสอบได้ง่ายที่สุดคือ<b>ตัวเลข</b> (จำนวนกระดูก) <b>ชื่อข้อต่อคู่กับตำแหน่ง</b> และ
+    <b>ซาร์โคเมียร์ว่าแถบไหนแคบลงแถบไหนคงที่</b> — สามอย่างนี้เป็นตัวเลือกปรนัยที่เขียนง่ายที่สุด</p>
+
+  <div class="note"><span class="lbl">ประโยคเปิดบทที่ต้องตอบได้</span>
+    คนเป็นสัตว์มีกระดูกสันหลังที่มี<b>โครงร่างแข็งภายในลำตัว</b> <em class="t">endoskeleton</em> ·
+    การเคลื่อนที่เกิดจาก <b>ระบบโครงกระดูก</b> ทำงานร่วมกับ <b>ระบบกล้ามเนื้อ</b> โดย
+    <b>ระบบกล้ามเนื้อเป็นแหล่งของพลังงาน</b> ที่ทำให้เกิดการเคลื่อนไหว</div>
+
+  <h3>1) ระบบโครงกระดูก — ตัวเลขที่ออกสอบแน่</h3>
+  <div class="tw"><table>
+    <thead><tr><th>กลุ่ม</th><th class="num">จำนวน</th><th>ประกอบด้วย</th></tr></thead>
+    <tbody>
+      <tr><td><b>โครงกระดูกทั้งร่าง</b> <em class="t">ผู้ใหญ่เต็มที่</em></td><td class="num"><b>206 ชิ้น</b></td>
+        <td>แบ่ง 2 กลุ่มใหญ่ <b>ตามตำแหน่งที่อยู่</b></td></tr>
+      <tr><td><b>กระดูกแกน</b> <em class="t">axial skeleton</em></td><td class="num"><b>80 ชิ้น</b></td>
+        <td>อยู่ในแนว<b>กึ่งกลางร่างกาย</b> · กะโหลกศีรษะ <em class="t">skull</em> ·
+          กระดูกสันหลัง <em class="t">vertebral column</em> · กระดูกซี่โครง <em class="t">ribs</em> ·
+          กระดูกหน้าอก <em class="t">sternum</em></td></tr>
+      <tr><td><b>กระดูกรยางค์</b> <em class="t">appendicular skeleton</em></td><td class="num"><b>126 ชิ้น</b></td>
+        <td>กระดูกแขน · กระดูกขา · และที่ยึดเกาะของแขนขา คือ
+          <b>สะบัก</b> <em class="t">scapula</em> · <b>ไหปลาร้า</b> <em class="t">clavicle</em> ·
+          <b>เชิงกราน</b> <em class="t">pelvic girdle</em></td></tr>
+    </tbody>
+  </table></div>
+  <div class="note winbox"><span class="lbl">วิธีจำ 126 ให้ไม่ต้องท่อง</span>
+    แขนข้างละ 30 → <b>60</b> · ขาข้างละ 30 → <b>60</b> · สะบัก <b>2</b> · ไหปลาร้า <b>2</b> · เชิงกราน <b>2</b><br>
+    <b>60 + 60 + 2 + 2 + 2 = 126</b> พอดี · แล้ว <b>206 − 126 = 80</b> คือกระดูกแกน
+    — จำแค่ “แขน 30 ขา 30 ต่อข้าง” ก็ได้เลขที่เหลือทั้งหมด</div>
+
+  <div class="tw"><table class="tight">
+    <thead><tr><th>กระดูกแกน</th><th>รายละเอียดที่ออกเป็นตัวเลือก</th></tr></thead>
+    <tbody>
+      <tr><td><b>กะโหลกศีรษะ</b><br><em class="t">skull</em></td>
+        <td>อยู่<b>บนสุด</b>ของร่างกาย เกิดจากแผ่นกระดูกจำนวนมากเชื่อมรวมกัน แบ่ง 2 กลุ่ม:
+          <b>กระดูกหุ้มสมอง</b> <em class="t">cranial bones</em> ห่อหุ้มสมอง และ
+          <b>กระดูกใบหน้า</b> <em class="t">facial bones</em> อยู่ด้านล่างของ cranial bones ·
+          ภายในเป็น<b>โพรง</b>สำหรับบรรจุสมอง หน้าที่<b>ป้องกันอันตรายให้สมอง</b><br>
+          ▪ ทารกแรกคลอด cranial bones ยึดกันด้วยเนื้อเยื่อ จุดอ่อนนุ่มเรียก <b>ขม่อม</b>
+          <em class="t">fontanelles</em> ทำให้กะโหลก<b>บีบเข้าได้เล็กน้อยขณะคลอด</b> ·
+          หายไปเมื่ออายุ <b>18 เดือน</b><br>
+          ▪ กระดูกใบหน้าเชื่อมติดกันแน่น <b>มีเพียงกระดูกขากรรไกรล่างที่ขยับได้</b>
+          (และเป็น<b>ชิ้นใหญ่ที่สุด</b>ของกระดูกใบหน้า) จึงเคี้ยวอาหารได้</td></tr>
+      <tr><td><b>กระดูกสันหลัง</b><br><em class="t">vertebral column</em></td>
+        <td>กระดูกขนาดเล็ก <b>34 ชิ้น</b> แต่ละชิ้นเรียก <b>vertebra</b>
+          (ส่วนท้าย ๆ เชื่อมรวมกันเป็นชิ้นใหญ่)<br>
+          ▪ ระหว่างกระดูกแต่ละชิ้นมีกระดูกอ่อน <b>fibrocartilage</b> คั่นอยู่ เรียก
+          <b>หมอนรองกระดูก</b> <em class="t">intervertebral disc</em> หน้าที่<b>รองและเชื่อม</b>กระดูกสันหลัง
+          เพื่อ<b>ป้องกันการเสียดสี</b><br>
+          ▪ หมอนรองกระดูกเลื่อนหรือแตก = <b>herniated disk</b> → ปวดรุนแรง เคลื่อนไหวลำบาก<br>
+          ▪ หน้าที่: <b>ถ่ายเทน้ำหนักลำตัวไปที่รยางค์ส่วนล่าง</b> (น้ำหนักมากเกินไปจึงปวดหัวเข่า) ·
+          <b>เป็นแกนค้ำจุนร่างกาย</b> · <b>ห่อหุ้มไขสันหลัง</b> และมีเส้นประสาทไขสันหลังตลอดแนว</td></tr>
+      <tr><td><b>กระดูกซี่โครง</b><br><em class="t">ribs</em></td>
+        <td><b>12 คู่</b> แบ่ง 3 ชุด — ดูตารางถัดไป</td></tr>
+      <tr><td><b>กระดูกหน้าอก</b><br><em class="t">sternum</em></td>
+        <td>มี <b>1 ชิ้น</b> อยู่<b>ด้านหน้า</b> ยึดอยู่กับกระดูกซี่โครง <b>10 คู่</b>
+          (คู่ที่ 11–12 ไม่เชื่อม จึงเหลือ 10)</td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>กระดูกซี่โครง 12 คู่ — ชุดไหนชื่ออะไร</h4>
+  <div class="tw"><table class="tight">
+    <thead><tr><th class="num">คู่ที่</th><th>ชื่อ</th><th>การเชื่อมกับกระดูกอก</th></tr></thead>
+    <tbody>
+      <tr><td class="num"><b>1–7</b></td><td><b>true ribs</b><br><em class="t">vertebrosternal ribs</em></td>
+        <td>เชื่อมกับกระดูกอกด้วยกระดูกอ่อน <b>แยกกันแต่ละคู่</b></td></tr>
+      <tr><td class="num"><b>8–10</b></td><td><b>false ribs</b><br><em class="t">vertebrochondral ribs</em></td>
+        <td>เชื่อมกับกระดูกอกโดยใช้กระดูกอ่อน <b>ร่วมกัน</b></td></tr>
+      <tr><td class="num"><b>11–12</b></td><td><b>ซี่โครงลอย</b><br><em class="t">floating ribs</em></td>
+        <td><b>ไม่เชื่อมกับกระดูกอก</b> เป็นซี่สั้น ๆ · ถ้าถูกกระทบกระเทือน
+          <b>มีโอกาสหักและหลุดไปทิ่มปอด</b></td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>กระดูกรยางค์ — แขนและขา</h4>
+  <div class="grid2">
+    <div class="card"><b>กระดูกแขน</b> <em class="t">arm bone</em> — ข้างละ <b>30</b> ชิ้น รวม <b>60</b>
+      <ul class="clean" style="margin-top:8px">
+        <li><b>ต้นแขน humerus</b> ยึดกับ<b>กระดูกหัวไหล่</b> <em class="t">shoulder girdle</em>
+          = สะบัก <em class="t">scapula</em> + ไหปลาร้า <em class="t">clavicle</em></li>
+        <li>ต้นแขนเป็นที่<b>ยึดเกาะของกล้ามเนื้อไบเซพ</b></li>
+        <li>ปลายแขน: <b>ท่อนใน ulna</b> · <b>ท่อนนอก radius</b></li>
+        <li>ข้อมือ <b>carpals 8</b> · ฝ่ามือ <b>metacarpals 5</b> · นิ้วมือ <b>phalanges 14</b> (ต่อข้าง)</li>
+      </ul>
+      <span style="color:var(--muted);font-size:13.5px">เช็ก: 8 + 5 + 14 = 27 บวก humerus + ulna + radius = <b>30</b> พอดี</span></div>
+    <div class="card"><b>กระดูกขา</b> <em class="t">leg bone</em> — ข้างละ <b>30</b> ชิ้น รวม <b>60</b>
+      <ul class="clean" style="margin-top:8px">
+        <li><b>ต้นขา femur</b> ยึดกับ<b>เชิงกราน</b> <em class="t">pelvic girdle</em> ซึ่ง
+          <b>ป้องกันอวัยวะภายใน</b> เช่น ลำไส้ มดลูก</li>
+        <li><b>กระดูกสะบ้า patella</b> เชื่อมต้นขากับ<b>หน้าแข้ง tibia</b> และ<b>น่อง fibula</b> ·
+          ช่วยให้<b>งอขา เดิน วิ่งได้</b></li>
+        <li>ข้อเท้า <b>tarsals 7</b> · ฝ่าเท้า <b>metatarsals 5</b> · นิ้วเท้า <b>phalanges 14</b> (ต่อข้าง)</li>
+        <li>การเรียงตัวของกระดูกเท้าทำให้เท้าเป็น<b>รูปโค้ง</b> ช่วย<b>ถ่ายน้ำหนักร่างกาย</b></li>
+      </ul>
+      <span style="color:var(--muted);font-size:13.5px">เช็ก: 7 + 5 + 14 = 26 บวก femur + patella + tibia + fibula = <b>30</b> พอดี</span></div>
+  </div>
+  <div class="note trapbox"><span class="lbl">คู่ที่ข้อสอบชอบสลับ</span>
+    <b>ข้อมือ 8 / ข้อเท้า 7</b> — มือมากกว่าเท้า 1 ชิ้น ·
+    <b>ฝ่ามือ 5 / ฝ่าเท้า 5</b> เท่ากัน · <b>นิ้วมือ 14 / นิ้วเท้า 14</b> เท่ากัน ·
+    เลขเดียวที่ต่างกันคือ <b>carpals 8 กับ tarsals 7</b> ถ้าจำได้อันเดียวนี้ ก็ตัดตัวลวงได้หมด</div>
+
+  <h3>2) โครงสร้างภายในกระดูก และกระดูกอ่อน</h3>
+  <div class="tw"><table class="tight">
+    <thead><tr><th>ส่วน</th><th>สาระที่ออกสอบ</th></tr></thead>
+    <tbody>
+      <tr><td><b>เยื่อหุ้มกระดูก</b><br><em class="t">periosteum</em></td>
+        <td>ช่วยให้<b>กล้ามเนื้อและเอ็นยึดติดกับกระดูก</b> · <b>หลอดเลือด</b>ในเยื่อกระดูกลำเลียง
+          อาหารและออกซิเจนไปหล่อเลี้ยงกระดูก · ด้านในมี<b>เซลล์ที่เจริญไปเป็นเซลล์กระดูกได้</b> ·
+          มี<b>เส้นประสาทจำนวนมาก</b> (จึงเจ็บมากเวลากระดูกหัก)</td></tr>
+      <tr><td><b>เนื้อกระดูก</b><br><em class="t">osteocyte</em></td>
+        <td><b>กระดูกเนื้อแน่น</b> <em class="t">compact bone</em> และ
+          <b>กระดูกฟองน้ำ</b> <em class="t">spongy bone</em> · ประกอบด้วย<b>เซลล์กระดูก osteocyte</b>
+          ที่มีหลอดเลือดและเนื้อเยื่อประสาทหล่อเลี้ยง<br>
+          ▪ สารสำคัญในกระดูก = <b>แคลเซียมคาร์บอเนต CaCO₃</b> และ <b>แคลเซียมฟอสเฟต CaPO₄</b></td></tr>
+      <tr><td><b>ไขกระดูก</b><br><em class="t">bone marrow</em></td>
+        <td>ในกระดูกท่อนยาว · <b>วัยเด็ก</b> สร้าง<b>เม็ดเลือดแดง เม็ดเลือดขาว และเพลตเลต</b> ·
+          <b>เมื่อโตแล้ว</b> มี<b>ลิพิดมาสะสม</b> ทำให้สร้างเม็ดเลือดได้<b>น้อยลง</b> ·
+          ส่วนปลายกระดูกเรียก<b>ไขกระดูกแดง</b> ยังสร้างเม็ดเลือดได้<b>มาก</b></td></tr>
+    </tbody>
+  </table></div>
+  <h4>กระดูกอ่อน 3 ชนิด — <span style="font-weight:400;color:var(--muted)">ไม่มีหลอดเลือดหล่อเลี้ยง</span></h4>
+  <div class="tw"><table class="tight">
+    <thead><tr><th>ชนิด</th><th>เส้นใย</th><th>ตัวอย่างตำแหน่ง</th></tr></thead>
+    <tbody>
+      <tr><td><b>ไฮอะลีน</b> <em class="t">hyaline</em></td><td>เส้นใยแทรกอยู่<b>จำนวนน้อย</b></td>
+        <td><b>ผนังกั้นรูจมูก</b></td></tr>
+      <tr><td><b>ไฟโบร</b> <em class="t">fibrocartilage</em></td>
+        <td><b>คอลลาเจนมาก</b> → <b>เหนียวและแข็งแรงมาก</b></td>
+        <td><b>คั่นระหว่างข้อของกระดูกสันหลัง</b> = หมอนรองกระดูก</td></tr>
+      <tr><td><b>อิลาสติก</b> <em class="t">elastic</em></td>
+        <td><b>อิลาสติกมาก</b> → <b>ยืดหยุ่นสูง</b></td><td><b>ใบหู</b></td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>3) ข้อต่อ — ส่วนที่เป็นข้อ “จับคู่” ง่ายที่สุด</h3>
+  <p class="prose"><b>ข้อต่อ</b> <em class="t">joint</em> = ตำแหน่งที่กระดูกแต่ละชิ้นเชื่อมต่อกัน
+    หน้าที่: <b>ต่อกระดูกให้เป็นรูปร่าง</b> · <b>เกี่ยวข้องกับการเคลื่อนไหว</b>โดยทำงานร่วมกับกระดูกและกล้ามเนื้อ ·
+    <b>ป้องกันการเสียดสีระหว่างกระดูก</b> · แบ่งเป็น <b>3 กลุ่มหลัก</b></p>
+  <div class="tw"><table class="tight">
+    <thead><tr><th>กลุ่ม</th><th>ลักษณะ</th><th>ตำแหน่งตัวอย่าง</th></tr></thead>
+    <tbody>
+      <tr><td><b>1. เคลื่อนไหวไม่ได้</b><br><em class="t">immovable / fibrous joint</em></td>
+        <td><b>แข็งแรงมาก</b> ยึดด้วย<b>เนื้อเยื่อเกี่ยวพันที่เป็นพังผืด</b>
+          <em class="t">fibrous connective tissue</em> · รอยต่อหยักคล้ายฟันเรียก <b>suture</b>
+          เชื่อมกันคล้าย<b>ตัวต่อ jigsaw</b></td>
+        <td><b>ข้อต่อกะโหลกศีรษะ</b></td></tr>
+      <tr><td><b>2. เคลื่อนไหวได้เล็กน้อย</b><br><em class="t">slightly movable / amphiarthrotic</em></td>
+        <td>มี<b>กระดูกอ่อน</b>เชื่อมระหว่างกระดูก จึงขยับไปมาได้<b>เล็กน้อย</b></td>
+        <td><b>ซี่โครงกับกระดูกหน้าอก</b> · <b>ระหว่างกระดูกสันหลัง</b></td></tr>
+      <tr><td><b>3. เคลื่อนไหวได้มาก</b><br><em class="t">movable / synovial / diarthrotic</em></td>
+        <td>มี<b>น้ำไขข้อ</b> <em class="t">synovial fluid</em> บรรจุใน
+          <b>joint capsule</b> (articular capsule) เพื่อ<b>ลดการเสียดสี</b>
+          และเคลื่อนไหวได้สะดวกโดยไม่เจ็บปวด<br>
+          ▪ <b>ผู้สูงอายุ</b> น้ำไขข้อ<b>ลดลง</b> + กระดูกอ่อนบริเวณข้อต่อ<b>เสื่อม</b>
+          → ปวดตามข้อ เช่น เข่า สะโพก ข้อเท้า</td>
+        <td>มี <b>6 ชนิดย่อย</b> — ตารางถัดไป</td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>ข้อต่อที่เคลื่อนไหวได้ 6 ชนิด — ท่องเป็นคู่ “ชนิด ↔ ตำแหน่ง”</h4>
+  <div class="tw"><table class="tight">
+    <thead><tr><th>ชนิด</th><th>เคลื่อนไหวแบบไหน</th><th>ตำแหน่ง</th></tr></thead>
+    <tbody>
+      <tr><td><b>บานพับ</b><br><em class="t">hinge joint</em></td>
+        <td>เหมือน<b>บานพับประตู</b> → <b>งอเข้า / เหยียดออก</b></td>
+        <td><b>ข้อศอก</b> · <b>ข้อเข่า</b></td></tr>
+      <tr><td><b>ลูกกลมในเบ้ากระดูก</b><br><em class="t">ball and socket</em></td>
+        <td><b>เหวี่ยงได้รอบทิศ 360°</b> · <b>อิสระในการเคลื่อนไหวสูงสุด</b></td>
+        <td><b>หัวไหล่</b> (ต้นแขน–สะบัก) · <b>สะโพก</b> (ต้นขา–เชิงกราน)</td></tr>
+      <tr><td><b>เลื่อน / สไลด์</b><br><em class="t">gliding joint</em></td>
+        <td>เป็น<b>แผ่นแบนเรียงกัน</b> → <b>งอหรือบิดได้</b></td>
+        <td><b>ข้อมือ</b> · <b>ข้อเท้า</b> · <b>กระดูกสันหลัง</b></td></tr>
+      <tr><td><b>อานม้า</b><br><em class="t">saddle joint</em></td>
+        <td><b>โค้งนูนและเว้าสอดคล้องกันพอดี</b> → งอนิ้วมือได้</td>
+        <td><b>ฝ่ามือกับนิ้วหัวแม่มือ</b></td></tr>
+      <tr><td><b>เดือย / หมุน</b><br><em class="t">pivot / rotary joint</em></td>
+        <td><b>หมุนตามแกนของเดือย</b> รับกับกระดูกอีกชิ้น</td>
+        <td><b>ต้นคอกับฐานกะโหลกศีรษะ</b></td></tr>
+      <tr><td><b>ปุ่ม</b><br><em class="t">condyloid joint</em></td>
+        <td>คล้ายลูกกลมในเบ้า แต่<b>จำกัดการเคลื่อนไหวด้านใดด้านหนึ่ง</b></td>
+        <td><b>ฝ่ามือกับนิ้วมือ</b></td></tr>
+    </tbody>
+  </table></div>
+  <div class="note trapbox"><span class="lbl">จุดที่สไลด์เองขัดกัน — ต้องรู้ไว้ก่อนเข้าห้อง</span>
+    สไลด์เขียน <b>“ข้อต่อระหว่างกระดูกสันหลัง”</b> ไว้ <b>2 ที่</b> — ทั้งใน
+    <b>ข้อต่อที่เคลื่อนไหวได้เล็กน้อย</b> (หน้า 20) และใน <b>gliding joint</b> (หน้า 23)<br>
+    <b>วิธีตอบ:</b> ถ้าตัวเลือกถามว่ากระดูกสันหลังเป็นข้อต่อ<b>กลุ่มใหญ่</b>ไหน ตอบ
+    <b>เคลื่อนไหวได้เล็กน้อย</b> (เพราะมีกระดูกอ่อน fibrocartilage คั่น = นิยามของกลุ่มนี้ตรงตัว) ·
+    ถ้าตัวเลือกให้เลือกใน<b>ชนิดย่อยของ synovial joint</b> ตอบ <b>gliding</b> ตามที่สไลด์ระบุ<br>
+    <b>ควรถามครูให้ชัดก่อนสอบ</b> ถ้ามีโอกาส — เพราะถ้าออกข้อนี้ คำตอบขึ้นกับว่าครูยึดหน้าไหน</div>
+
+  <h3>4) ระบบกล้ามเนื้อ 3 ชนิด — ตารางที่ออกสอบบ่อยที่สุดของบทนี้</h3>
+  <div class="tw"><table>
+    <thead><tr><th>หัวข้อ</th><th>กล้ามเนื้อหัวใจ<br><em class="t">cardiac</em></th>
+      <th>กล้ามเนื้อเรียบ<br><em class="t">smooth</em></th>
+      <th>กล้ามเนื้อโครงร่าง<br><em class="t">skeletal / striated</em></th></tr></thead>
+    <tbody>
+      <tr><td><b>พบที่</b></td><td>หัวใจ<b>โดยเฉพาะ</b></td>
+        <td><b>อวัยวะภายใน</b> — ผนังกระเพาะอาหาร ผนังลำไส้ ผนังหลอดเลือด <b>ม่านตา</b></td>
+        <td><b>เกาะติดกับกระดูก</b> เช่น กล้ามเนื้อแขน ขา</td></tr>
+      <tr><td><b>รูปร่างเซลล์</b></td><td><b>ทรงกระบอก ปลายแตกแขนง</b>เชื่อมกับเซลล์ข้างเคียง</td>
+        <td><b>ยาว หัวท้ายแหลม คล้ายรูปกระสวย</b></td><td><b>ทรงกระบอกยาว</b></td></tr>
+      <tr><td><b>นิวเคลียส</b></td><td><b>1 นิวเคลียส</b>/เซลล์</td>
+        <td><b>1 นิวเคลียส อยู่ตรงกลางเซลล์</b></td><td><b>หลายนิวเคลียส</b></td></tr>
+      <tr><td><b>ลาย</b></td><td><b>มีลาย</b> (เป็นแถบลายเหมือนกล้ามเนื้อยึดกระดูก)</td>
+        <td><b>ไม่มีลาย</b></td><td><b>มีลาย</b> — แถบสีอ่อนสลับสีเข้ม</td></tr>
+      <tr><td><b>อำนาจจิตใจ</b></td><td><b>นอกอำนาจจิตใจ</b> · หด-คลาย<b>ตลอดเวลา</b></td>
+        <td><b>นอกอำนาจจิตใจ</b></td><td><b>อยู่ในอำนาจจิตใจ</b> บังคับได้</td></tr>
+      <tr><td><b>ระบบประสาทที่ควบคุม</b></td><td><b>อัตโนวัติ</b> <em class="t">autonomic</em></td>
+        <td><b>อัตโนวัติ</b> <em class="t">autonomic</em></td>
+        <td><b>โซมาติก</b> <em class="t">somatic</em></td></tr>
+      <tr><td><b>จุดพิเศษ</b></td><td><b>ไมโทคอนเดรียจำนวนมาก</b> เพราะต้องการพลังงานปริมาณมาก</td>
+        <td>—</td><td>ทำหน้าที่<b>เกี่ยวกับการเคลื่อนไหวของร่างกายโดยตรง</b></td></tr>
+    </tbody>
+  </table></div>
+  <div class="note trapbox"><span class="lbl">3 ตัวลวงที่สร้างจากตารางนี้</span>
+    ① <b>“กล้ามเนื้อเรียบมีหลายนิวเคลียส”</b> ผิด — ที่หลายนิวเคลียสคือ<b>โครงร่าง</b> ·
+    ② <b>“กล้ามเนื้อหัวใจไม่มีลาย”</b> ผิด — หัวใจ<b>มีลาย</b> ที่ไม่มีลายคือ<b>เรียบ</b> ·
+    ③ <b>“กล้ามเนื้อโครงร่างควบคุมโดยระบบประสาทอัตโนวัติ”</b> ผิด — โครงร่างคือ<b>โซมาติก</b>
+    มีแค่หัวใจกับเรียบที่เป็นอัตโนวัติ</div>
+
+  <h3>5) การทำงานเป็นคู่ตรงข้าม และเอ็น 2 ชนิด</h3>
+  <p class="prose">กล้ามเนื้อโครงร่างทำงาน<b>เป็นคู่แบบสภาวะตรงกันข้าม</b> เรียก <b>antagonism</b></p>
+  <div class="tw"><table class="tight">
+    <thead><tr><th>ท่า</th><th>ไบเซพ <em class="t">bicep</em></th><th>ไตรเซพ <em class="t">tricep</em></th></tr></thead>
+    <tbody>
+      <tr><td><b>แขนงอเข้า</b></td><td class="yes"><b>หดตัว</b> <em class="t">contracts</em></td>
+        <td class="non"><b>คลายตัว</b> <em class="t">relaxes</em></td></tr>
+      <tr><td><b>แขนเหยียดออก</b></td><td class="non"><b>คลายตัว</b></td><td class="yes"><b>หดตัว</b></td></tr>
+    </tbody>
+  </table></div>
+  <div class="grid2">
+    <div class="card" style="--hue:var(--hum)"><b>เอ็นยึดกระดูก</b> <em class="t">tendon</em><br>
+      <span style="color:var(--muted)">เนื้อเยื่อเกี่ยวพันที่<b>เหนียว แข็งแรง ทนแรงดึง</b> อยู่<b>ระหว่างกล้ามเนื้อกับกระดูก</b> ·
+      เมื่อกล้ามเนื้อหดตัวจึงเกิด<b>แรงดึงให้กระดูกทั้งท่อนเคลื่อนไหว</b><br>
+      ▪ <b>เอ็นร้อยหวาย</b> <em class="t">Achilles tendon</em> = เอ็นระหว่าง<b>กล้ามเนื้อน่อง</b>กับ
+      <b>กระดูกส้นเท้า</b> — เป็น <b>tendon ชนิดหนึ่ง</b></span></div>
+    <div class="card" style="--hue:var(--hum)"><b>เอ็นยึดข้อ</b> <em class="t">ligament</em><br>
+      <span style="color:var(--muted)">เนื้อเยื่อเกี่ยวพันที่<b>เหนียวและทนทาน</b> ยึด<b>กระดูกกับกระดูก</b>
+      ให้เชื่อมติดต่อกัน ทำหน้าที่เป็น<b>โครงร่างค้ำจุนร่างกาย</b>
+      ทำให้กระดูก<b>ทำงานสัมพันธ์กัน</b>ในการเคลื่อนไหว</span></div>
+  </div>
+  <div class="note winbox"><span class="lbl">จำแบบไม่สลับ</span>
+    <b>ten</b>don → <b>“ตึงกล้าม”</b> กล้ามเนื้อ↔กระดูก · <b>liga</b>ment → <b>“ล็อกข้อ”</b> กระดูก↔กระดูก<br>
+    เหมือนกันคือ: เป็น<b>เนื้อเยื่อเกี่ยวพัน</b>ทั้งคู่ · <b>เหนียว แข็งแรง ทนแรงดึง</b>ทั้งคู่ ·
+    ต่างกันที่<b>สิ่งที่มันเชื่อม</b> เท่านั้น</div>
+
+  <h3>6) ลำดับการจัดระเบียบของกล้ามเนื้อโครงร่าง</h3>
+  <div class="figure" style="--hue:var(--hum)">
+    <div class="chain">
+      <div class="row"><div class="b h"><b>กล้ามเนื้อ</b><br><em class="t">bicep</em></div><div class="ar">›</div>
+        <div class="b"><b>มัดกล้ามเนื้อ</b><br><em class="t">fascicle / muscular bundle</em></div><div class="ar">›</div>
+        <div class="b"><b>เซลล์/เส้นใยกล้ามเนื้อ</b><br><em class="t">muscle fiber</em></div></div>
+      <div class="row"><div class="b"><b>เส้นใยกล้ามเนื้อเล็ก</b><br><em class="t">myofibril</em></div><div class="ar">›</div>
+        <div class="b"><b>ไมโครฟิลาเมนท์</b><br><em class="t">microfilament</em></div><div class="ar">›</div>
+        <div class="b p"><b>ซาร์โคเมียร์</b><br><em class="t">sarcomere = หน่วยย่อยซ้ำ ๆ</em></div></div>
+    </div>
+    <div class="figcap">ท่องจากใหญ่ไปเล็ก: <b>กล้ามเนื้อ → มัด → เซลล์ → myofibril → microfilament</b>
+      แล้ว microfilament ทั้ง 2 ชนิดเรียงตัวซ้ำ ๆ เป็นหน่วยย่อยชื่อ <b>sarcomere</b></div>
+  </div>
+  <div class="tw"><table class="tight">
+    <thead><tr><th>ไมโครฟิลาเมนท์</th><th>โปรตีนหลัก</th><th>รายละเอียด</th></tr></thead>
+    <tbody>
+      <tr><td><b>เส้นหนา</b> <em class="t">thick filament</em></td><td><b>ไมโอซิน myosin</b></td>
+        <td>เรียงเป็นมัดยาว มี<b>ส่วนหัวยื่นออกมาเป็นระยะ</b> · โมเลกุล = โปรตีน <b>2 สายพันเป็นเกลียว</b>
+          ปลายข้างหนึ่งแยกออกและขมวดเป็นรูปกลม จึงมี <b>2 หัว</b> ·
+          บริเวณหัวมีเอนไซม์ <b>ATPase</b> สลาย <b>ATP</b> เอาพลังงานมาใช้หดตัว</td></tr>
+      <tr><td><b>เส้นบาง</b> <em class="t">thin filament</em></td><td><b>แอกทิน actin</b></td>
+        <td>เรียงเป็น<b>สายยาว 2 สายพันเป็นเกลียว</b> · มี <b>โทรโปไมโอซิน tropomyosin</b>
+          (สายสั้น) แทรกในร่องเกลียว · ที่ปลาย tropomyosin มี <b>โทรโปนิน troponin</b> ติดอยู่ ·
+          แต่ละช่วงเกลียวมี tropomyosin <b>1</b> โมเลกุล และ troponin <b>1</b> โมเลกุล</td></tr>
+    </tbody>
+  </table></div>
+  <p class="prose" style="color:var(--muted)">แอกทินและไมโอซิน<b>เรียงตัวในแนวขนาน</b>
+    จึงมองเห็นเส้นใยกล้ามเนื้อ<b>มีลาย</b> <em class="t">striated pattern</em>
+    เป็นแถบสีอ่อนสลับแถบสีเข้มตลอด</p>
+
+  <h3>7) ซาร์โคเมียร์ — แถบไหนแคบลง แถบไหนคงที่</h3>
+  <p class="prose">นี่คือข้อที่<b>ออกสอบชัวร์ที่สุด</b>ของบทนี้ และเป็นข้อที่คนตอบผิดเยอะที่สุด
+    กดปุ่มสลับสถานะดูให้เห็นด้วยตาว่าอะไรเปลี่ยนอะไรไม่เปลี่ยน</p>
+  <div class="figure" style="--hue:var(--hum)">
+    <div class="figtools">
+      <button class="btn on" id="sarcoRelax" type="button">คลายตัว</button>
+      <button class="btn" id="sarcoContract" type="button">หดตัว</button>
+      <span class="score" id="sarcoState">สถานะ: คลายตัว</span>
+    </div>
+    <div class="figscroll"><div id="sarcoFig"></div></div>
+    <div class="figcap">ไมโอซิน (แท่งหนาสีเข้ม) <b>อยู่กับที่</b> · แอกทิน (เส้นบาง) <b>เลื่อนเข้าหากึ่งกลาง</b>
+      ดึง <b>Z line</b> เข้ามา → ซาร์โคเมียร์<b>แคบลง</b></div>
+  </div>
+  <div class="tw"><table class="tight">
+    <thead><tr><th>บริเวณ</th><th>มีโปรตีนอะไร</th><th class="num">ตอนกล้ามเนื้อหดตัว</th></tr></thead>
+    <tbody>
+      <tr><td><b>Z line</b></td><td>บริเวณที่<b>กั้นแยกระหว่าง sarcomere</b></td>
+        <td><b>ถูกดึงเข้าหากึ่งกลาง</b></td></tr>
+      <tr><td><b>I band</b></td><td>พบ<b>เฉพาะแอกทินอย่างเดียว</b> เห็นเป็น<b>แถบบาง</b></td>
+        <td class="non"><b>แคบลง</b></td></tr>
+      <tr><td><b>A band</b></td><td>บริเวณของ<b>ไมโอซินทั้งหมด</b> ซึ่ง<b>อาจมีแอกทินเหลื่อมอยู่</b></td>
+        <td class="yes"><b>คงที่</b> ← ตัวลวงอยู่ตรงนี้</td></tr>
+      <tr><td><b>H zone</b></td><td>พบ<b>เฉพาะไมโอซินเท่านั้น ไม่พบแอกทิน</b></td>
+        <td class="non"><b>แคบลง</b></td></tr>
+      <tr><td><b>M line</b></td><td><b>กึ่งกลาง</b>ของแต่ละซาร์โคเมียร์</td><td>อยู่กึ่งกลางเสมอ</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note winbox"><span class="lbl">ประโยคเดียวที่ต้องจำ</span>
+    <b>“I กับ H แคบลง · A คงที่ · ซาร์โคเมียร์สั้นลง”</b><br>
+    เหตุผล: A band คือความยาวของ<b>ไมโอซิน</b> และไมโอซิน<b>ไม่ขยับ</b> ความยาวมันจึงไม่เปลี่ยน ·
+    ส่วน I และ H คือ<b>ช่องว่างที่แอกทินยังไม่เหลื่อมเข้าไป</b> เมื่อแอกทินเลื่อนเข้ามา ช่องว่างก็ลดลง</div>
+
+  <h3>8) กลไกการหดตัว — sliding filament</h3>
+  <div class="note"><span class="lbl">สมมติฐาน</span>
+    <b>ฮิว ฮักซ์เลย์ และ จีน แฮนสัน</b> <em class="t">Hugh Huxley &amp; Jean Hanson</em> เสนอ
+    <b>sliding filament hypothesis</b> ว่า “การหดตัวของกล้ามเนื้อเกิดจาก<b>การเลื่อนตัวของแอกทินเข้าหากัน
+    บริเวณตรงกลาง</b> ซึ่งต้องอาศัย <b>ATP</b> และ <b>แคลเซียม</b>”</div>
+  <h4>วงจรของหัวไมโอซิน 5 ขั้น</h4>
+  <ol class="steps">
+    <li>ส่วนหัวของไมโอซิน <em class="t">myosin head</em> <b>จับกับ ATP</b> → อยู่ในสภาพ<b>พลังงานต่ำ</b></li>
+    <li><b>ATP สลายเป็น ADP + Pi</b> → <b>ปล่อยพลังงานออกมา</b></li>
+    <li>พลังงานทำให้ <b>myosin head ยกสูงขึ้น</b> อยู่ในสภาพ<b>พลังงานสูง</b>
+      เข้าไปจับแอกทินที่ <b>myosin-binding site</b> เกิดเป็น <b>crossbridge</b></li>
+    <li><b>ADP และ Pi หลุดออกไป</b> → head กลับมาสภาพ<b>พลังงานต่ำ</b> ·
+      การเปลี่ยนรูปร่างนี้คือสิ่งที่<b>ทำให้แอกทินเลื่อนเข้าหากัน</b></li>
+    <li><b>ATP โมเลกุลใหม่เข้ามาจับ</b> → <b>myosin head หลุดออกจากแอกทิน</b> กลับมาอยู่ในสภาพเดิม</li>
+  </ol>
+  <h4>ตัวกระตุ้นจากเซลล์ประสาท</h4>
+  <div class="chain">
+    <div class="row"><div class="b h"><b>เซลล์ประสาทสั่งการ</b><br><em class="t">motor neuron</em></div><div class="ar">›</div>
+      <div class="b"><b>หลั่ง acetylcholine</b><br><em class="t">สารสื่อประสาท</em></div><div class="ar">›</div>
+      <div class="b"><b>เซลล์กล้ามเนื้อโครงร่าง</b></div></div>
+    <div class="row"><div class="b"><b>ปล่อย Ca²⁺ มากขึ้น</b><br><em class="t">จาก SR</em></div><div class="ar">›</div>
+      <div class="b"><b>Ca²⁺ ช่วยให้ myosin head<br>จับ myosin binding site ได้</b></div><div class="ar">›</div>
+      <div class="b p"><b>กล้ามเนื้อหดตัว</b></div></div>
+  </div>
+  <ul class="clean">
+    <li><b>SR = ซาร์โคพลาสมิกเรติคิวลัม</b> <em class="t">sarcoplasmic reticulum</em> —
+      คือ <b>SER</b> ที่อยู่ในเซลล์กล้ามเนื้อ (ชื่อเรียกเฉพาะของกล้ามเนื้อ)</li>
+    <li><b>ในสภาวะปกติ myosin head จับ myosin binding site บนแอกทินไม่ได้</b> ·
+      <b>Ca²⁺ เป็นตัวที่ทำให้จับกันได้</b></li>
+    <li>สรุป: การหดตัวต้องมี<b>ทั้ง Ca²⁺ และ ATP</b> จึงจะสมบูรณ์</li>
+    <li><b>การหดตัวใช้พลังงาน</b> แต่ <b>การคลายตัวไม่ใช้พลังงาน</b>
+      เพราะเกิดขึ้นเองจาก<b>ความยืดหยุ่นของกล้ามเนื้อ</b> ← ตัวลวงยอดนิยม</li>
+  </ul>
+</section>
+
+<!-- ============ MOVEMENT QUICK REVIEW ============ -->
+<section id="mv" style="--hue:var(--mv)">
+  <div class="sechead"><h2>ทบทวนเร็ว · การเคลื่อนที่ของสัตว์อื่น</h2><span class="tag">สไลด์ 06–08 · ซ้อมละเอียดแล้วในหน้าแรก</span></div>
+  <p class="lede">ส่วนนี้คุณซ้อมมาแล้วทั้งบทในหน้า <a href="./index.html">ซ้อมชีวะ สัมผัสและการเคลื่อนที่</a>
+    (มีแผนภาพกดตอบ + คลังกับดัก 65 ข้อ) ที่วางไว้ตรงนี้คือ<b>ตารางกวาดสายตา</b>
+    สำหรับอ่านรอบสุดท้าย ไม่ใช่การสอนใหม่ — ถ้าตารางนี้ตอบได้หมด ข้ามไปฝั่งต่อมไร้ท่อเลย</p>
+  <div class="tw"><table class="tight">
+    <thead><tr><th>สิ่งมีชีวิต</th><th>ใช้อะไรเคลื่อนที่</th><th>จุดที่ออกเป็นตัวลวง</th></tr></thead>
+    <tbody>
+      <tr><td><b>อะมีบา</b></td><td><b>ตีนเทียม</b> <em class="t">pseudopodium</em></td>
+        <td><b>ไม่มีโครงสร้างเฉพาะสำหรับเคลื่อนที่</b> · <b>ectoplasm = ชั้นนอก เป็นเจล</b> ·
+          <b>endoplasm = ชั้นใน เป็นซอล</b> · แอกทินรวมตัว = ซอล→เจล</td></tr>
+      <tr><td><b>พารามีเซียม</b></td><td><b>ซิเลีย</b> <em class="t">cilia</em></td>
+        <td>สลับกับยูกลีนาบ่อยที่สุด</td></tr>
+      <tr><td><b>ยูกลีนา</b></td><td><b>แฟลเจลลัม</b> <em class="t">flagellum</em></td>
+        <td>flagellum เคลื่อนแบบ<b>คลื่น</b> · cilia แบบ<b>พัดโบกคล้ายใบพาย</b></td></tr>
+      <tr><td colspan="3" style="background:var(--panel2)"><b>แกนซิเลีย/แฟลเจลลัม = 9 + 2</b>
+        (9 กลุ่ม <b>กลุ่มละ 2 หลอด</b> + แกนกลาง 2 = 20 หลอด) ·
+        <b>เบซัลบอดี = 9 + 0</b> (9 กลุ่ม <b>กลุ่มละ 3 หลอด</b> + <b>ไม่มีแกนกลาง</b> = 27 หลอด) ·
+        โปรตีนที่ทำให้โค้งงอ = <b>ไดนีน</b> · <b>ตัดเบซัลบอดีออก → เคลื่อนไหวไม่ได้</b></td></tr>
+      <tr><td><b>แมงกะพรุน / หมึก</b></td><td><b>พ่นน้ำ</b> <em class="t">jet propulsion</em></td>
+        <td>เคลื่อนที่<b>ทิศตรงข้ามกับน้ำที่พ่นออก</b> · หมึกพ่นทาง<b>ไซฟอน</b></td></tr>
+      <tr><td><b>ดาวทะเล</b></td><td><b>ระบบท่อน้ำ</b> <em class="t">water vascular system</em></td>
+        <td>เรียงให้ถูก: <b>madreporite → stone canal → ring canal → radial canal → ampulla → tube feet</b> ·
+          <b>ampulla หดตัว → tube feet ยืดออก</b></td></tr>
+      <tr><td><b>พลานาเรีย</b></td><td>กล้ามเนื้อ <b>3 ชนิด</b> (วง ตามยาว ทแยง)</td>
+        <td>ตัวที่มีกล้ามเนื้อ<b>ทแยง</b></td></tr>
+      <tr><td><b>ไส้เดือนดิน</b></td><td>กล้ามเนื้อ <b>2 ชุด</b> (วง + ตามยาว) + <b>เดือย setae</b></td>
+        <td>ปล้อง<b>สั้นป่อง</b> = วง<b>คลาย</b> + ตามยาว<b>หด</b> · เกิด <b>peristalsis</b> บังคับทิศทางได้</td></tr>
+      <tr><td><b>หนอนตัวกลม</b></td><td>กล้ามเนื้อ <b>ชุดเดียว</b> (ตามยาว)</td>
+        <td>ได้แค่<b>สะบัดตัวไปมา บังคับทิศทางไม่ได้</b></td></tr>
+      <tr><td><b>แมลง (บิน)</b></td><td>กล้ามเนื้อ <b>2 ชุด</b> ยึดกับ<b>เปลือกหุ้มอก</b></td>
+        <td><b>ไม่ได้ยึดกับปีกโดยตรง</b> (<b>ยกเว้นแมลงปอ</b>) ·
+          <b>vertical หด → ปีกขึ้น</b> · <b>ตามยาวหด → ปีกลง</b></td></tr>
+      <tr><td><b>แมลง (เดิน)</b></td><td><b>flexor / extensor</b></td>
+        <td><b>งอขา = flexor หด</b> · <b>เหยียดขา = extensor หด</b></td></tr>
+      <tr><td><b>ปลา</b></td><td>ครีบ + การโบกลำตัว</td>
+        <td><b>ครีบคู่</b> (อก, สะโพก) = <b>พยุงตัว ขึ้น-ลงแนวดิ่ง</b> ·
+          <b>ครีบเดี่ยว</b> (หลัง, หาง) = <b>พัดโบกให้ไปข้างหน้า</b> ·
+          <b>กระเพาะลมอยู่ในปลากระดูกแข็ง</b></td></tr>
+      <tr><td><b>นก</b></td><td>กล้ามเนื้อยกปีก / กดปีก</td>
+        <td><b>ทั้งสองมัดเกาะที่ keel of sternum</b> · ยกปีกหด → ปีกขึ้น · กดปีกหด → ปีกลง ·
+          <b>ความดันใต้ปีกสูงกว่าด้านบน</b> · หายใจ<b>เข้า 2 ออก 2</b> ต่อ 1 รอบ</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ ENDOCRINE OVERVIEW ============ -->
+<section id="gland" style="--hue:var(--gl)">
+  <div class="sechead"><h2>ระบบต่อมไร้ท่อ · ภาพรวม</h2><span class="tag">สไลด์ 10 · 24 หน้า · 30 ข้อครึ่งกระดาษ</span></div>
+  <p class="lede">หน่วยนี้<b>ไม่มีในหน้าซ้อมเดิมเลยแม้แต่บรรทัดเดียว</b> และมันคือ <b>30 ข้อ = ครึ่งกระดาษ</b>
+    ข่าวดีคือบทนี้เป็นบทที่ปรนัยออกได้แค่ไม่กี่แบบ: <b>ต่อมไหนสร้างฮอร์โมนอะไร</b> ·
+    <b>ฮอร์โมนนี้ทำอะไร</b> · <b>ขาดหรือเกินแล้วเป็นโรคอะไร</b> · <b>ป้อนกลับแบบไหน</b>
+    ถ้าคุมสี่คำถามนี้ได้ คุณคุมครึ่งกระดาษ</p>
+
+  <h3>1) ระบบประสาท vs ระบบต่อมไร้ท่อ — ตารางเปิดบท ออกสอบแน่</h3>
+  <div class="tw"><table>
+    <thead><tr><th>ข้อเปรียบเทียบ</th><th>ระบบประสาท</th><th>ระบบต่อมไร้ท่อ</th></tr></thead>
+    <tbody>
+      <tr><td><b>รูปแบบการสื่อสาร</b></td><td><b>กระแสไฟฟ้าและสารเคมี</b></td><td><b>สารเคมี (ฮอร์โมน)</b></td></tr>
+      <tr><td><b>ความเร็วในการตอบสนอง</b></td><td>ตอบสนองต่อสิ่งเร้า<b>อย่างรวดเร็ว</b></td>
+        <td>ตอบสนองต่อสิ่งเร้า<b>ช้า</b></td></tr>
+      <tr><td><b>ระยะเวลาในการตอบสนอง</b></td><td>ตอบสนองเป็นระยะเวลา<b>สั้น</b></td>
+        <td>ตอบสนองเป็นระยะเวลา<b>นานกว่า</b></td></tr>
+      <tr><td><b>สารเคมีที่ใช้สื่อสาร</b></td><td><b>สารสื่อประสาท</b> <em class="t">neurotransmitter</em></td>
+        <td><b>ฮอร์โมน</b> <em class="t">hormone</em></td></tr>
+    </tbody>
+  </table></div>
+  <div class="note trapbox"><span class="lbl">ข้อเท็จจริงเล็ก ๆ ที่ออกสอบได้ทันที</span>
+    <b>ฮอร์โมนพบได้ทั้งในพืชและสัตว์</b> · <b>สารสื่อประสาทพบได้เฉพาะสัตว์เท่านั้น</b>
+    — ประโยคนี้อยู่ในกรอบ “รู้หรือไม่” ของสไลด์ ซึ่งเป็นที่โปรดของคนออกข้อสอบ</div>
+
+  <h3>2) ไฮโพทาลามัส — ตัวเชื่อม 2 ระบบ</h3>
+  <ul class="clean">
+    <li><b>ไฮโพทาลามัส</b> เป็น<b>สมองส่วนหน้า</b> อยู่<b>ติดกับต่อมใต้สมอง</b> ·
+      เป็น<b>ตัวเชื่อมการทำงานระหว่างระบบประสาทกับระบบต่อมไร้ท่อ</b> ตั้งแต่ระยะ<b>เอ็มบริโอ</b></li>
+    <li>หน้าที่: สร้างและหลั่ง<b>ฮอร์โมนประสาท</b>มาควบคุม<b>การหลั่งฮอร์โมนของต่อมใต้สมอง</b> ·
+      ควบคุม<b>การเต้นของหัวใจและความดันเลือด</b> ·
+      ควบคุม<b>ความต้องการพื้นฐาน</b> เช่น <b>น้ำ อาหาร การพักผ่อน</b></li>
+  </ul>
+  <div class="tw"><table class="tight">
+    <thead><tr><th>สารที่ไฮโพทาลามัสสร้าง</th><th>สร้างจาก / ไปที่ไหน</th><th>ตัวอย่าง</th></tr></thead>
+    <tbody>
+      <tr><td><b>1. สารสื่อประสาท</b><br><em class="t">neurotransmitter</em></td>
+        <td>ถ่ายทอด<b>กระแสประสาทจากเซลล์หนึ่งไปอีกเซลล์หนึ่ง</b></td>
+        <td><b>acetylcholine · endorphin · norepinephrine</b></td></tr>
+      <tr><td><b>2. ฮอร์โมนประสาท</b><br><em class="t">neurohormone</em></td>
+        <td>สร้างจาก<b>เซลล์นิวโรซิครีทอรี</b> <em class="t">neurosecretory cell</em> ·
+          <b>ลำเลียงโดยหลอดเลือด</b>ไปควบคุม<b>ต่อมใต้สมองส่วนหน้า</b></td>
+        <td><b>ฮอร์โมนกระตุ้น</b> <em class="t">releasing hormone</em> เช่น TRH ·
+          <b>ฮอร์โมนยับยั้ง</b> <em class="t">inhibitor hormone</em> เช่น TIH</td></tr>
+      <tr><td><b>3. เก็บไว้ที่ปลายแอกซอน</b></td>
+        <td>เซลล์นิวโรซิครีทอรีมี<b>ปลายแอกซอนอยู่ในต่อมใต้สมองส่วนหลัง</b></td>
+        <td><b>ADH</b> และ <b>oxytocin</b></td></tr>
+    </tbody>
+  </table></div>
+  <div class="note trapbox"><span class="lbl">กับดักที่โดนกันทุกปี</span>
+    <b>ADH และ oxytocin สร้างที่ “ไฮโพทาลามัส” แต่หลั่งออกที่ “ต่อมใต้สมองส่วนหลัง”</b><br>
+    ตัวเลือกที่บอกว่า “ต่อมใต้สมองส่วนหลังสร้าง ADH” — <b>ผิด</b> มันแค่<b>เก็บและหลั่ง</b>
+    เพราะต่อมใต้สมองส่วนหลังประกอบขึ้นจาก<b>กลุ่มแอกซอน</b>ที่มีตัวเซลล์อยู่ในไฮโพทาลามัส</div>
+
+  <h3>3) ต่อมไร้ท่อ vs ต่อมมีท่อ · จำเป็น vs ไม่จำเป็น</h3>
+  <div class="grid2">
+    <div class="card" style="--hue:var(--gl)"><b>ต่อมไร้ท่อ</b> <em class="t">endocrine gland</em><br>
+      <span style="color:var(--muted)"><b>ไม่มีท่อ</b>สำหรับลำเลียงสาร · ลำเลียงผ่าน<b>ระบบหมุนเวียนเลือด</b><br>
+      เช่น <b>ต่อมใต้สมอง ต่อมหมวกไต</b></span></div>
+    <div class="card" style="--hue:var(--gl)"><b>ต่อมมีท่อ</b> <em class="t">exocrine gland</em><br>
+      <span style="color:var(--muted)"><b>มีท่อ</b>ลำเลียงสารที่ต่อมสร้างขึ้น<br>
+      เช่น <b>ต่อมน้ำตา ต่อมน้ำลาย ต่อมเหงื่อ ต่อมน้ำเลี้ยงอสุจิ</b></span></div>
+  </div>
+  <div class="tw"><table class="tight">
+    <thead><tr><th>กลุ่ม</th><th>ถ้าร่างกายขาด</th><th>ได้แก่</th></tr></thead>
+    <tbody>
+      <tr><td><b>ต่อมไร้ท่อจำเป็น</b><br><em class="t">essential</em></td>
+        <td class="non"><b>เสียชีวิตในทันที</b></td>
+        <td><b>ต่อมพาราไทรอยด์</b> · <b>ต่อมหมวกไตส่วนนอก</b> · <b>ตับอ่อน</b></td></tr>
+      <tr><td><b>ต่อมไร้ท่อไม่จำเป็น</b><br><em class="t">nonessential</em></td>
+        <td><b>ไม่เสียชีวิตทันที</b> แต่เกิดความผิดปกติและเสียชีวิตได้ในภายหลัง</td>
+        <td><b>ต่อมใต้สมอง</b> · <b>ต่อมหมวกไตส่วนใน</b> · <b>ต่อมไทรอยด์</b> · และต่อมอื่น ๆ</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note winbox"><span class="lbl">วิธีจำ “จำเป็น 3 ต่อม”</span>
+    <b>พารา – นอก – ตับอ่อน</b> → “<b>พา</b>คน<b>นอก</b>ไปกิน<b>ตับอ่อน</b>”<br>
+    สังเกตคู่ตรงข้ามที่ข้อสอบชอบสลับ: <b>หมวกไตส่วนนอก = จำเป็น</b> แต่ <b>ส่วนใน = ไม่จำเป็น</b>
+    และ <b>ไทรอยด์ = ไม่จำเป็น</b> ทั้งที่เป็นต่อมใหญ่สุด</div>
+
+  <h3>4) แกนไฮโพทาลามัส → ต่อมใต้สมองส่วนหน้า → อวัยวะเป้าหมาย</h3>
+  <p class="prose">นี่คือแผนภาพที่ต้องวาดในหัวให้ได้ ข้อสอบปรนัยจะตัดมาถามทีละช่อง เช่น
+    “TRH กระตุ้นการหลั่งฮอร์โมนใด” หรือ “ฮอร์โมนใดมีอวัยวะเป้าหมายเป็นต่อมน้ำนม”</p>
+  <div class="figure" style="--hue:var(--gl)">
+    <div class="chain">
+      <div class="row"><div class="hd">จากไฮโพทาลามัส</div><div class="ar"></div>
+        <div class="hd">จากต่อมใต้สมองส่วนหน้า</div><div class="ar"></div><div class="hd">อวัยวะเป้าหมาย</div></div>
+      <div class="row"><div class="b h"><b>GnRH</b></div><div class="ar">›</div>
+        <div class="b p"><b>Gn</b> = <b>FSH + LH</b></div><div class="ar">›</div>
+        <div class="b"><b>รังไข่ และ อัณฑะ</b> → สร้างฮอร์โมนเพศ</div></div>
+      <div class="row"><div class="b h"><b>TRH</b></div><div class="ar">›</div>
+        <div class="b p"><b>TSH</b></div><div class="ar">›</div>
+        <div class="b"><b>ต่อมไทรอยด์</b> → หลั่งไทรอกซิน</div></div>
+      <div class="row"><div class="b h"><b>CRH</b></div><div class="ar">›</div>
+        <div class="b p"><b>ACTH</b></div><div class="ar">›</div>
+        <div class="b"><b>ต่อมหมวกไตส่วนนอก</b> → หลั่งกลูโคคอร์ทิคอยด์ + มิเนราโลคอร์ทิคอยด์</div></div>
+      <div class="row"><div class="b h"><b>GHRH</b> (กระตุ้น)<br><b>GHIH</b> (ยับยั้ง)</div><div class="ar">›</div>
+        <div class="b p"><b>GH</b></div><div class="ar">›</div>
+        <div class="b"><b>เซลล์ต่าง ๆ ทั่วร่างกาย</b></div></div>
+      <div class="row"><div class="b h"><b>PIH</b> = <b>dopamine</b> (ยับยั้ง)</div><div class="ar">›</div>
+        <div class="b p"><b>prolactin</b></div><div class="ar">›</div>
+        <div class="b"><b>ต่อมน้ำนม</b></div></div>
+    </div>
+    <div class="figcap">ฮอร์โมนจากไฮโพทาลามัสลงท้าย <b>-RH</b> = <b>releasing</b> กระตุ้น ·
+      ลงท้าย <b>-IH</b> = <b>inhibiting</b> ยับยั้ง · มีเพียง <b>2 ตัวที่ยับยั้ง</b> คือ <b>GHIH</b> และ <b>PIH</b></div>
+  </div>
+  <div class="note"><span class="lbl">คำถามในสไลด์ที่ต้องตอบได้</span>
+    <b>“ต่อมไร้ท่อใดที่ไม่ถูกควบคุมโดยต่อมใต้สมองส่วนหน้า”</b> →
+    ดูจากแผนภาพข้างบน ต่อมใต้สมองส่วนหน้าคุมแค่ <b>รังไข่/อัณฑะ · ไทรอยด์ · หมวกไตส่วนนอก · ต่อมน้ำนม</b>
+    (และเซลล์ทั่วร่างกายผ่าน GH)<br>
+    ดังนั้นที่<b>ไม่ถูกควบคุม</b> ได้แก่ <b>ต่อมพาราไทรอยด์ · ตับอ่อน · ต่อมหมวกไตส่วนใน · ต่อมไพเนียล · ต่อมไทมัส</b><br>
+    <span style="color:var(--muted)">สังเกตว่า <b>ต่อมหมวกไตส่วนในถูกควบคุมโดยระบบประสาทซิมพาเทติก</b> ไม่ใช่ฮอร์โมน — เป็นตัวลวงที่ดีมาก</span></div>
+
+  <h3>5) ฮอร์โมนแบ่งตามโครงสร้างทางเคมี และการละลาย</h3>
+  <div class="tw"><table>
+    <thead><tr><th>กลุ่มฮอร์โมน</th><th>ตัวอย่าง</th><th>สมบัติการละลาย</th></tr></thead>
+    <tbody>
+      <tr><td><b>1. เพปไทด์หรือโปรตีน</b></td>
+        <td><b>FSH · LH · TRH · GH · ADH · insulin</b></td><td class="yes"><b>ละลายในน้ำ</b></td></tr>
+      <tr><td rowspan="2"><b>2. เอมีน</b><br><em class="t">อนุพันธ์ของกรดอะมิโนหรือกรดไขมัน</em></td>
+        <td><b>epinephrine · norepinephrine</b></td><td class="yes"><b>ละลายในน้ำ</b></td></tr>
+      <tr><td><b>ไทรอยด์ฮอร์โมน</b></td><td class="non"><b>ละลายในลิพิด</b></td></tr>
+      <tr><td rowspan="2"><b>3. สเตอรอยด์</b><br><em class="t">สังเคราะห์มาจากคอเลสเตอรอล</em></td>
+        <td><b>ฮอร์โมนเพศ</b> — estrogen · testosterone · progesterone</td>
+        <td class="non"><b>ละลายในลิพิด</b></td></tr>
+      <tr><td><b>ฮอร์โมนจากต่อมหมวกไตส่วนนอก</b> — cortisol · aldosterone</td>
+        <td class="non"><b>ละลายในลิพิด</b></td></tr>
+    </tbody>
+  </table></div>
+  <div class="note trapbox"><span class="lbl">ตัวประหลาดที่ต้องจำแยก</span>
+    <b>ไทรอยด์ฮอร์โมนเป็นกลุ่มเอมีน แต่ละลายในลิพิด</b> — เอมีนตัวอื่น (epinephrine, norepinephrine)
+    ละลายน้ำ มีไทรอยด์ตัวเดียวที่แปลกออกไป นี่คือข้อที่ข้อสอบชอบดักที่สุดในตารางนี้</div>
+
+  <h3>6) การออกฤทธิ์ต่อเซลล์เป้าหมาย</h3>
+  <div class="tw"><table>
+    <thead><tr><th>ประเภทฮอร์โมน</th><th>การลำเลียงในเลือด</th><th>ตัวรับ</th><th>ความเร็ว</th></tr></thead>
+    <tbody>
+      <tr><td><b>ขนาดใหญ่ + ละลายน้ำได้ดี</b></td><td><b>ลำเลียงผ่านกระแสเลือดโดยตรง</b></td>
+        <td><b>ตัวรับบนเยื่อหุ้มเซลล์</b> <em class="t">membrane receptor</em>
+          แล้วส่งสัญญาณต่อเข้าไปในเซลล์ <em class="t">signal transduction</em></td>
+        <td class="yes"><b>เร็วกว่า</b></td></tr>
+      <tr><td><b>ขนาดเล็ก + ละลายในไขมันได้ดี</b><br>
+          <em class="t">steroid hormone, thyroxine</em></td>
+        <td><b>มีโปรตีนช่วยลำเลียง</b>ในกระแสเลือด</td>
+        <td><b>แพร่ผ่าน phospholipid bilayer</b> เข้าไปจับ<b>ตัวรับภายในเซลล์</b>
+          <em class="t">intracellular receptor</em> — ในไซโทพลาซึม ไมโทคอนเดรีย หรือนิวเคลียส</td>
+        <td class="non"><b>ช้ากว่า</b></td></tr>
+    </tbody>
+  </table></div>
+  <ul class="clean">
+    <li>ฮอร์โมนจับกับตัวรับ<b>อย่างจำเพาะ</b> เปรียบเหมือน<b>ลูกกุญแจกับแม่กุญแจ</b> ·
+      <b>เซลล์ที่ไม่ใช่เซลล์เป้าหมายจะไม่มีตัวรับ</b> ฮอร์โมนจึงออกฤทธิ์ไม่ได้</li>
+    <li><b>ฮอร์โมนชนิดเดียวกันมีผลต่ออวัยวะเป้าหมายได้หลายชนิด</b> และตอบสนองต่างกัน — ตัวอย่างในตารางถัดไป</li>
+  </ul>
+  <div class="tw"><table class="tight">
+    <thead><tr><th>insulin จับที่</th><th>ออกฤทธิ์อย่างไร</th></tr></thead>
+    <tbody>
+      <tr><td><b>เซลล์ตับ</b></td><td><b>ยับยั้งการสร้างกลูโคส</b> และ<b>กระตุ้นการสร้างไกลโคเจน</b></td></tr>
+      <tr><td><b>เซลล์กล้ามเนื้อโครงร่าง</b></td>
+        <td>นำกลูโคสไป<b>ใช้เป็นพลังงาน</b> หรือ<b>เก็บสะสมในรูปไกลโคเจน</b></td></tr>
+      <tr><td><b>เซลล์ไขมัน</b></td><td>นำกลูโคสไปใช้<b>สังเคราะห์ลิพิด</b></td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>7) ฮอร์โมน vs ฟีโรโมน</h3>
+  <div class="tw"><table>
+    <thead><tr><th>ข้อเปรียบเทียบ</th><th>ฮอร์โมน</th><th>ฟีโรโมน <em class="t">pheromone</em></th></tr></thead>
+    <tbody>
+      <tr><td><b>ประเภทสารเคมี</b></td><td><b>โปรตีน เอมีน และสเตอรอยด์</b></td>
+        <td><b>ลิพิดที่มีโมเลกุลสั้น</b></td></tr>
+      <tr><td><b>แหล่งผลิต</b></td><td><b>ต่อมไร้ท่อ</b></td><td><b>ต่อมมีท่อ</b></td></tr>
+      <tr><td><b>การหลั่ง</b></td><td>หลั่งและ<b>หมุนเวียนภายในร่างกาย</b></td>
+        <td>หลั่ง<b>ออกสู่นอกร่างกาย</b></td></tr>
+      <tr><td><b>การแสดงผล</b></td><td><b>ส่งผลต่อตัวสัตว์เอง</b></td>
+        <td><b>ไม่ส่งผลต่อตัวเอง</b> แต่ส่งผลต่อ<b>สัตว์ตัวอื่นในสปีชีส์เดียวกัน</b>
+          ทำให้เกิดการเปลี่ยนแปลงทาง<b>สรีระและพฤติกรรม</b></td></tr>
+    </tbody>
+  </table></div>
+  <p class="prose" style="color:var(--muted)">ฟีโรโมนจัดเป็น<b>การสื่อสารด้วยสารเคมี</b>
+    <em class="t">chemical communication</em></p>
+</section>
+
+<!-- ============ HORMONE TABLES ============ -->
+<section id="horm" style="--hue:var(--hr)">
+  <div class="sechead"><h2>ตารางฮอร์โมนหลัก</h2><span class="tag">สไลด์ 11–12 · นี่คือพิมพ์เขียวของข้อสอบ</span></div>
+  <p class="lede">สไลด์ 12 จบด้วย<b>ตารางสรุปบทบาทของฮอร์โมนทั้งหมด</b> — ตารางนั้นคือ
+    <b>คลังข้อสอบปรนัยสำเร็จรูป</b> เพราะทุกช่องของมันแปลงเป็นตัวเลือกได้ทันที
+    ข้างล่างคือตารางเดียวกันจัดใหม่ตาม<b>กลุ่มการทำงาน 5 กลุ่ม</b> ตามที่สไลด์แบ่งไว้</p>
+
+  <h3>กลุ่ม 1 · ฮอร์โมนที่ควบคุมการสร้างและหลั่งฮอร์โมนชนิดอื่น</h3>
+  <div class="tw"><table>
+    <thead><tr><th>ฮอร์โมน</th><th>สร้างจาก</th><th>อวัยวะเป้าหมาย</th><th>หน้าที่ / ถ้าผิดปกติ</th></tr></thead>
+    <tbody>
+      <tr><td><b>GnRH</b></td><td>ไฮโพทาลามัส</td><td>ต่อมใต้สมองส่วนหน้า</td>
+        <td>ควบคุมการสร้างและหลั่ง <b>Gn</b> · <b>ถ้าขาด</b> รังไข่และอัณฑะสร้างฮอร์โมนเพศได้น้อย</td></tr>
+      <tr><td><b>TRH</b></td><td>ไฮโพทาลามัส</td><td>ต่อมใต้สมองส่วนหน้า</td>
+        <td>กระตุ้นการหลั่ง <b>TSH</b> · <b>ถ้ามากเกิน</b> → TSH กระตุ้นไทรอยด์ตลอดเวลา
+          → ต่อมไทรอยด์ขยายผิดปกติ เกิด<b>คอพอกเป็นพิษ</b></td></tr>
+      <tr><td><b>CRH</b></td><td>ไฮโพทาลามัส</td><td>ต่อมใต้สมองส่วนหน้า</td>
+        <td>กระตุ้นการหลั่ง <b>ACTH</b> · <b>ถ้าขาด</b> หมวกไตส่วนนอกหลั่งฮอร์โมนได้น้อย</td></tr>
+      <tr><td><b>GHRH</b></td><td>ไฮโพทาลามัส</td><td>ต่อมใต้สมองส่วนหน้า</td>
+        <td><b>กระตุ้น</b> GH · <b>ถ้ามากเกิน</b> → GH มาก → ร่างกายสูงผิดปกติ</td></tr>
+      <tr><td><b>GHIH</b></td><td>ไฮโพทาลามัส</td><td>ต่อมใต้สมองส่วนหน้า</td>
+        <td><b>ยับยั้ง</b> GH · <b>ถ้ามากเกิน</b> → GH น้อย → เตี้ยแคระ</td></tr>
+      <tr><td><b>PIH</b> = <b>dopamine</b></td><td>ไฮโพทาลามัส</td><td>ต่อมใต้สมองส่วนหน้า</td>
+        <td><b>ยับยั้ง</b> prolactin · <b>ถ้าขาด</b> ต่อมน้ำนมสร้างน้ำนมได้น้อย</td></tr>
+      <tr><td><b>Gn</b> = <b>FSH + LH</b></td><td>ต่อมใต้สมองส่วนหน้า</td><td>รังไข่ · อัณฑะ</td>
+        <td>กระตุ้นให้<b>สร้างฮอร์โมนเพศ</b> — รายละเอียดในกลุ่ม 3</td></tr>
+      <tr><td><b>TSH</b></td><td>ต่อมใต้สมองส่วนหน้า</td><td>ต่อมไทรอยด์</td>
+        <td>กระตุ้นการหลั่ง<b>ไทรอกซิน</b> · <b>ถ้ามากเกิน</b> ต่อมไทรอยด์โต เป็น<b>โรคคอพอก</b></td></tr>
+      <tr><td><b>ACTH</b></td><td>ต่อมใต้สมองส่วนหน้า</td><td>ต่อมหมวกไตส่วนนอก</td>
+        <td>กระตุ้นการหลั่ง<b>กลูโคคอร์ทิคอยด์และมิเนราโลคอร์ทิคอยด์</b></td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>กลุ่ม 2 · ฮอร์โมนที่เกี่ยวกับเมแทบอลิซึม</h3>
+  <h4>2.1 ต่อมไทรอยด์ — ต่อมไร้ท่อที่ใหญ่ที่สุดในร่างกาย</h4>
+  <ul class="clean">
+    <li>ตำแหน่ง: <b>ลำคอ ติดกับกล่องเสียง</b> · รูปร่าง<b>คล้ายผีเสื้อกางปีก</b> หรือ<b>ตัว H</b> ·
+      เป็น<b>พู 2 พู</b>เชื่อมกัน · มี<b>หลอดเลือดฝอยหล่อเลี้ยงจำนวนมาก</b></li>
+    <li>ภายในประกอบด้วย <b>ไทรอยด์ฟอลลิเคิล</b> <em class="t">thyroid follicle</em> จำนวนมาก
+      ล้อมรอบด้วย <b>follicular cell</b> ซึ่งเป็นเนื้อเยื่อบุผิว
+      <b>simple cuboidal epithelium</b> (เรียงตัว<b>ชั้นเดียว</b>)</li>
+    <li>ของเหลวใน follicle เป็น<b>คอลลอยด์</b>จากโปรตีน <b>thyroglobulin</b></li>
+  </ul>
+  <div class="tw"><table class="tight">
+    <thead><tr><th>ฮอร์โมน</th><th>สร้างจากเซลล์</th><th>สาระ</th></tr></thead>
+    <tbody>
+      <tr><td><b>ไทรอกซิน T4</b></td><td rowspan="2"><b>follicular cell</b></td>
+        <td><b>ไอโอดีน 4 อะตอม</b> เกาะกับกรดอะมิโน <b>tyrosine</b> ·
+          <b>พบมากในกระแสเลือด</b> แต่เมื่อถึงอวัยวะเป้าหมายจะ<b>เปลี่ยนกลับเป็น T3</b></td></tr>
+      <tr><td><b>T3</b> <em class="t">triiodothyronine</em></td>
+        <td><b>ไอโอดีน 3 อะตอม</b> · เป็นฮอร์โมนที่ <b>active มากกว่า</b></td></tr>
+      <tr><td><b>แคลซิโทนิน</b><br><em class="t">calcitonin</em></td>
+        <td><b>C-cell</b> หรือ <b>parafollicular cell</b></td>
+        <td>ควบคุมระดับ <b>Ca²⁺</b> ในเลือดให้เข้าสู่ระดับปกติ — รายละเอียดในกลุ่ม 4</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note"><span class="lbl">หน้าที่ของ T3 / T4 — กระตุ้นเมแทบอลิซึม</span>
+    ▪ ร่างกาย<b>ใช้แก๊สออกซิเจนเพิ่มขึ้น</b> (เร่งปฏิกิริยาออกซิเดชันใน<b>วัฏจักรเครปส์</b>
+    ในไมโทคอนเดรีย) · ▪ <b>กระตุ้นอัตราการเต้นของหัวใจและเพิ่มความดันเลือด</b> ·
+    ▪ กระตุ้นเมแทบอลิซึมของ<b>คาร์โบไฮเดรต ลิพิด และโปรตีน</b> ·
+    ▪ ในมนุษย์ยังควบคุม<b>การเจริญเติบโตของร่างกายและการเจริญของสมอง</b></div>
+
+  <h4>2.2 ต่อมหมวกไต — <em class="t">suprarenal gland</em> รูปสามเหลี่ยม อยู่เหนือไตทั้ง 2 ข้าง</h4>
+  <div class="tw"><table>
+    <thead><tr><th>ส่วน</th><th>ฮอร์โมน</th><th>หน้าที่ · จุดที่ออกสอบ</th></tr></thead>
+    <tbody>
+      <tr><td rowspan="3"><b>ส่วนนอก</b><br><em class="t">adrenal cortex</em><br>
+          <span style="font-size:13px;color:var(--muted)">เจริญมาจากเนื้อเยื่อชั้นกลาง
+          <b>mesoderm</b> · สร้างสเตอรอยด์<b>มากกว่า 50 ชนิด</b></span></td>
+        <td><b>กลูโคคอร์ติคอยด์</b><br><em class="t">glucocorticoids</em><br>
+          = cortisol, cortisone, corticosterone</td>
+        <td>ควบคุมเมแทบอลิซึมของ<b>คาร์โบไฮเดรต โปรตีน ไขมัน</b> ·
+          กระตุ้นตับเปลี่ยน<b>กรดอะมิโนและกรดไขมันเป็นคาร์โบไฮเดรต</b>เก็บเป็นไกลโคเจน และ
+          เปลี่ยน<b>ไกลโคเจนเป็นกลูโคส</b> → <b>น้ำตาลในเลือดเพิ่มขึ้น</b>
+          ซึ่ง<b>ตรงกันข้ามกับอินซูลิน</b><br>
+          ▪ หลั่งมากเมื่อ<b>เครียดเป็นเวลานาน</b> <em class="t">long-term stress</em><br>
+          ▪ <b>ยับยั้งการอักเสบ</b> และ <b>กดภูมิคุ้มกัน</b> → พักผ่อนน้อย เครียด → ติดเชื้อง่าย</td></tr>
+      <tr><td><b>มิเนราโลคอร์ติคอยด์</b><br><em class="t">mineralocorticoids</em><br>
+          = <b>แอลโดสเทอโรน aldosterone</b></td>
+        <td>ควบคุม<b>แร่ธาตุให้เข้มข้นคงที่</b> · ที่<b>ท่อหน่วยไต</b>
+          <b>ดูดกลับน้ำและ Na⁺</b> เข้าหลอดเลือด และ<b>ขับ K⁺ ออก</b> ·
+          ดูดกลับ Na⁺ มาก → น้ำถูกดูดกลับมาก → <b>ความดันเลือดเพิ่มขึ้น</b></td></tr>
+      <tr><td><b>ฮอร์โมนเพศ</b><br><em class="t">androgens</em></td>
+        <td>สร้าง androgen ของ<b>ทั้งเพศชายและเพศหญิง</b> · ในเพศชาย<b>ปริมาณน้อย</b>เมื่อเทียบกับอัณฑะ ·
+          เพศหญิงก็สร้าง <b>estrogen</b> จากต่อมนี้ได้ แต่<b>น้อยกว่ารังไข่</b></td></tr>
+      <tr><td><b>ส่วนใน</b><br><em class="t">adrenal medulla</em></td>
+        <td><b>เอพิเนฟริน</b> <em class="t">epinephrine / adrenaline</em><br>
+          <b>นอร์เอพิเนฟริน</b> <em class="t">norepinephrine / noradrenaline</em><br>
+          <span style="font-size:13px;color:var(--muted)">อนุพันธ์ของกรดอะมิโน tyrosine</span></td>
+        <td><b>ถูกควบคุมโดยระบบประสาท โดยเฉพาะซิมพาเทติก</b> ไม่ใช่โดยต่อมใต้สมอง ·
+          ใช้ตอบสนอง<b>ความเครียดระยะสั้น</b> <em class="t">short-term stress</em><br>
+          ▪ ออกฤทธิ์<b>เหมือนกัน</b> (<b>norepinephrine ออกฤทธิ์น้อยกว่า</b>) ·
+          <b>กระตุ้นการสลายไกลโคเจน</b> → น้ำตาลในเลือดเพิ่ม ·
+          <b>หัวใจเต้นเร็ว ความดันเลือดเพิ่ม</b><br>
+          ▪ <b>คลายตัว</b>กล้ามเนื้อเรียบของอาร์เทอรีเล็กที่<b>หัวใจและกล้ามเนื้อโครงร่าง</b> ·
+          <b>หดตัว</b>ที่<b>ทางเดินอาหาร</b></td></tr>
+    </tbody>
+  </table></div>
+  <div class="note winbox"><span class="lbl">คำตอบของคำถามในสไลด์ — เอพิเนฟริน vs กลูโคคอร์ติคอยด์</span>
+    <b>เหมือนกัน:</b> ทั้งคู่ทำให้<b>ระดับน้ำตาลในเลือดเพิ่มขึ้น</b><br>
+    <b>ต่างกัน:</b> <b>เอพิเนฟริน</b> เพิ่มโดย<b>สลายไกลโคเจน</b> ตอบสนอง<b>เครียดระยะสั้น</b>
+    ควบคุมโดย<b>ประสาทซิมพาเทติก</b> ·
+    <b>กลูโคคอร์ติคอยด์</b> เพิ่มโดย<b>เปลี่ยนกรดอะมิโนและกรดไขมันเป็นคาร์โบไฮเดรต</b>
+    ตอบสนอง<b>เครียดระยะยาว</b> ควบคุมโดย <b>ACTH</b></div>
+
+  <h4>2.3 ตับอ่อน — เป็นทั้งต่อมมีท่อและต่อมไร้ท่อ</h4>
+  <div class="tw"><table class="tight">
+    <thead><tr><th>ส่วน</th><th>กลุ่มเซลล์</th><th>สร้างอะไร</th></tr></thead>
+    <tbody>
+      <tr><td><b>ต่อมมีท่อ</b><br><em class="t">pancreatic acini</em></td>
+        <td><b>เซลล์แอซินาร์</b> <em class="t">acinar cell</em></td>
+        <td><b>เอนไซม์ย่อยอาหาร</b> ลำเลียงไปที่<b>ลำไส้เล็กส่วนดูโอดีนัม</b></td></tr>
+      <tr><td rowspan="2"><b>ต่อมไร้ท่อ</b><br><em class="t">pancreatic islets /<br>Islets of Langerhans</em></td>
+        <td><b>เซลล์แอลฟา α-cell</b><br>
+          <span style="font-size:13px;color:var(--muted)">เซลล์<b>ขนาดใหญ่</b> · จำนวน<b>น้อยกว่า</b> ·
+          อยู่<b>รอบนอก</b></span></td>
+        <td><b>กลูคากอน glucagon</b> → <b>เพิ่ม</b>ระดับกลูโคสในเลือด
+          โดย<b>เพิ่มอัตราการสลายไกลโคเจน</b>และปล่อยกลูโคสออกจากเซลล์ตับ</td></tr>
+      <tr><td><b>เซลล์บีตา β-cell</b><br>
+          <span style="font-size:13px;color:var(--muted)">เซลล์<b>ขนาดเล็ก</b> · จำนวน<b>มาก</b> ·
+          อยู่<b>ส่วนกลาง</b></span></td>
+        <td><b>อินซูลิน insulin</b> → <b>ลด</b>ระดับกลูโคสในเลือด
+          โดยกระตุ้นการนำกลูโคสเข้าเซลล์ · กระตุ้นการสร้าง<b>ไกลโคเจน</b>ในตับและกล้ามเนื้อโครงร่าง ·
+          กระตุ้นการ<b>สังเคราะห์โปรตีน</b>โดยเร่งการนำกรดอะมิโนเข้าเซลล์</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note trapbox"><span class="lbl">ท่องให้ไม่สลับ α กับ β</span>
+    <b>α = A = Ascending = เพิ่มน้ำตาล = glucAgon</b> (ใหญ่ น้อย รอบนอก)<br>
+    <b>β = B = Below = ลดน้ำตาล = insulin</b> (เล็ก มาก ตรงกลาง)<br>
+    ระดับน้ำตาลปกติ = <b>70–100 mg/dL</b> · ตัวเลขนี้ออกสอบเป็นตัวเลือกได้ตรง ๆ</div>
+  <div class="note"><span class="lbl">การทดลองความทนต่อน้ำตาล — <em class="t">glucose tolerance test</em></span>
+    วิธี: <b>งดอาหารอย่างน้อย 12 ชั่วโมง</b> → วัดน้ำตาล → ให้สารละลายกลูโคสปริมาณเท่ากัน →
+    ติดตามระดับน้ำตาลจนครบ <b>180 นาที</b><br>
+    ผล: นาทีที่ 0 <b>ผู้ป่วยเบาหวานสูงกว่าคนปกติอยู่แล้ว</b> · หลังได้กลูโคส<b>สูงขึ้นทั้งสองกลุ่ม</b>
+    แต่ผู้ป่วยเบาหวาน<b>สูงกว่า 200 mg/dL</b> และ<b>ลดลงช้ากว่า</b> ·
+    <b>คนปกติกลับเข้าสู่ระดับปกติภายในประมาณ 2 ชั่วโมง</b></div>
+
+  <h3>กลุ่ม 3 · ฮอร์โมนที่ควบคุมการสืบพันธุ์และการเจริญเติบโต</h3>
+  <div class="tw"><table>
+    <thead><tr><th>ฮอร์โมน</th><th>แหล่งสร้าง</th><th>ในเพศชาย</th><th>ในเพศหญิง</th></tr></thead>
+    <tbody>
+      <tr><td><b>FSH</b></td><td>ต่อมใต้สมองส่วนหน้า</td>
+        <td>กระตุ้น<b>การเจริญของอัณฑะ</b> และกระตุ้น <b>sertoli cell</b> /
+          <b>หลอดสร้างอสุจิ seminiferous tubule</b> ให้<b>สร้างอสุจิ</b></td>
+        <td>กระตุ้น<b>การเจริญของฟอลลิเคิล</b>ในรังไข่ · ฟอลลิเคิลที่เจริญจะสร้าง <b>estrogen</b></td></tr>
+      <tr><td><b>LH</b></td><td>ต่อมใต้สมองส่วนหน้า</td>
+        <td>กระตุ้น<b>เซลล์อินเตอร์สติเชียล</b> <em class="t">interstitial cell</em> หรือ
+          <b>เซลล์เลย์ดิก Leydig cell</b> (แทรกอยู่ระหว่างหลอดสร้างอสุจิ) ให้สร้าง
+          <b>แอนโดรเจน</b> ตัวสำคัญคือ <b>testosterone</b></td>
+        <td><b>กระตุ้นการตกไข่</b> <em class="t">ovulation</em></td></tr>
+      <tr><td><b>testosterone</b></td><td><b>อัณฑะ</b> (Leydig cell)</td>
+        <td colspan="2">ทำให้เพศชาย<b>สืบพันธุ์ได้</b> · <b>กระตุ้นการสร้างสเปิร์ม</b> ·
+          ควบคุม<b>ลักษณะทางเพศทุติยภูมิ</b> = ลูกกระเดือกชัด มีขนตามร่างกาย มีหนวดเครา
+          ไหล่กว้าง สะโพกแคบ เสียงแตกห้าว ·
+          และยัง<b>กระตุ้นการเจริญของกล้ามเนื้อ · สังเคราะห์โปรตีน · สร้างเซลล์เม็ดเลือดแดง</b></td></tr>
+      <tr><td><b>estrogen</b></td><td><b>เซลล์ฟอลลิเคิล</b> (ก่อนตกไข่)<br>
+          และ <b>corpus luteum</b> (หลังตกไข่)</td>
+        <td colspan="2">ควบคุม<b>ลักษณะทางเพศทุติยภูมิหญิง</b> = เสียงเล็ก สะโพกผาย
+          เต้านมและอวัยวะเพศใหญ่ขึ้น มีขนรักแร้/อวัยวะเพศ ·
+          <b>estrogen ปริมาณสูงกระตุ้นต่อมใต้สมองส่วนหน้าให้หลั่ง LH → เกิดการตกไข่</b> ·
+          ทำให้ท่อนำไข่และกล้ามเนื้อมดลูกหดตัว · กระตุ้นการหลั่งเมือกที่ช่องคลอด<br>
+          ▪ ยัง<b>กระตุ้นการเจริญของกล้ามเนื้อเรียบและกระดูก</b> ·
+          <b>ยับยั้งการสลายเนื้อกระดูก</b> (ลดการดึง Ca ออกจากกระดูก) <b>ป้องกันกระดูกพรุน</b> ·
+          <b>กระตุ้นต่อมไขมัน → เป็นสาเหตุของสิว</b></td></tr>
+      <tr><td><b>progesterone</b></td><td><b>corpus luteum</b></td>
+        <td colspan="2">ทำงาน<b>ร่วมกับ estrogen</b> กระตุ้น<b>เยื่อบุชั้นในของผนังมดลูก</b>ให้เจริญ
+          เพื่อเตรียม<b>การฝังตัวของเอ็มบริโอ</b> ·
+          ทำงาน<b>ร่วมกับ prolactin</b> กระตุ้น<b>ต่อมน้ำนมให้เจริญ แต่ยังไม่สร้างน้ำนม</b> ·
+          <b>ยับยั้งไม่ให้ไข่สุกและไม่ให้ตกไข่ขณะตั้งครรภ์</b></td></tr>
+      <tr><td><b>GH</b><br><em class="t">somatotropin / STH</em></td><td>ต่อมใต้สมองส่วนหน้า</td>
+        <td colspan="2">กระตุ้น<b>การสังเคราะห์โปรตีนภายในเซลล์</b> โดยเร่งการนำกรดอะมิโนเข้าเซลล์ ·
+          กระตุ้นการ<b>สลาย triacylglycerol เป็นกรดไขมัน</b> ·
+          กระตุ้นการ<b>สลายไกลโคเจนที่ตับเป็นกลูโคส</b> ·
+          กระตุ้น<b>การแบ่งเซลล์และการเปลี่ยนแปลงรูปร่างของเซลล์</b><br>
+          ▪ ควบคุมโดย <b>GHRH</b> (กระตุ้น) และ <b>GHIH</b> (ยับยั้ง)</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note"><span class="lbl">รอบเดือน <em class="t">menstruation</em> — เรียงลำดับให้ถูก</span>
+    เกิดจากฮอร์โมน <b>5 ชนิด</b>: <b>GnRH · FSH · LH · estrogen · progesterone</b> ·
+    รอบหนึ่ง <b>28 วัน</b> · ครั้งแรก <b>menarche</b> อายุ <b>11–12 ปี</b> ·
+    หมดเมื่ออายุประมาณ <b>50 ปี</b> เข้าสู่ <b>menopause</b><br><br>
+    <b>ไฮโพทาลามัสหลั่ง GnRH</b> → ต่อมใต้สมองส่วนหน้าหลั่ง <b>FSH</b> →
+    FSH กระตุ้น <b>follicle</b> ในรังไข่ → follicle เจริญและสร้าง <b>estrogen</b> มากขึ้น →
+    estrogen สูงพอ กระตุ้นให้หลั่ง <b>FSH และ LH</b> เพิ่ม โดย <b>LH สูงกว่า = LH surge</b> →
+    <b>secondary oocyte หลุดออกจากรังไข่ = ตกไข่</b> →
+    follicle เดิมเปลี่ยนเป็น <b>corpus luteum</b> สร้าง <b>progesterone + estrogen</b>
+    กระตุ้นเยื่อบุผนังมดลูกชั้นใน →
+    <b>ถ้าไม่ปฏิสนธิ</b> corpus luteum ฝ่อเป็น <b>corpus albicans</b>
+    เยื่อบุผนังมดลูกหลุดลอก = <b>ประจำเดือน</b> →
+    progesterone และ estrogen ลดลง จึง<b>ไม่มีอะไรยับยั้งไฮโพทาลามัส</b> →
+    หลั่ง <b>GnRH</b> เพิ่ม → เข้ารอบใหม่</div>
+
+  <h3>กลุ่ม 4 · ฮอร์โมนที่ควบคุมดุลยภาพของน้ำและแร่ธาตุ</h3>
+  <div class="tw"><table>
+    <thead><tr><th>ฮอร์โมน</th><th>แหล่ง</th><th>อวัยวะเป้าหมาย</th><th>หน้าที่</th></tr></thead>
+    <tbody>
+      <tr><td><b>ADH</b><br><em class="t">vasopressin</em></td>
+        <td><b>สร้างที่ไฮโพทาลามัส</b><br>หลั่งที่<b>ต่อมใต้สมองส่วนหลัง</b></td>
+        <td><b>ท่อขดส่วนปลายของหน่วยไต</b> และ<b>ท่อรวม</b></td>
+        <td><b>กระตุ้นการดูดน้ำกลับเข้าสู่หลอดเลือด</b> ทำให้ปริมาณน้ำในเลือดสมดุล ·
+          และ<b>กระตุ้นให้หลอดเลือดอาร์เทอรีหดตัว</b></td></tr>
+      <tr><td><b>aldosterone</b></td><td>ต่อมหมวกไต<b>ส่วนนอก</b></td><td><b>ไต</b> (ท่อหน่วยไต)</td>
+        <td><b>ดูดกลับน้ำและ Na⁺</b> · <b>ขับ K⁺ ออก</b> · ทำให้<b>ความดันเลือดเพิ่ม</b></td></tr>
+      <tr><td><b>calcitonin</b></td><td><b>C-cell</b> ของต่อมไทรอยด์</td>
+        <td><b>กระดูก · ไต · ลำไส้เล็ก</b></td>
+        <td>ใช้เมื่อ <b>Ca²⁺ ในเลือดสูง</b> → <b>ลดการสลาย Ca²⁺ ในกระดูก</b> (คือ<b>สะสมที่กระดูก</b>) ·
+          <b>ลดการดูดซึม Ca²⁺ ที่ลำไส้เล็ก</b> · <b>ขับ Ca²⁺ ออกทางไตมากขึ้น</b></td></tr>
+      <tr><td><b>parathormone</b><br><em class="t">PTH</em></td>
+        <td><b>ต่อมพาราไทรอยด์</b> — <b>4 ต่อม</b> เล็กเท่า<b>เม็ดข้าว</b>
+          อยู่<b>ด้านหลังต่อมไทรอยด์</b></td>
+        <td><b>กระดูก · ไต · ลำไส้เล็ก</b></td>
+        <td>ใช้เมื่อ <b>Ca²⁺ ในเลือดต่ำ</b> → <b>เพิ่มการสลายกระดูกด้วยเซลล์ osteoclast</b> ·
+          <b>เพิ่มการดูดกลับ Ca²⁺ ที่ไตและลำไส้เล็ก</b><br>
+          ▪ ทำงาน<b>มีประสิทธิภาพขึ้นเมื่อร่วมกับวิตามิน D</b></td></tr>
+    </tbody>
+  </table></div>
+  <div class="note trapbox"><span class="lbl">calcitonin กับ PTH — ตัวลวงสร้างจากคู่นี้มากที่สุดในบท</span>
+    <b>calciTONIN → “TONE ขึ้นกระดูก” → Ca เข้ากระดูก → Ca ในเลือดลด</b> (ใช้เมื่อเลือดมี Ca <b>สูง</b>)<br>
+    <b>PTH → “Pull To Home” → ดึง Ca ออกจากกระดูกเข้าเลือด → Ca ในเลือดเพิ่ม</b> (ใช้เมื่อเลือดมี Ca <b>ต่ำ</b>)<br>
+    ทั้งคู่มี<b>อวัยวะเป้าหมายเหมือนกันเป๊ะ</b> (กระดูก ไต ลำไส้เล็ก) ต่างกันแค่<b>ทิศทาง</b></div>
+
+  <h3>กลุ่ม 5 · ฮอร์โมนที่ทำหน้าที่อื่น และฮอร์โมนจากเนื้อเยื่อ</h3>
+  <div class="tw"><table>
+    <thead><tr><th>ฮอร์โมน</th><th>สร้างจาก</th><th>หน้าที่ · จุดที่ออกสอบ</th></tr></thead>
+    <tbody>
+      <tr><td><b>เมลาโทนิน</b><br><em class="t">melatonin</em></td>
+        <td><b>ต่อมไพเนียล</b> — <b>ต่อมไร้ท่อที่เล็กที่สุดในร่างกาย</b>
+          อยู่ที่สมองส่วน <b>epithalamus</b> (ระหว่างเซรีบรัมซีกซ้ายและขวา)</td>
+        <td><b>ยับยั้งการพัฒนาของระบบสืบพันธุ์ในช่วงก่อนวัยเจริญพันธุ์</b>
+          (มากเกินไป → <b>เข้าสู่วัยหนุ่มสาวช้ากว่าปกติ</b>) ·
+          ควบคุม<b>นาฬิกาชีวิต</b> <em class="t">biological clock</em> —
+          <b>หลั่งมากในช่วงกลางคืน / ช่วงที่มีแสงน้อย</b><br>
+          ▪ <b>เด็กแรกเกิดผลิตมาก</b> → นอนหลับได้นาน · <b>ผู้สูงอายุผลิตน้อยลง</b> → นอนน้อยลง<br>
+          ▪ <b>jet lag</b> เกิดจากระดับเมลาโทนินเปลี่ยนเมื่อข้ามเขตเวลา</td></tr>
+      <tr><td><b>ออกซิโทซิน</b><br><em class="t">oxytocin</em></td>
+        <td>สร้างที่<b>ไฮโพทาลามัส</b> หลั่งที่<b>ต่อมใต้สมองส่วนหลัง</b></td>
+        <td><b>กระตุ้นการบีบตัวของกล้ามเนื้อเรียบที่มดลูก</b>
+          (แพทย์<b>ฉีดเพื่อช่วยคลอด</b>ในมารดาที่มีฮอร์โมนนี้น้อย) ·
+          <b>กระตุ้นกล้ามเนื้อรอบต่อมน้ำนมให้หดตัวเพื่อขับน้ำนม</b></td></tr>
+      <tr><td><b>โพรแลกทิน</b><br><em class="t">prolactin / mammotropin</em></td>
+        <td><b>ต่อมใต้สมองส่วนหน้า</b></td>
+        <td><b>กระตุ้นการสร้างน้ำนมที่ต่อมน้ำนม</b> ·
+          การหลั่งถูก<b>ยับยั้งโดย PIH</b> จากไฮโพทาลามัส ·
+          ใน<b>สัตว์ปีก</b> กระตุ้น<b>พฤติกรรมการเลี้ยงลูกอ่อน</b></td></tr>
+      <tr><td><b>เอนดอร์ฟิน</b><br><em class="t">endorphin</em></td>
+        <td><b>ต่อมใต้สมองส่วนหน้า</b> และอาจสร้างจากเนื้อเยื่อส่วนอื่น</td>
+        <td>สารที่มี<b>ฤทธิ์คล้ายมอร์ฟีน</b> · <b>ระงับความเจ็บปวด</b> ·
+          <b>เพิ่มความตื่นตัว มีชีวิตชีวาและความสุข</b> → เรียกว่า <b>ฮอร์โมนแห่งความสุข</b><br>
+          ▪ หลั่งขณะ<b>ออกกำลังกาย รับประทานอาหาร ฟังเพลงที่ชอบ เชียร์กีฬา</b></td></tr>
+      <tr><td><b>hCG</b><br><em class="t">human chorionic gonadotrophin</em></td>
+        <td><b>รก</b> <em class="t">placenta</em></td>
+        <td>เริ่มหลั่ง<b>หลังจากเอ็มบริโอฝังตัวที่ผนังมดลูกแล้ว</b> เพื่อ
+          <b>กระตุ้นคอร์ปัสลูเทียมให้เจริญต่อ</b>และ<b>สร้าง progesterone เพิ่มขึ้นขณะตั้งครรภ์</b></td></tr>
+      <tr><td><b>ไทโมซิน</b><br><em class="t">thymosin</em></td>
+        <td><b>ต่อมไทมัส</b> — อวัยวะน้ำเหลือง <b>2 พู</b> อยู่ระหว่าง<b>กระดูกอกกับหลอดเลือดใหญ่ของหัวใจ</b></td>
+        <td>เกี่ยวกับ<b>การพัฒนาของลิมโฟไซต์ชนิดที (เซลล์ที)</b> ในไทมัส →
+          เกี่ยวข้องกับ<b>การสร้างภูมิคุ้มกัน</b><br>
+          ▪ ไทมัส<b>เจริญเต็มที่ขณะทารกอยู่ในครรภ์</b> · เล็กลงเมื่ออายุมากขึ้น ·
+          <b>อายุมากกว่า 50 ปี จะเสื่อมสภาพและฝ่อไป</b></td></tr>
+      <tr><td><b>แกสทริน</b><br><em class="t">gastrin</em></td><td><b>กระเพาะอาหาร</b></td>
+        <td>กระตุ้นการหลั่ง<b>เอนไซม์ (เพปซิโนเจน) และกรดไฮโดรคลอริก</b>จากกระเพาะอาหาร</td></tr>
+      <tr><td><b>ซีครีทิน</b><br><em class="t">secretin</em></td>
+        <td><b>ลำไส้เล็กส่วนดูโอดีนัม</b></td>
+        <td>กระตุ้น<b>ตับอ่อน</b>ให้หลั่ง <b>NaHCO₃</b> เพื่อ<b>ลดความเป็นกรด</b>ของอาหารที่เข้าลำไส้เล็ก</td></tr>
+      <tr><td><b>คอลีซิสโทไคนิน</b><br><em class="t">CCK</em></td>
+        <td><b>ลำไส้เล็กส่วนดูโอดีนัม</b></td>
+        <td>กระตุ้น<b>การบีบตัวของถุงน้ำดี</b> และ<b>ตับอ่อนให้หลั่งเอนไซม์</b></td></tr>
+      <tr><td><b>อีรีโทรโพอิทิน</b><br><em class="t">erythropoietin</em></td><td><b>ไต</b></td>
+        <td>กระตุ้น<b>การสร้างเซลล์เม็ดเลือดแดงจากไขกระดูก</b></td></tr>
+    </tbody>
+  </table></div>
+  <div class="note trapbox"><span class="lbl">4 คู่ที่สลับกันง่ายที่สุดในกลุ่มนี้</span>
+    ① <b>oxytocin</b> = ขับน้ำนม<b>ออก</b> (บีบกล้ามเนื้อ) · <b>prolactin</b> = <b>สร้าง</b>น้ำนม<br>
+    ② <b>secretin</b> → NaHCO₃ (<b>ลดกรด</b>) · <b>CCK</b> → <b>ถุงน้ำดี + เอนไซม์</b>
+    — สร้างจากดูโอดีนัมทั้งคู่<br>
+    ③ <b>ต่อมไทรอยด์ = ใหญ่ที่สุด</b> · <b>ต่อมไพเนียล = เล็กที่สุด</b><br>
+    ④ <b>เอนดอร์ฟิน</b> เป็นได้ทั้ง<b>สารสื่อประสาท</b> (จากไฮโพทาลามัส) และ<b>ฮอร์โมน</b>
+    (จากต่อมใต้สมองส่วนหน้า) — ตัวเลือกที่บอกว่า “เป็นสารสื่อประสาทเท่านั้น” จึง<b>ผิด</b></div>
+</section>
+
+<!-- ============ DISEASES ============ -->
+<section id="dis" style="--hue:var(--dis)">
+  <div class="sechead"><h2>โรคและความผิดปกติ</h2><span class="tag">รูปแบบข้อสอบ: “อาการนี้คือโรคใด”</span></div>
+  <p class="lede">ปรนัยเรื่องโรคเขียนง่ายที่สุด เพราะแค่เอา<b>อาการมาให้</b>แล้วให้เลือกชื่อโรค
+    หรือกลับกัน ให้ชื่อโรคแล้วถามว่า<b>ขาดหรือเกินฮอร์โมนอะไร</b>
+    ตารางนี้เรียงตาม<b>ฮอร์โมน</b> เพื่อให้เห็นคู่ “ขาด / เกิน” ติดกัน ซึ่งเป็นวิธีที่ตัวลวงถูกสร้างขึ้น</p>
+  <div class="tw"><table>
+    <thead><tr><th>ฮอร์โมน</th><th>ทิศทาง</th><th>ชื่อโรค / กลุ่มอาการ</th><th>อาการที่ต้องจำ</th></tr></thead>
+    <tbody>
+      <tr><td rowspan="4"><b>ไทรอกซิน</b></td><td class="non"><b>ขาด · วัยเด็ก</b></td>
+        <td><b>เครทินิซึม</b><br><em class="t">cretinism</em></td>
+        <td><b>เตี้ยแคระ แขนขาสั้น</b> · เจริญเติบโตช้า · <b>อวัยวะเพศไม่เจริญ</b> ·
+          ผิวหยาบแห้ง ผมบาง · <b>พัฒนาการทางสมองลดลง ปัญญาอ่อน</b></td></tr>
+      <tr><td class="non"><b>ขาด · วัยผู้ใหญ่</b></td>
+        <td><b>มิกซีดีมา</b><br><em class="t">myxedema</em></td>
+        <td>ร่างกายอ่อนแอ ติดเชื้อง่าย · <b>ทนความหนาวไม่ได้</b> · <b>เมแทบอลิซึมต่ำ</b> เหนื่อยง่าย ·
+          กล้ามเนื้ออ่อนแรง · ผมและผิวแห้ง · <b>มือและหน้าบวม รอบดวงตาบวมน้ำ</b> ·
+          หัวใจโต · <b>น้ำหนักเพิ่ม</b> · <b>ความจำเสื่อม ซึม เฉื่อยชา</b></td></tr>
+      <tr><td class="non"><b>ขาดไอโอดีน</b></td>
+        <td><b>คอพอกธรรมดา</b><br><em class="t">simple goiter</em></td>
+        <td>ขาด<b>ธาตุไอโอดีน</b> → สร้างไทรอกซินไม่ได้ · อาการเหมือนมิกซีดีมา
+          แต่<b>ต่อมไทรอยด์ขนาดผิดปกติ → คอโต</b><br>
+          <b>กลไก:</b> ไม่มีไทรอกซินไป<b>ยับยั้ง TSH / TRH</b> → TSH กระตุ้นไทรอยด์ตลอดเวลา
+          → ต่อม<b>ขยายขนาดผิดปกติ</b><br>
+          <b>รักษา:</b> ให้<b>อาหารทะเลหรืออาหารที่มีไอโอดีน</b></td></tr>
+      <tr><td class="yes"><b>มากเกิน</b></td>
+        <td><b>คอพอกเป็นพิษ</b><br><em class="t">toxic goiter · hyperthyroidism</em></td>
+        <td><b>ร้อนในสูง เหงื่อออกมาก</b> · <b>หัวใจเต้นเร็ว ความดันสูง</b> · เหนื่อยง่าย ·
+          <b>หงุดหงิดง่าย นอนไม่หลับ เครียดทางประสาท</b> · <b>น้ำหนักลดจนผอมแห้ง</b> · คออาจโต<br>
+          <b>รักษา:</b> กินยายับยั้งการสร้างฮอร์โมน · ผ่าตัดเอาบางส่วนออก ·
+          ให้<b>ไอโอดีนกัมมันตภาพรังสี</b>ทำลายเนื้อเยื่อบางส่วน</td></tr>
+      <tr><td rowspan="3"><b>GH</b></td><td class="yes"><b>มากเกิน · วัยเด็ก</b></td>
+        <td><b>สภาพร่างยักษ์</b><br><em class="t">gigantism</em></td>
+        <td><b>กระดูกแขนขายาว ร่างกายสูงใหญ่ผิดปกติ</b> · เมแทบอลิซึมสูงกว่าคนปกติ</td></tr>
+      <tr><td class="yes"><b>มากเกิน · วัยผู้ใหญ่</b></td>
+        <td><b>อะโครเมกาลี</b><br><em class="t">acromegaly</em></td>
+        <td>ความสูงไม่ผิดปกตินัก แต่มีผลที่<b>กระดูกแขนขาและกระดูกใบหน้า</b> →
+          <b>มือเท้าโต ฟันห่าง คางใหญ่ ขากรรไกรยื่น</b> · ผิวหนังหยาบ ริมฝีปากหนา</td></tr>
+      <tr><td class="non"><b>ขาด</b></td>
+        <td><b>สภาพแคระ</b> <em class="t">dwarfism</em> (วัยเด็ก)<br>
+          <b>โรคซิมมอน</b> <em class="t">simmond's disease</em> (วัยผู้ใหญ่)</td>
+        <td><b>เด็ก:</b> เตี้ยแคระ แคระแกร็น เพราะการเจริญของ<b>กล้ามเนื้อและกระดูก</b>
+          และอัตราเมแทบอลิซึม<b>ลดลง</b><br>
+          <b>ผู้ใหญ่:</b> ไม่เด่นชัด แต่<b>ระดับน้ำตาลในเลือดต่ำกว่าคนปกติ</b>
+          จึง<b>ทนความเครียดไม่ได้</b> · ถ้าเครียดมาก สมองอาจได้รับอันตรายเพราะ<b>สารอาหารไม่พอ</b></td></tr>
+      <tr><td><b>กลูโคคอร์ติคอยด์</b><br><em class="t">cortisol</em></td><td class="yes"><b>มากเกิน</b></td>
+        <td><b>กลุ่มอาการคูชชิง</b><br><em class="t">Cushing's syndrome</em></td>
+        <td>เมแทบอลิซึมของ<b>คาร์โบไฮเดรต โปรตีน ไขมัน</b>ผิดปกติ → <b>น้ำตาลในเลือดสูง</b> ·
+          <b>สลายโปรตีนและไขมันที่แขนขา → กล้ามเนื้ออ่อนแรง</b> ·
+          <b>หน้าบวมกลมคล้ายดวงจันทร์</b> · <b>อ้วนตรงกลางลำตัว</b> ·
+          <b>ต้นคอมีหนอกยื่นออกมา</b> · ความดันโลหิตสูง · <b>กระดูกสลาย</b>
+          (ต่อต้านฤทธิ์วิตามิน D ทำให้ดูดซึมแคลเซียมลดลง)<br>
+          ▪ พบในผู้ป่วยที่ใช้ยา<b>คอร์ติโคสเตอรอยด์</b>ติดต่อกันนาน เพื่อกันการแพ้/อักเสบ</td></tr>
+      <tr><td><b>เอพิเนฟริน</b></td><td class="yes"><b>มากเกิน</b></td><td>—</td>
+        <td><b>ความดันเลือดสูงขึ้นรุนแรง อาจเสียชีวิตได้</b></td></tr>
+      <tr><td rowspan="3"><b>อินซูลิน</b></td><td class="non"><b>สร้างไม่ได้</b></td>
+        <td><b>เบาหวานชนิดที่ 1</b><br><em class="t">Type I DM</em></td>
+        <td>ตับอ่อน<b>สร้างอินซูลินไม่ได้</b> เพราะ <b>β-cell ถูกทำลายโดยระบบภูมิคุ้มกัน</b> ·
+          ต้อง<b>ฉีดอินซูลินทุกวัน</b> · <b>พบเพียงร้อยละ 10</b> ของผู้ป่วยทั้งหมด</td></tr>
+      <tr><td class="non"><b>ตัวรับผิดปกติ</b></td>
+        <td><b>เบาหวานชนิดที่ 2</b><br><em class="t">Type II DM</em></td>
+        <td><b>สร้างอินซูลินได้ แต่ตัวรับสัญญาณของอินซูลินผิดปกติ</b> อินซูลินจึงทำงานไม่ได้ ·
+          <b>พบมากถึงร้อยละ 90</b> · พบได้ทุกเพศทุกวัย ·
+          อาการร่วม: <b>ตาพร่ามัว · ระบบหมุนเวียนเลือดผิดปกติ · การทำงานของไตบกพร่อง</b></td></tr>
+      <tr><td><b>ขณะตั้งครรภ์</b></td>
+        <td><b>เบาหวานขณะตั้งครรภ์</b><br><em class="t">GDM</em></td>
+        <td>เกิดช่วง <b>24–48 สัปดาห์</b> เพราะฮอร์โมนขณะตั้งครรภ์บางชนิด<b>ต่อต้านการทำงานของอินซูลิน</b> ·
+          <b>หลังคลอดระดับน้ำตาลกลับเป็นปกติ</b> ·
+          อาจคลอดทารก<b>น้ำหนักมากกว่า 4 kg</b> · มักเป็นซ้ำเมื่อตั้งครรภ์ใหม่</td></tr>
+      <tr><td><b>ADH</b></td><td class="non"><b>ขาด</b></td>
+        <td><b>เบาจืด</b><br><em class="t">diabetes insipidus</em></td>
+        <td>ท่อหน่วยไต<b>ดูดน้ำกลับไม่ได้</b> → <b>ปัสสาวะมากและเจือจาง</b>
+          <b>มากถึง 20 ลิตร/วัน</b></td></tr>
+      <tr><td><b>มิเนราโลคอร์ติคอยด์</b><br><em class="t">aldosterone</em></td><td class="non"><b>ขาด</b></td>
+        <td>—</td>
+        <td><b>สูญเสียน้ำและโซเดียมไปพร้อมปัสสาวะจำนวนมาก</b> →
+          <b>ปริมาตรเลือดลดลง</b> → <b>อาจเสียชีวิตจากความดันเลือดต่ำ</b></td></tr>
+      <tr><td rowspan="2"><b>PTH</b></td><td class="non"><b>น้อยกว่าปกติ</b></td><td>—</td>
+        <td>ดูดกลับ Ca ที่ไตและสลาย Ca จากกระดูก<b>น้อยลง</b> → <b>Ca ในเลือดต่ำ</b> →
+          <b>กล้ามเนื้อเกร็งและชักกระตุก</b> · <b>การบีบตัวของหัวใจอ่อนลง อาจเสียชีวิต</b><br>
+          <b>รักษา:</b> ให้ฮอร์โมนนี้<b>พร้อมวิตามิน D</b></td></tr>
+      <tr><td class="yes"><b>มากเกินไป</b></td><td>—</td>
+        <td><b>สลายแคลเซียมจากฟันและกระดูก</b>เข้าสู่เลือด → <b>Ca ในเลือดสูง</b> ·
+          <b>กระดูกบาง ฟันผุและหักง่าย</b></td></tr>
+      <tr><td><b>calcitonin</b></td><td class="non"><b>ขาด</b></td><td>—</td>
+        <td><b>ระดับแคลเซียมในเลือดสูง</b></td></tr>
+      <tr><td><b>estrogen</b> / หลายสาเหตุ</td><td class="non"><b>ขาด</b></td>
+        <td><b>โรคกระดูกพรุน</b><br><em class="t">osteoporosis</em></td>
+        <td><b>ร่างกายสลายกระดูกมากกว่าสร้างกระดูก</b> → <b>ความหนาแน่นและมวลกระดูกลดลง</b>
+          เปราะบาง แตกง่าย ทนน้ำหนัก/แรงกระแทกได้น้อย · <b>ส่วนสูงอาจลดลง</b><br>
+          <b>สาเหตุ:</b> ได้รับแคลเซียมไม่พอ · การทำงานผิดปกติของ<b>ไทรอยด์และพาราไทรอยด์</b> ·
+          <b>ขาดวิตามิน D</b> · <b>สูบบุหรี่</b> · <b>คาเฟอีน</b> · <b>ขาดอีสโทรเจน</b><br>
+          <b>ป้องกัน:</b> ออกกำลังกาย · อาหารที่มีแคลเซียม · ไม่สูบบุหรี่ ไม่ดื่มคาเฟอีน/สุรา ·
+          รับแดดยามเช้าเย็นกันการขาดวิตามิน D</td></tr>
+      <tr><td><b>ไทโมซิน</b></td><td class="non"><b>ขาด</b></td><td>—</td>
+        <td>ไม่กระตุ้นการเจริญของ<b>ลิมโฟไซต์ชนิดที</b> → <b>ความผิดปกติในระบบภูมิคุ้มกัน</b></td></tr>
+      <tr><td><b>เมลาโทนิน</b></td><td class="yes"><b>มาก</b> / <span class="non"><b>ขาด</b></span></td><td>—</td>
+        <td><b>มากเกิน</b> → เข้าสู่วัยหนุ่มสาว<b>ช้ากว่าปกติ</b> ·
+          <b>ขาด</b> → ร่างกาย<b>รับรู้เวลากลางวันกลางคืนไม่ได้</b> และ<b>นอนหลับยาก</b></td></tr>
+    </tbody>
+  </table></div>
+  <div class="note trapbox"><span class="lbl">คู่ที่สลับกันแล้วเสียคะแนนทันที</span>
+    <b>เบาหวาน</b> <em class="t">diabetes mellitus</em> = <b>อินซูลิน</b> · น้ำตาลในเลือดสูง ·
+    <b>เบาจืด</b> <em class="t">diabetes insipidus</em> = <b>ADH</b> · ปัสสาวะมากและเจือจาง —
+    ชื่อไทยต่างกันคำเดียว แต่เป็นคนละต่อมคนละฮอร์โมน<br>
+    <b>เครทินิซึม = ไทรอกซิน ขาด ในเด็ก</b> · <b>สภาพแคระ = GH ขาด ในเด็ก</b>
+    — ทั้งคู่เตี้ยแคระ แต่<b>เครทินิซึมมีปัญญาอ่อนด้วย</b> นั่นคือคำที่ใช้แยก 2 โรคนี้ในตัวเลือก</div>
+</section>
+
+<!-- ============ FEEDBACK ============ -->
+<section id="fb">
+  <div class="sechead"><h2>การรักษาสมดุล · ป้อนกลับ</h2><span class="tag">สไลด์ 12 · ออกแน่อย่างน้อย 2–3 ข้อ</span></div>
+  <p class="lede">การควบคุมการหลั่งฮอร์โมนส่วนใหญ่ใช้<b>การควบคุมแบบป้อนกลับ</b>
+    <em class="t">feedback control</em> ซึ่งมี <b>2 แบบ</b> และข้อสอบจะถามว่า
+    <b>ตัวอย่างที่ให้มาเป็นแบบไหน</b></p>
+  <div class="grid2">
+    <div class="card" style="--hue:var(--ok)"><b>แบบป้อนกลับยับยั้ง</b> <em class="t">negative feedback</em><br>
+      <span style="color:var(--muted)">ฮอร์โมนที่หลั่งออกมามีผลไป<b>ยับยั้ง</b>ต่อมไร้ท่อที่กระตุ้นการหลั่งฮอร์โมน<br>
+      <b>= แบบปกติของร่างกาย · ใช้รักษาดุลยภาพ</b></span></div>
+    <div class="card" style="--hue:var(--no)"><b>แบบป้อนกลับกระตุ้น</b> <em class="t">positive feedback</em><br>
+      <span style="color:var(--muted)">ฮอร์โมนที่หลั่งออกมามีผลไป<b>กระตุ้น</b>ให้หลั่ง<b>มากขึ้นอีก</b><br>
+      <b>= เป็นข้อยกเว้น พบน้อย</b></span></div>
+  </div>
+  <h3>ตัวอย่างที่สไลด์ให้ไว้ — ท่องเป็นชุด</h3>
+  <div class="tw"><table class="tight">
+    <thead><tr><th>ตัวอย่าง</th><th>แบบ</th><th>ลำดับเหตุการณ์</th></tr></thead>
+    <tbody>
+      <tr><td><b>parathormone</b></td><td class="yes"><b>ยับยั้ง</b></td>
+        <td><b>Ca ในเลือดต่ำ</b> → พาราไทรอยด์หลั่ง <b>PTH</b> → <b>สลาย Ca จากกระดูก</b>เข้าเลือด →
+          <b>Ca กลับเป็นปกติ</b> → <b>ยับยั้งพาราไทรอยด์ไม่ให้หลั่ง PTH</b></td></tr>
+      <tr><td><b>thyroxine</b></td><td class="yes"><b>ยับยั้ง</b></td>
+        <td><b>thyroxine ต่ำ</b> → hypothalamus หลั่ง <b>TRH</b> เพิ่ม → ต่อมใต้สมองส่วนหน้าหลั่ง
+          <b>TSH</b> → ไทรอยด์สร้าง <b>thyroxine</b> เพิ่ม → <b>เข้าสู่ระดับปกติ</b><br>
+          แล้วเมื่อ<b>ปกติแล้ว</b> → <b>ยับยั้ง TRH ของไฮโพทาลามัส และยับยั้ง TSH ของต่อมใต้สมองส่วนหน้า</b>
+          → ไทรอยด์หลั่งลดลง</td></tr>
+      <tr><td><b>oxytocin</b></td><td class="non"><b>กระตุ้น</b></td>
+        <td><b>ขณะคลอด ศีรษะทารกดันปากมดลูกให้ขยาย</b> → <b>หน่วยรับความรู้สึกที่ปากมดลูก</b>
+          ส่งกระแสประสาทไป<b>ต่อมใต้สมองส่วนหลัง</b> → หลั่ง <b>oxytocin</b> →
+          <b>กล้ามเนื้อเรียบที่มดลูกบีบตัว</b>ดันทารกออก →
+          <b>แรงกดของหัวทารกกระตุ้นการหลั่ง oxytocin มากขึ้นอีก</b> →
+          <b>วนเพิ่มขึ้นเรื่อย ๆ จนทารกคลอด แล้วการหลั่งจึงลดลง</b></td></tr>
+    </tbody>
+  </table></div>
+  <div class="note winbox"><span class="lbl">วิธีตัดตัวเลือกใน 5 วินาที</span>
+    อ่านตัวอย่างในโจทย์แล้วถามตัวเองคำเดียว: <b>“ผลลัพธ์ทำให้กระบวนการหยุด หรือทำให้แรงขึ้น?”</b><br>
+    <b>หยุด/กลับเข้าที่เดิม = negative</b> · <b>แรงขึ้นเรื่อย ๆ จนจบเหตุการณ์ = positive</b><br>
+    ในเนื้อหานี้ <b>ตัวอย่าง positive ที่สไลด์ระบุมีแค่ oxytocin ตอนคลอด</b>
+    ถ้าเจอข้อ positive feedback ให้มองหา oxytocin ก่อนเลย
+    <span style="color:var(--muted)">(<b>LH surge</b> ที่ estrogen สูงไปกระตุ้น LH ก็มีลักษณะแบบกระตุ้นเช่นกัน
+    แต่สไลด์ไม่ได้เรียกชื่อไว้ — ถ้าตัวเลือกมี oxytocin อยู่ ให้เลือก oxytocin)</span></div>
+
+  <h3>คู่ฮอร์โมนที่ทำงานตรงข้ามกัน — ออกสอบซ้ำทุกปี</h3>
+  <div class="tw"><table class="tight">
+    <thead><tr><th>ควบคุมอะไร</th><th>ตัวที่ “เพิ่ม”</th><th>ตัวที่ “ลด”</th></tr></thead>
+    <tbody>
+      <tr><td><b>ระดับน้ำตาลในเลือด</b></td>
+        <td><b>กลูคากอน</b> (α-cell) · <b>กลูโคคอร์ติคอยด์</b> · <b>เอพิเนฟริน</b> · <b>GH</b></td>
+        <td><b>อินซูลิน</b> (β-cell)</td></tr>
+      <tr><td><b>ระดับ Ca²⁺ ในเลือด</b></td><td><b>parathormone (PTH)</b> — พาราไทรอยด์</td>
+        <td><b>calcitonin</b> — C-cell ของไทรอยด์</td></tr>
+      <tr><td><b>การหลั่ง GH</b></td><td><b>GHRH</b></td><td><b>GHIH</b></td></tr>
+      <tr><td><b>การหลั่ง prolactin</b></td><td>— (การกระตุ้นมาจากทางอื่น)</td><td><b>PIH / dopamine</b></td></tr>
+      <tr><td><b>ความเครียด</b></td><td><b>เอพิเนฟริน</b> = <b>ระยะสั้น</b> (ซิมพาเทติก)</td>
+        <td><b>กลูโคคอร์ติคอยด์</b> = <b>ระยะยาว</b> (ACTH)</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ NUMBER DRILL ============ -->
+<section id="num" style="--hue:var(--warn)">
+  <div class="sechead"><h2>ตัวเลขที่ออกสอบ</h2><span class="tag">จุดอ่อนของคุณ · ฝึกตรง ๆ</span></div>
+  <p class="lede">ในข้อสอบเลข 26 ส.ค. ความผิดพลาด <b>6 จาก 8 ข้อ</b> ของคุณมาจาก<b>ตัวเลข</b> ไม่ใช่วิธีทำ
+    ในชีววิทยาปรนัย ตัวเลขคือ<b>ตัวลวงที่ถูกที่สุดที่คนออกข้อสอบจะเขียน</b> —
+    เปลี่ยน 8 เป็น 7 ก็ได้ตัวลวงหนึ่งตัวแล้ว บัตรพวกนี้จึงไม่ใช่การท่องเล่น มันคือ<b>การอุดจุดที่คุณเสียคะแนนจริง</b>
+    กดดูให้จบทั้งสำรับหนึ่งรอบ ใช้เวลาไม่ถึง 4 นาที</p>
+  <div class="drill">
+    <div class="drillbar">
+      <button class="btn sm on" data-nset="all" type="button">ทั้งหมด</button>
+      <button class="btn sm" data-nset="กระดูก" type="button">กระดูก</button>
+      <button class="btn sm" data-nset="ต่อมไร้ท่อ" type="button">ต่อมไร้ท่อ</button>
+      <button class="btn sm" data-nset="สัตว์อื่น" type="button">สัตว์อื่น</button>
+      <span class="score" id="numScore"></span>
+    </div>
+    <div class="flash" id="numFlash"></div>
+    <div class="bar"><i id="numBar"></i></div>
+    <div class="answers" style="margin-top:14px">
+      <button class="btn" id="numShow" type="button">เปิดคำตอบ</button>
+      <button class="btn" id="numNext" type="button">ใบถัดไป →</button>
+      <button class="btn sm" id="numShuffle" type="button">สลับสำรับใหม่</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MATCH DRILL ============ -->
+<section id="pair" style="--hue:var(--gl)">
+  <div class="sechead"><h2>จับคู่ให้ถูก</h2><span class="tag">ตัวลวงทั้งหมดของ 2 หน่วยนี้ทำจากการสลับคู่</span></div>
+  <p class="lede">ตัวลวงในบทต่อมไร้ท่อแทบทุกตัวสร้างจากการ<b>สลับคู่</b> — สลับต่อมกับฮอร์โมน
+    สลับฮอร์โมนกับหน้าที่ สลับชนิดข้อต่อกับตำแหน่ง ถ้าคุณจับคู่ได้เร็ว คุณจะ<b>เห็นตัวลวงก่อนเห็นคำตอบ</b>
+    ซึ่งเร็วกว่าและแม่นกว่า · กดฝั่งซ้ายแล้วกดคู่ของมันฝั่งขวา</p>
+  <div class="drill">
+    <div class="drillbar">
+      <button class="btn sm on" data-mset="0" type="button">ต่อม ↔ ฮอร์โมน</button>
+      <button class="btn sm" data-mset="1" type="button">ฮอร์โมน ↔ หน้าที่</button>
+      <button class="btn sm" data-mset="2" type="button">โรค ↔ สาเหตุ</button>
+      <button class="btn sm" data-mset="3" type="button">ข้อต่อ ↔ ตำแหน่ง</button>
+      <button class="btn sm" data-mset="4" type="button">สัตว์ ↔ การเคลื่อนที่</button>
+      <span class="score" id="matchScore"></span>
+    </div>
+    <div class="match" id="matchBox"></div>
+    <div id="matchOut"></div>
+  </div>
+</section>
+
+<!-- ============ FAST MCQ DRILL ============ -->
+<section id="fast" style="--hue:var(--hum)">
+  <div class="sechead"><h2>ปรนัยคิดเร็ว</h2><span class="tag">45 วินาที/ข้อ · เฉลยทันที</span></div>
+  <p class="lede">นี่คือส่วนที่ซ้อม<b>ความเร็วในการตัดสินใจ</b> ไม่ใช่ความรู้
+    นาฬิกาตั้งไว้ <b>45 วินาที</b> ซึ่ง<b>สั้นกว่าเวลาจริง 60 วินาที</b> โดยตั้งใจ —
+    ถ้าซ้อมที่ 45 ได้ ในห้องสอบจะมีเวลาเหลือให้ข้อยาก
+    เมื่อหมดเวลาระบบจะเฉลยให้เอง เพื่อฝึกให้คุณ<b>ยอมทิ้งข้อที่คิดไม่ออก</b> ซึ่งเป็นสิ่งที่คุณไม่เคยทำ</p>
+  <div class="drill">
+    <div class="drillbar">
+      <button class="btn sm on" data-fset="all" type="button">ทุกบท</button>
+      <button class="btn sm" data-fset="มนุษย์" type="button">เคลื่อนที่มนุษย์</button>
+      <button class="btn sm" data-fset="สัตว์อื่น" type="button">สัตว์อื่น</button>
+      <button class="btn sm" data-fset="ต่อมไร้ท่อ" type="button">ต่อมไร้ท่อ</button>
+      <span class="mid" id="fastClock">0:45</span>
+      <span class="score" id="fastScore"></span>
+    </div>
+    <div id="fastBody"></div>
+  </div>
+</section>
+
+<!-- ============ MOCK 60 ============ -->
+<section id="mock" style="--hue:var(--hr)">
+  <div class="sechead"><h2>ข้อสอบเสมือน 60 ข้อ</h2><span class="tag">30 เคลื่อนที่ + 30 ต่อมไร้ท่อ · จับเวลา 60 นาที</span></div>
+  <p class="lede">ทำชุดนี้<b>รอบเดียวแบบจริงจัง</b> — กดจับเวลา ทำติดกันไม่หยุด ใช้<b>วิธี 3 รอบ</b>ข้างบน
+    แล้วค่อยกดตรวจ · เป้าหมายไม่ใช่คะแนนเต็ม เป้าหมายคือ<b>รู้ว่า 60 ข้อใน 60 นาทีรู้สึกเร็วแค่ไหน</b>
+    เพื่อไม่ให้ในห้องสอบเป็นครั้งแรกที่คุณเจอความเร็วนี้</p>
+  <div class="mockbar">
+    <button class="btn" id="mockStart" type="button">▶ เริ่มจับเวลา 60 นาที</button>
+    <span class="mid" id="mockClock">60:00</span>
+    <button class="btn" id="mockGrade" type="button">ตรวจคำตอบ</button>
+    <button class="btn sm" id="mockReset" type="button">ล้างคำตอบ</button>
+    <span class="score" id="mockProg">ตอบแล้ว 0 / 60</span>
+  </div>
+  <div id="mockResult"></div>
+  <div id="mockBody"></div>
+</section>
+
+<!-- ============ TEACHER QUESTIONS ============ -->
+<section id="tq" style="--hue:var(--mv)">
+  <div class="sechead"><h2>คำถามที่ครูเขียนไว้ในสไลด์</h2><span class="tag">28 คำถาม · พร้อมคำตอบ</span></div>
+  <p class="lede">สไลด์ทั้ง 4 ไฟล์มีหน้า <b>“Q :”</b> และ <b>“ชวนคิด”</b> แทรกอยู่เป็นระยะ
+    แต่<b>ไม่มีคำตอบให้</b> — คำถามที่ครูเขียนเองคือคำถามที่ครู<b>สนใจ</b>
+    และเป็นแหล่งที่ตรงที่สุดว่าข้อสอบจะถามมุมไหน ข้างล่างคือคำถามทุกข้อจากสไลด์ 09–12 พร้อมคำตอบ
+    กดเปิดทีละข้อ แล้วลองตอบในใจก่อนเปิด</p>
+  <div class="drill">
+    <div class="drillbar">
+      <button class="btn sm on" data-tqset="all" type="button">ทั้งหมด</button>
+      <button class="btn sm" data-tqset="09" type="button">สไลด์ 09 เคลื่อนที่</button>
+      <button class="btn sm" data-tqset="10" type="button">สไลด์ 10 ภาพรวม</button>
+      <button class="btn sm" data-tqset="11" type="button">สไลด์ 11 ฮอร์โมน</button>
+      <span class="score" id="tqScore"></span>
+    </div>
+    <div id="tqBody"></div>
+  </div>
+</section>
+
+<!-- ============ GLOSSARY ============ -->
+<section id="gloss">
+  <div class="sechead"><h2>ศัพท์ข้อสอบ</h2><span class="tag">คำสั่งปรนัย + ศัพท์เทคนิค 2 หน่วย</span></div>
+  <p class="lede">คุณเคยเสียคะแนนเพราะ<b>อ่านคำสั่งไม่แตก</b> ไม่ใช่เพราะไม่รู้เนื้อหา
+    ในข้อสอบปรนัยที่ต้องเร็ว ปัญหานี้แรงขึ้นเพราะไม่มีเวลาอ่านซ้ำ อ่าน 2 บล็อกนี้ก่อนเข้าห้องสอบ</p>
+  <h3>คำสั่งแบบปรนัย — อ่านผิดคำเดียว เสียทั้งข้อ</h3>
+  <div class="gloss" id="glossCmd"></div>
+  <h3>ศัพท์เทคนิคของ 2 หน่วยนี้</h3>
+  <div class="gloss" id="glossTerm"></div>
+</section>
+
+<!-- ============ FINAL SHEET ============ -->
+<section id="sheet" style="--hue:var(--accent)">
+  <div class="sechead"><h2>แผ่นคืนก่อนสอบ</h2><span class="tag">อ่านแผ่นเดียว 12 นาที</span></div>
+  <p class="lede">ถ้าเหลือเวลาน้อย <b>อ่านแค่หน้านี้</b> · กด <b>Ctrl+P</b> เพื่อพิมพ์ออกกระดาษ
+    ทุกบรรทัดคือจุดที่ตัวลวงถูกสร้างขึ้น ไม่ใช่สรุปเนื้อหา</p>
+  <div class="sheet">
+    <h4 style="margin-top:0">วิธีทำกระดาษ</h4>
+    <ol>
+      <li><b>3 รอบ:</b> รอบ 1 (0–30 นาที) ทำข้อที่เห็นคำตอบทันที ข้ามที่เหลือ ·
+        รอบ 2 (30–50) ตัดตัวเลือก · รอบ 3 (50–57) <b>ฝนให้ครบทุกข้อ ไม่ติดลบ</b> ·
+        57–60 <b>ตรวจว่าเลขข้อไม่เลื่อน + พลิกหน้าสุดท้าย</b></li>
+      <li><b>จุดตรวจ:</b> ข้อ 10 @ นาที 9 · ข้อ 20 @ 18 · <b>ข้อ 30 @ 27</b> · ข้อ 40 @ 36 · ข้อ 50 @ 45 · ข้อ 60 @ 54</li>
+      <li><b>วงคำว่า “ไม่”</b> ทุกครั้งที่เจอ · ตัดตัวเลือกที่มีคำว่า <b>เสมอ / ทุกชนิด / เท่านั้น / ไม่มีเลย</b></li>
+    </ol>
+    <h4>การเคลื่อนที่ของมนุษย์</h4>
+    <ol>
+      <li><b>206 = แกน 80 + รยางค์ 126</b> · รยางค์ = แขน 60 + ขา 60 + สะบัก 2 + ไหปลาร้า 2 + เชิงกราน 2</li>
+      <li><b>ข้อมือ carpals 8 / ข้อเท้า tarsals 7</b> · ฝ่ามือ-ฝ่าเท้า 5 · นิ้วมือ-นิ้วเท้า 14 · <b>แขน-ขาข้างละ 30</b></li>
+      <li><b>สันหลัง 34 ชิ้น</b> · หมอนรองกระดูก = <b>fibrocartilage</b> · <b>ซี่โครง 12 คู่</b>:
+        1–7 true · 8–10 false · <b>11–12 ลอย</b> · <b>อกยึดซี่โครง 10 คู่</b> · <b>ขม่อมหาย 18 เดือน</b></li>
+      <li><b>กระดูกอ่อน:</b> ไฮอะลีน=ผนังกั้นรูจมูก · ไฟโบร=ระหว่างกระดูกสันหลัง · <b>อิลาสติก=ใบหู</b> ·
+        <b>กระดูกอ่อนไม่มีหลอดเลือด</b></li>
+      <li><b>ข้อต่อ:</b> บานพับ=ศอก/เข่า · <b>ลูกกลมในเบ้า=ไหล่/สะโพก (อิสระสูงสุด)</b> ·
+        เลื่อน=ข้อมือ/ข้อเท้า · <b>อานม้า=นิ้วหัวแม่มือ</b> · เดือย=ต้นคอ-ฐานกะโหลก · ปุ่ม=ฝ่ามือ-นิ้วมือ</li>
+      <li><b>กล้ามเนื้อ:</b> หัวใจ=<b>มีลาย+1 นิวเคลียส+แตกแขนง+อัตโนวัติ</b> ·
+        เรียบ=<b>ไม่มีลาย+1 นิวเคลียสกลางเซลล์+อัตโนวัติ</b> ·
+        โครงร่าง=<b>มีลาย+หลายนิวเคลียส+โซมาติก+ในอำนาจจิตใจ</b></li>
+      <li><b>tendon = กล้ามเนื้อ↔กระดูก</b> (เอ็นร้อยหวายคือ tendon) · <b>ligament = กระดูก↔กระดูก</b></li>
+      <li><b>sarcomere หดตัว: I แคบ · H แคบ · A คงที่ · Z ถูกดึงเข้า</b> ·
+        I=แอกทินล้วน · H=ไมโอซินล้วน · A=ไมโอซินทั้งหมด</li>
+      <li><b>บาง=แอกทิน</b> (+tropomyosin+troponin) · <b>หนา=ไมโอซิน</b> (2 หัว, ATPase) ·
+        <b>ไมโอซินอยู่กับที่ แอกทินเลื่อน</b></li>
+      <li><b>หดตัวใช้พลังงาน · คลายตัวไม่ใช้</b> (ความยืดหยุ่น) · ต้องมี <b>ATP + Ca²⁺</b> ·
+        <b>Ca²⁺ มาจาก SR</b> · motor neuron หลั่ง <b>acetylcholine</b> · <b>Huxley &amp; Hanson</b></li>
+    </ol>
+    <h4>ระบบต่อมไร้ท่อ</h4>
+    <ol>
+      <li><b>ADH + oxytocin สร้างที่ไฮโพทาลามัส หลั่งที่ต่อมใต้สมองส่วนหลัง</b></li>
+      <li><b>ต่อมจำเป็น 3 ต่อม: พาราไทรอยด์ · หมวกไตส่วนนอก · ตับอ่อน</b> (ขาด=ตายทันที) ·
+        <b>ไทรอยด์ = ไม่จำเป็น</b></li>
+      <li><b>ไทรอยด์ใหญ่ที่สุด · ไพเนียลเล็กที่สุด</b> · พาราไทรอยด์ <b>4 ต่อม</b> หลังไทรอยด์</li>
+      <li><b>-RH กระตุ้น · -IH ยับยั้ง</b> · ยับยั้งมี 2 ตัว = <b>GHIH, PIH(dopamine)</b> ·
+        TRH→TSH→ไทรอยด์ · CRH→ACTH→หมวกไตส่วนนอก · GnRH→FSH,LH→รังไข่/อัณฑะ</li>
+      <li><b>ไทรอยด์ฮอร์โมนเป็นเอมีนแต่ละลายลิพิด</b> · <b>membrane receptor ตอบสนองเร็วกว่า intracellular</b></li>
+      <li><b>T4 = ไอโอดีน 4 · T3 = 3 และ active กว่า</b> · calcitonin จาก <b>C-cell</b></li>
+      <li><b>α=glucagon เพิ่มน้ำตาล (ใหญ่/น้อย/รอบนอก)</b> · <b>β=insulin ลดน้ำตาล (เล็ก/มาก/ตรงกลาง)</b> ·
+        ปกติ <b>70–100 mg/dL</b></li>
+      <li><b>หมวกไตส่วนนอก = สเตอรอยด์ + ACTH + เครียดยาว</b> ·
+        <b>ส่วนใน = epi/norepi + ซิมพาเทติก + เครียดสั้น</b></li>
+      <li><b>PTH เพิ่ม Ca ในเลือด (สลายกระดูก) · calcitonin ลด Ca ในเลือด (สะสมที่กระดูก)</b> ·
+        อวัยวะเป้าหมายเหมือนกัน = กระดูก ไต ลำไส้เล็ก</li>
+      <li><b>aldosterone: ดูดกลับ Na⁺ + น้ำ, ขับ K⁺</b> · <b>ADH: ดูดน้ำกลับ ขาด=เบาจืด 20 ลิตร/วัน</b></li>
+      <li><b>เบาหวาน 1 = β ถูกทำลาย 10%</b> · <b>เบาหวาน 2 = ตัวรับผิดปกติ 90%</b> · GDM <b>24–48w</b>, ทารก <b>&gt;4 kg</b></li>
+      <li><b>เครทินิซึม=ไทรอกซินขาดในเด็ก (ปัญญาอ่อน)</b> · <b>มิกซีดีมา=ขาดในผู้ใหญ่</b> ·
+        <b>คอพอกธรรมดา=ขาดไอโอดีน</b> · <b>คอพอกเป็นพิษ=ไทรอกซินเกิน</b></li>
+      <li><b>GH เกินเด็ก=ร่างยักษ์ · เกินผู้ใหญ่=อะโครเมกาลี · ขาดเด็ก=แคระ · ขาดผู้ใหญ่=ซิมมอน</b> ·
+        <b>cortisol เกิน=คูชชิง</b></li>
+      <li><b>oxytocin=ขับน้ำนม+บีบมดลูก</b> · <b>prolactin=สร้างน้ำนม (ถูก PIH ยับยั้ง)</b></li>
+      <li><b>เมลาโทนิน: ไพเนียล · epithalamus · หลั่งมากกลางคืน · มากเกิน=โตช้า</b></li>
+      <li><b>เนื้อเยื่อ:</b> hCG=<b>รก</b> · thymosin=<b>ไทมัส</b> · gastrin=<b>กระเพาะ</b> ·
+        secretin=<b>ดูโอดีนัม→NaHCO₃</b> · CCK=<b>ดูโอดีนัม→ถุงน้ำดี+เอนไซม์</b> ·
+        erythropoietin=<b>ไต→เม็ดเลือดแดง</b></li>
+      <li><b>negative feedback = PTH, thyroxine</b> · <b>positive feedback = oxytocin ตอนคลอด</b></li>
+      <li><b>ฟีโรโมน: ต่อมมีท่อ · ลิพิดสั้น · ออกนอกกาย · ผลต่อตัวอื่นในสปีชีส์เดียวกัน</b> ·
+        <b>ฮอร์โมนพบทั้งพืชและสัตว์ สารสื่อประสาทพบเฉพาะสัตว์</b></li>
+    </ol>
+    <h4>ก่อนส่งกระดาษ</h4>
+    <ol>
+      <li><b>ฝนครบ 60 ข้อ</b> — นับเป็นแถวละ 10</li>
+      <li><b>เลขข้อไม่เลื่อน</b> — เช็กข้อ 30 กับข้อ 60 ว่าอยู่ช่องที่ถูก</li>
+      <li><b>ข้อที่วงไว้ ฝนหมดแล้ว</b> — ไม่มีข้อว่างแม้ข้อเดียว</li>
+      <li><b>พลิกหน้าสุดท้ายอีกรอบ</b></li>
+    </ol>
+  </div>
+</section>
+
+</div>
+
+<script>
+/* ===== theme ===== */
+(function(){
+  var b=document.getElementById('themebtn');
+  b.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    var dark=window.matchMedia('(prefers-color-scheme:dark)').matches;
+    var next=cur? (cur==='dark'?'light':'dark') : (dark?'light':'dark');
+    document.documentElement.setAttribute('data-theme',next);
+    try{localStorage.setItem('biotheme',next)}catch(e){}
+  });
+  try{var s=localStorage.getItem('biotheme'); if(s)document.documentElement.setAttribute('data-theme',s)}catch(e){}
+})();
+
+/* ================= SWEEP DRILL (pass 1 rehearsal) ================= */
+var PAPER=[
+ {n:1, t:'ข้อ 1',  d:'กระดูกรยางค์ของคนมีกี่ชิ้น'},
+ {n:2, t:'ข้อ 2',  d:'ข้อใด<b>ไม่ใช่</b>หน้าที่ของเยื่อหุ้มกระดูก'},
+ {n:3, t:'ข้อ 3',  d:'ขณะกล้ามเนื้อหดตัว บริเวณใดของซาร์โคเมียร์มีความกว้างคงที่'},
+ {n:4, t:'ข้อ 4',  d:'ข้อต่อแบบอานม้าพบที่บริเวณใดของร่างกาย'},
+ {n:5, t:'ข้อ 5',  d:'ต่อมไร้ท่อใดที่ถ้าขาดแล้วทำให้เสียชีวิตทันที'},
+ {n:6, t:'ข้อ 6',  d:'ฮอร์โมนคู่ใดทำหน้าที่ตรงกันข้ามกันในการควบคุมระดับแคลเซียม'},
+ {n:7, t:'ข้อ 7',  d:'ผู้ป่วยหน้ากลมคล้ายดวงจันทร์ อ้วนกลางลำตัว ต้นคอมีหนอก เกิดจากฮอร์โมนใดมากเกินไป'},
+ {n:8, t:'ข้อ 8',  d:'ข้อใดกล่าวถูกต้องเกี่ยวกับการเปรียบเทียบระบบประสาทกับระบบต่อมไร้ท่อ'},
+ {n:9, t:'ข้อ 9',  d:'จากแผนภาพ ลำดับการลำเลียงน้ำในระบบท่อน้ำของดาวทะเลข้อใดถูกต้อง'},
+ {n:10,t:'ข้อ 10', d:'การหลั่ง oxytocin ขณะคลอดเป็นการควบคุมแบบใด เพราะเหตุใด'}];
+(function(){
+  var box=document.getElementById('sweepPaper'); if(!box) return;
+  box.innerHTML=PAPER.map(function(q){
+    return '<div class="qcard"><div class="t">'+q.t+'</div><div class="d">'+q.d+'</div>'+
+      '<div class="marks" data-n="'+q.n+'">'+
+      ['○','△','✗'].map(function(m){return '<button type="button" data-m="'+m+'">'+m+'</button>'}).join('')+
+      '</div></div>';
+  }).join('');
+  box.querySelectorAll('.marks button').forEach(function(b){
+    b.addEventListener('click',function(){
+      b.parentNode.querySelectorAll('button').forEach(function(x){x.classList.remove('sel')});
+      b.classList.add('sel');
+    });
+  });
+  var t=null,left=60,btn=document.getElementById('sweepStart'),
+      cl=document.getElementById('sweepClock'),msg=document.getElementById('sweepMsg'),
+      out=document.getElementById('sweepOut');
+  function fmt(s){return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
+  btn.addEventListener('click',function(){
+    if(t){clearInterval(t);t=null;btn.textContent='เริ่มจับเวลา 60 วิ';msg.textContent='หยุดแล้ว';return}
+    left=60; cl.textContent=fmt(left); out.innerHTML='';
+    box.querySelectorAll('button.sel').forEach(function(x){x.classList.remove('sel')});
+    btn.textContent='หยุด'; msg.textContent='ให้เครื่องหมายอย่างเดียว ห้ามหาคำตอบ';
+    t=setInterval(function(){
+      left--; cl.textContent=fmt(Math.max(0,left));
+      if(left<=0){clearInterval(t);t=null;btn.textContent='เริ่มใหม่';finish()}
+    },1000);
+  });
+  function finish(){
+    var marked=box.querySelectorAll('button.sel').length;
+    var easy=[],mid=[],hard=[];
+    box.querySelectorAll('.marks').forEach(function(m){
+      var s=m.querySelector('button.sel'); if(!s) return;
+      var n=+m.dataset.n;
+      if(s.dataset.m==='○') easy.push(n); else if(s.dataset.m==='△') mid.push(n); else hard.push(n);
+    });
+    var msgs = marked<10
+      ? '<b class="non">ให้เครื่องหมายได้ '+marked+' จาก 10 ข้อ</b> — ในกระดาษจริงมี 60 ข้อ '+
+        'ถ้าความเร็วนี้ คุณจะใช้เวลาคัดข้อนานเกินไป ลองใหม่จนครบ 10 ข้อใน 60 วินาที'
+      : '<b class="yes">ครบ 10 ข้อใน 60 วินาที</b> — เท่ากับกวาด 60 ข้อได้ใน 6 นาที ซึ่งคุ้มมาก '+
+        'นี่คือสิ่งที่ต้องทำได้โดยไม่ต้องคิด';
+    out.innerHTML='<div class="note timebox" style="margin-top:18px"><span class="lbl">ผลการคัดข้อ</span>'+msgs+
+      '<br><br><b>ทำก่อน (○):</b> '+(easy.length?easy.join(' → '):'— ยังไม่ได้ทำเครื่องหมาย')+
+      '<br><b>รอบ 2 (△):</b> '+(mid.length?mid.join(', '):'ไม่มี')+
+      '<br><b>รอบ 3 เดา (✗):</b> '+(hard.length?hard.join(', '):'ไม่มี')+
+      '<br><br><span style="color:var(--muted)">สิ่งที่ต้องได้จากแบบฝึกนี้ไม่ใช่คำตอบ '+
+      'แต่คือความรู้สึกว่า “ข้ามได้โดยไม่รู้สึกผิด” — ข้อสอบ 26 ส.ค. คุณเสียคะแนนเพราะไม่ยอมข้าม</span></div>';
+  }
+})();
+
+/* ================= CHECKPOINT CLOCK ================= */
+(function(){
+  var inp=document.getElementById('totalMin'),box=document.getElementById('budget');
+  if(!inp||!box) return;
+  function draw(){
+    var grand=Math.max(20,+inp.value||60);
+    var work=grand*0.9;                       /* กัน 10% ไว้เดา + ตรวจ */
+    var marks=[10,20,30,40,50,60];
+    box.innerHTML=marks.map(function(k){
+      var at=Math.round(k*work/60);
+      return '<div class="cell"'+(k===30?' style="border-color:var(--warn)"':'')+
+        '><div class="k">ถึงข้อ '+k+'</div><div class="v">'+at+
+        "'"+' <span style="font-size:13px;color:var(--muted)">นาที</span></div></div>';
+    }).join('')+
+    '<div class="cell" style="border-color:var(--no)"><div class="k">เดา + ตรวจ</div><div class="v">'+
+    (grand-Math.round(work))+"'"+' <span style="font-size:13px;color:var(--muted)">ที่กันไว้</span></div></div>';
+  }
+  inp.addEventListener('input',draw); draw();
+})();
+
+/* ================= SARCOMERE FIGURE ================= */
+(function(){
+  var host=document.getElementById('sarcoFig'); if(!host) return;
+  var A0=220,A1=480,ACT=170,MID=(A0+A1)/2;   /* A band ยึดที่เดิมเสมอ: ไมโอซินไม่ขยับ */
+  function draw(state){
+    var zL = state==='c' ? 170 : 90;
+    var zR = state==='c' ? 530 : 610;
+    var tipL=zL+ACT, tipR=zR-ACT;            /* ปลายแอกซินจากสองข้าง */
+    var iB=A0-zL;                            /* I band = จาก Z ถึงขอบ A band */
+    var hZ=Math.max(0,tipR-tipL);            /* H zone = ช่องที่แอกทินยังไม่เหลื่อมถึง */
+    var s='<svg viewBox="0 0 700 380" style="min-width:600px">';
+    s+='<style>'+
+       '.zl{stroke:var(--ink);stroke-width:8;stroke-linecap:round}'+
+       '.ac{stroke:var(--hum);stroke-width:4;stroke-linecap:round}'+
+       '.my{stroke:var(--hr);stroke-width:10;stroke-linecap:round}'+
+       '.hd{stroke:var(--hr);stroke-width:3;stroke-linecap:round}'+
+       '.br{stroke:var(--muted);stroke-width:1.5}'+
+       '.ml{stroke:var(--muted);stroke-width:2;stroke-dasharray:4 4}'+
+       'text{font-family:"IBM Plex Sans Thai",sans-serif;font-size:14px;fill:var(--ink)}'+
+       'text.d{fill:var(--muted);font-size:12.5px}'+
+       'text.k{font-family:"Chakra Petch",sans-serif;font-weight:700;font-size:15px}'+
+       '</style>';
+    /* A band shading */
+    s+='<rect x="'+A0+'" y="66" width="'+(A1-A0)+'" height="128" fill="var(--hr)" opacity=".07"/>';
+    /* Z lines */
+    [zL,zR].forEach(function(z){ s+='<line class="zl" x1="'+z+'" y1="62" x2="'+z+'" y2="198"/>'; });
+    s+='<text class="k" x="'+zL+'" y="50" text-anchor="middle" fill="var(--ink)">Z</text>';
+    s+='<text class="k" x="'+zR+'" y="50" text-anchor="middle" fill="var(--ink)">Z</text>';
+    /* myosin: thick filaments */
+    [92,130,168].forEach(function(y){
+      s+='<line class="my" x1="'+A0+'" y1="'+y+'" x2="'+A1+'" y2="'+y+'"/>';
+      for(var x=A0+22;x<A1-10;x+=34){
+        s+='<line class="hd" x1="'+x+'" y1="'+y+'" x2="'+(x+9)+'" y2="'+(y-11)+'"/>';
+        s+='<line class="hd" x1="'+x+'" y1="'+y+'" x2="'+(x+9)+'" y2="'+(y+11)+'"/>';
+      }
+    });
+    /* actin: thin filaments from each Z line */
+    [76,111,149,184].forEach(function(y){
+      s+='<line class="ac" x1="'+zL+'" y1="'+y+'" x2="'+tipL+'" y2="'+y+'"/>';
+      s+='<line class="ac" x1="'+zR+'" y1="'+y+'" x2="'+tipR+'" y2="'+y+'"/>';
+    });
+    /* M line */
+    s+='<line class="ml" x1="'+MID+'" y1="70" x2="'+MID+'" y2="190"/>';
+    s+='<text class="k" x="'+MID+'" y="206" text-anchor="middle">M</text>';
+    /* brackets */
+    function br(x1,x2,y,label,val){
+      var m=(x1+x2)/2;
+      var t='<line class="br" x1="'+x1+'" y1="'+y+'" x2="'+x2+'" y2="'+y+'"/>'+
+            '<line class="br" x1="'+x1+'" y1="'+(y-5)+'" x2="'+x1+'" y2="'+(y+5)+'"/>'+
+            '<line class="br" x1="'+x2+'" y1="'+(y-5)+'" x2="'+x2+'" y2="'+(y+5)+'"/>'+
+            '<text class="k" x="'+m+'" y="'+(y-10)+'" text-anchor="middle">'+label+'</text>';
+      if(val!=null) t+='<text class="d" x="'+m+'" y="'+(y+18)+'" text-anchor="middle">'+val+'</text>';
+      return t;
+    }
+    /* แต่ละวงเล็บอยู่คนละแถว ห่างกัน 24px กันป้ายทับกันตอนหดตัว (H แคบมาก) */
+    if(hZ>6) s+=br(tipL,tipR,240,'H',Math.round(hZ));
+    else s+='<text class="k" x="'+MID+'" y="244" text-anchor="middle" fill="var(--no)">H ≈ 0</text>';
+    s+=br(zL,A0,292,'I',Math.round(iB));
+    s+=br(A0,A1,292,'A',Math.round(A1-A0));
+    /* sarcomere width */
+    s+=br(zL,zR,344,'ซาร์โคเมียร์',Math.round(zR-zL));
+    s+='</svg>';
+    host.innerHTML=s;
+  }
+  var rb=document.getElementById('sarcoRelax'),cb=document.getElementById('sarcoContract'),
+      st=document.getElementById('sarcoState');
+  function set(state){
+    draw(state);
+    rb.classList.toggle('on',state==='r'); cb.classList.toggle('on',state==='c');
+    st.innerHTML = state==='c'
+      ? 'สถานะ: <b>หดตัว</b> — I แคบลง · H เกือบหาย · <b>A คงที่</b> · ซาร์โคเมียร์สั้นลง'
+      : 'สถานะ: <b>คลายตัว</b> — เทียบตัวเลขใต้รูปกับตอนหดตัว';
+  }
+  rb.addEventListener('click',function(){set('r')});
+  cb.addEventListener('click',function(){set('c')});
+  set('r');
+})();
+
+/* ================= NUMBER FLASHCARDS ================= */
+var NUMS=[
+['กระดูก','โครงกระดูกของคนที่เจริญเต็มที่มีทั้งสิ้นกี่ชิ้น','206 ชิ้น','แบ่งตามตำแหน่งที่อยู่เป็น 2 กลุ่ม'],
+['กระดูก','กระดูกแกน axial skeleton มีกี่ชิ้น','80 ชิ้น','กะโหลก + สันหลัง + ซี่โครง + กระดูกอก'],
+['กระดูก','กระดูกรยางค์ appendicular skeleton มีกี่ชิ้น','126 ชิ้น','แขน 60 + ขา 60 + สะบัก 2 + ไหปลาร้า 2 + เชิงกราน 2'],
+['กระดูก','กระดูกสันหลังประกอบด้วยกระดูกกี่ชิ้น','34 ชิ้น','เรียกแต่ละชิ้นว่า vertebra · ส่วนท้ายเชื่อมรวมกัน'],
+['กระดูก','กระดูกซี่โครงมีกี่คู่','12 คู่','1–7 true · 8–10 false · 11–12 ลอย'],
+['กระดูก','ซี่โครงคู่ที่เท่าไรเรียก true ribs','คู่ที่ 1–7','vertebrosternal · เชื่อมกระดูกอกด้วยกระดูกอ่อนแยกกันแต่ละคู่'],
+['กระดูก','ซี่โครงคู่ที่เท่าไรเรียก false ribs','คู่ที่ 8–10','vertebrochondal · ใช้กระดูกอ่อนร่วมกัน'],
+['กระดูก','ซี่โครงลอย floating ribs คือคู่ที่เท่าไร','คู่ที่ 11–12','ไม่เชื่อมกระดูกอก · อาจหักไปทิ่มปอด'],
+['กระดูก','กระดูกหน้าอกยึดอยู่กับกระดูกซี่โครงกี่คู่','10 คู่','เพราะคู่ที่ 11–12 ไม่เชื่อม'],
+['กระดูก','กระดูกหน้าอก sternum มีกี่ชิ้น','1 ชิ้น','อยู่ด้านหน้า'],
+['กระดูก','กระดูกแขนมีข้างละกี่ชิ้น','30 ชิ้น (รวม 60)','8 + 5 + 14 + humerus + ulna + radius'],
+['กระดูก','กระดูกขามีข้างละกี่ชิ้น','30 ชิ้น (รวม 60)','7 + 5 + 14 + femur + patella + tibia + fibula'],
+['กระดูก','กระดูกข้อมือ carpals มีข้างละกี่ชิ้น','8 ชิ้น','คู่กับข้อเท้าที่มี 7 — เลขเดียวที่ต่างกัน'],
+['กระดูก','กระดูกข้อเท้า tarsals มีข้างละกี่ชิ้น','7 ชิ้น','น้อยกว่าข้อมือ 1 ชิ้น'],
+['กระดูก','กระดูกฝ่ามือและฝ่าเท้ามีข้างละกี่ชิ้น','5 ชิ้น ทั้งคู่','metacarpals และ metatarsals เท่ากัน'],
+['กระดูก','กระดูกนิ้วมือและนิ้วเท้ามีข้างละกี่ชิ้น','14 ชิ้น ทั้งคู่','phalanges เท่ากัน'],
+['กระดูก','ขม่อม fontanelles หายไปเมื่อทารกอายุเท่าไร','18 เดือน','กระดูกหุ้มสมองผสานและเชื่อมติดกัน'],
+['กระดูก','กระดูกอ่อนแบ่งเป็นกี่ชนิด','3 ชนิด','ไฮอะลีน · ไฟโบร · อิลาสติก · ทั้งหมดไม่มีหลอดเลือด'],
+['กระดูก','ข้อต่อแบ่งเป็นกี่กลุ่มหลัก','3 กลุ่ม','เคลื่อนไหวไม่ได้ · ได้เล็กน้อย · ได้มาก'],
+['กระดูก','ข้อต่อที่เคลื่อนไหวได้มีกี่ชนิดย่อย','6 ชนิด','บานพับ · ลูกกลมในเบ้า · เลื่อน · อานม้า · เดือย · ปุ่ม'],
+['กระดูก','กล้ามเนื้อของคนมีกี่ชนิด','3 ชนิด','หัวใจ · เรียบ · โครงร่าง(ลาย)'],
+['กระดูก','วงจรการทำงานของหัวไมโอซินมีกี่ขั้น','5 ขั้น','จับ ATP → สลาย → ยกหัวจับแอกทิน → ADP+Pi หลุด → ATP ใหม่เข้ามา'],
+['ต่อมไร้ท่อ','ระดับน้ำตาลในเลือดของคนปกติอยู่ที่เท่าไร','70–100 mg/dL','ตัวเลขนี้ออกเป็นตัวเลือกได้ตรง ๆ'],
+['ต่อมไร้ท่อ','ในการทดสอบ GTT ผู้ป่วยเบาหวานมีน้ำตาลสูงกว่าเท่าไร','สูงกว่า 200 mg/dL','และลดลงช้ากว่าคนปกติ'],
+['ต่อมไร้ท่อ','คนปกติกลับสู่ระดับน้ำตาลปกติภายในเวลาเท่าไร','ประมาณ 2 ชั่วโมง','ส่วนผู้ป่วยเบาหวานใช้เวลานานกว่า'],
+['ต่อมไร้ท่อ','การทดสอบ GTT ต้องงดอาหารอย่างน้อยกี่ชั่วโมง','12 ชั่วโมง','แล้วติดตามระดับน้ำตาลถึงนาทีที่ 180'],
+['ต่อมไร้ท่อ','โรคเบาหวานชนิดที่ 1 พบร้อยละเท่าไร','ร้อยละ 10','β-cell ถูกทำลายโดยระบบภูมิคุ้มกัน'],
+['ต่อมไร้ท่อ','โรคเบาหวานชนิดที่ 2 พบร้อยละเท่าไร','ร้อยละ 90','ตัวรับสัญญาณของอินซูลินผิดปกติ'],
+['ต่อมไร้ท่อ','เบาหวานขณะตั้งครรภ์เกิดช่วงสัปดาห์ที่เท่าไร','ประมาณ 24–48 สัปดาห์','หลังคลอดระดับน้ำตาลกลับเป็นปกติ'],
+['ต่อมไร้ท่อ','ทารกจากมารดา GDM อาจมีน้ำหนักแรกคลอดมากกว่าเท่าไร','มากกว่า 4 kg','ภาวะทารกตัวโต'],
+['ต่อมไร้ท่อ','ถ้าขาด ADH ปัสสาวะมากได้ถึงเท่าไร','20 ลิตร/วัน','เรียกว่าโรคเบาจืด'],
+['ต่อมไร้ท่อ','ต่อมพาราไทรอยด์มีกี่ต่อม','4 ต่อม','เล็กเท่าเม็ดข้าว อยู่ด้านหลังต่อมไทรอยด์'],
+['ต่อมไร้ท่อ','ไทรอกซิน T4 มีไอโอดีนกี่อะตอม','4 อะตอม','เกาะกับกรดอะมิโน tyrosine'],
+['ต่อมไร้ท่อ','T3 มีไอโอดีนกี่อะตอม','3 อะตอม','เป็นตัวที่ active มากกว่า T4'],
+['ต่อมไร้ท่อ','ต่อมหมวกไตส่วนนอกสร้างสเตอรอยด์มากกว่ากี่ชนิด','มากกว่า 50 ชนิด','แบ่ง 3 กลุ่ม: กลูโค · มิเนราโล · ฮอร์โมนเพศ'],
+['ต่อมไร้ท่อ','รอบประจำเดือนของมนุษย์ครอบคลุมกี่วัน','28 วัน','ควบคุมด้วยฮอร์โมน 5 ชนิด'],
+['ต่อมไร้ท่อ','ฮอร์โมนที่ทำให้เกิดรอบเดือนมีกี่ชนิด','5 ชนิด','GnRH · FSH · LH · estrogen · progesterone'],
+['ต่อมไร้ท่อ','ผู้หญิงมีประจำเดือนครั้งแรกอายุประมาณเท่าไร','11–12 ปี','เรียกว่า menarche'],
+['ต่อมไร้ท่อ','ประจำเดือนหมดไปเมื่ออายุประมาณเท่าไร','ประมาณ 50 ปี','เข้าสู่วัยทอง menopause'],
+['ต่อมไร้ท่อ','ฮอร์โมนเพศชายเริ่มทำงานเมื่ออายุประมาณเท่าไร','ประมาณ 13 ปี','เข้าสู่วัยรุ่น puberty'],
+['ต่อมไร้ท่อ','ต่อมไทมัสเสื่อมสภาพและฝ่อเมื่ออายุมากกว่าเท่าไร','มากกว่า 50 ปี','เจริญเต็มที่ตอนเป็นทารกในครรภ์'],
+['ต่อมไร้ท่อ','ต่อมไทรอยด์และต่อมไทมัส มีลักษณะเป็นกี่พู','2 พู ทั้งคู่','ไทรอยด์คล้ายผีเสื้อกางปีก/ตัว H'],
+['ต่อมไร้ท่อ','ฮอร์โมนแบ่งตามโครงสร้างทางเคมีได้กี่กลุ่ม','3 กลุ่ม','เพปไทด์/โปรตีน · เอมีน · สเตอรอยด์'],
+['ต่อมไร้ท่อ','ฮอร์โมนแบ่งตามการทำงานได้กี่กลุ่ม','5 กลุ่ม','คุมฮอร์โมนอื่น · เมแทบอลิซึม · สืบพันธุ์-เจริญเติบโต · น้ำและแร่ธาตุ · อื่น ๆ'],
+['สัตว์อื่น','แกนของซิเลียและแฟลเจลลัมจัดเรียงแบบใด','9 + 2','9 กลุ่ม กลุ่มละ 2 หลอด + แกนกลาง 2 = 20 หลอด'],
+['สัตว์อื่น','เบซัลบอดีจัดเรียงแบบใด','9 + 0','9 กลุ่ม กลุ่มละ 3 หลอด ไม่มีแกนกลาง = 27 หลอด'],
+['สัตว์อื่น','ไส้เดือนดินมีกล้ามเนื้อกี่ชุด','2 ชุด','วง + ตามยาว · ทำงานแบบ antagonism ร่วมกับเดือย'],
+['สัตว์อื่น','หนอนตัวกลมมีกล้ามเนื้อกี่ชุด','1 ชุด','ตามยาวเท่านั้น จึงบังคับทิศทางไม่ได้'],
+['สัตว์อื่น','พลานาเรียมีกล้ามเนื้อลำตัวกี่ชนิด','3 ชนิด','วง · ตามยาว · ทแยง'],
+['สัตว์อื่น','นกหายใจกี่ครั้งต่อการหมุนเวียนอากาศครบ 1 รอบ','เข้า 2 ครั้ง ออก 2 ครั้ง','ไม่ใช่เข้า 1 ออก 1'],
+['สัตว์อื่น','ลำดับระบบท่อน้ำของดาวทะเลมีกี่ขั้น จากไหนถึงไหน','6 ขั้น','madreporite → stone canal → ring canal → radial canal → ampulla → tube feet']
+];
+(function(){
+  var flash=document.getElementById('numFlash'); if(!flash) return;
+  var pool=[],i=0,shown=false,cur='all';
+  function build(){
+    pool=NUMS.map(function(r,k){return k}).filter(function(k){return cur==='all'||NUMS[k][0]===cur});
+    for(var a=pool.length-1;a>0;a--){var b=Math.floor(Math.random()*(a+1));var t=pool[a];pool[a]=pool[b];pool[b]=t}
+    i=0;shown=false;render();
+  }
+  function render(){
+    var r=NUMS[pool[i]];
+    flash.innerHTML='<div><div class="qq">'+r[1]+'</div>'+
+      (shown?'<div class="aa">'+r[2]+'</div><div class="nn">'+r[3]+'</div>'
+            :'<div class="aa" style="color:var(--muted)">? ? ?</div><div class="nn">ตอบในใจก่อน แล้วกดเปิดคำตอบ</div>')+
+      '</div>';
+    document.getElementById('numScore').textContent='ใบที่ '+(i+1)+' / '+pool.length+' · หมวด '+r[0];
+    document.getElementById('numBar').style.width=((i+1)/pool.length*100)+'%';
+  }
+  document.getElementById('numShow').addEventListener('click',function(){shown=true;render()});
+  document.getElementById('numNext').addEventListener('click',function(){
+    i=(i+1)%pool.length; shown=false; render();
+  });
+  document.getElementById('numShuffle').addEventListener('click',build);
+  document.querySelectorAll('[data-nset]').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('[data-nset]').forEach(function(x){x.classList.remove('on')});
+      b.classList.add('on'); cur=b.dataset.nset; build();
+    });
+  });
+  build();
+})();
+
+/* ================= MATCHING DRILL ================= */
+var MSETS=[
+ {name:'ต่อม ↔ ฮอร์โมน',left:'ต่อม / เนื้อเยื่อ',right:'ฮอร์โมนที่สร้าง',pairs:[
+  ['ต่อมพาราไทรอยด์','parathormone (PTH)'],
+  ['C-cell ของต่อมไทรอยด์','calcitonin'],
+  ['เซลล์บีตาของตับอ่อน','insulin'],
+  ['เซลล์แอลฟาของตับอ่อน','glucagon'],
+  ['ต่อมหมวกไตส่วนใน','epinephrine + norepinephrine'],
+  ['ต่อมไพเนียล','melatonin'],
+  ['รก','hCG'],
+  ['ไต','erythropoietin']]},
+ {name:'ฮอร์โมน ↔ หน้าที่',left:'ฮอร์โมน',right:'หน้าที่',pairs:[
+  ['ADH','กระตุ้นการดูดน้ำกลับที่ท่อหน่วยไตและท่อรวม'],
+  ['aldosterone','ดูดกลับ Na⁺ และน้ำ · ขับ K⁺ ออกจากท่อหน่วยไต'],
+  ['oxytocin','กระตุ้นมดลูกบีบตัว และขับน้ำนมออกจากต่อมน้ำนม'],
+  ['prolactin','กระตุ้นการสร้างน้ำนมที่ต่อมน้ำนม'],
+  ['secretin','กระตุ้นตับอ่อนให้หลั่ง NaHCO₃ ลดความเป็นกรด'],
+  ['CCK','กระตุ้นถุงน้ำดีบีบตัวและตับอ่อนหลั่งเอนไซม์'],
+  ['thymosin','พัฒนาการของลิมโฟไซต์ชนิดที'],
+  ['gastrin','กระตุ้นการหลั่งเอนไซม์และกรดในกระเพาะอาหาร']]},
+ {name:'โรค ↔ สาเหตุ',left:'โรค / กลุ่มอาการ',right:'สาเหตุ',pairs:[
+  ['เครทินิซึม','ขาดไทรอกซินในวัยเด็ก'],
+  ['มิกซีดีมา','ขาดไทรอกซินในวัยผู้ใหญ่'],
+  ['คอพอกธรรมดา','ร่างกายขาดธาตุไอโอดีน'],
+  ['คอพอกเป็นพิษ','สร้างไทรอกซินมากกว่าปกติ'],
+  ['กลุ่มอาการคูชชิง','cortisol (กลูโคคอร์ติคอยด์) สูงเกินไป'],
+  ['อะโครเมกาลี','GH มากเกินไปในวัยผู้ใหญ่'],
+  ['สภาพร่างยักษ์','GH มากเกินไปในวัยเด็ก'],
+  ['โรคเบาจืด','ขาด ADH'],
+  ['โรคเบาหวานชนิดที่ 1','β-cell ถูกทำลายโดยระบบภูมิคุ้มกัน'],
+  ['โรคเบาหวานชนิดที่ 2','ตัวรับสัญญาณของอินซูลินผิดปกติ']]},
+ {name:'ข้อต่อ ↔ ตำแหน่ง',left:'ชนิดข้อต่อ',right:'ตำแหน่งในร่างกาย',pairs:[
+  ['บานพับ hinge','ข้อศอก · ข้อเข่า'],
+  ['ลูกกลมในเบ้า ball and socket','หัวไหล่ · สะโพก'],
+  ['เลื่อน gliding','ข้อมือ · ข้อเท้า'],
+  ['อานม้า saddle','ฝ่ามือกับนิ้วหัวแม่มือ'],
+  ['เดือย pivot','ต้นคอกับฐานกะโหลกศีรษะ'],
+  ['ปุ่ม condyloid','ฝ่ามือกับนิ้วมือ'],
+  ['เคลื่อนไหวไม่ได้ immovable','ข้อต่อกะโหลกศีรษะ'],
+  ['เคลื่อนไหวได้เล็กน้อย','ซี่โครงกับกระดูกหน้าอก']]},
+ {name:'สัตว์ ↔ การเคลื่อนที่',left:'สิ่งมีชีวิต',right:'ใช้อะไรเคลื่อนที่',pairs:[
+  ['อะมีบา','ตีนเทียม จากการไหลของไซโทพลาซึม'],
+  ['พารามีเซียม','ซิเลีย'],
+  ['ยูกลีนา','แฟลเจลลัม'],
+  ['ดาวทะเล','ระบบท่อน้ำ + ทิวบ์ฟีท'],
+  ['ไส้เดือนดิน','กล้ามเนื้อ 2 ชุด + เดือย เกิด peristalsis'],
+  ['หนอนตัวกลม','กล้ามเนื้อตามยาวชุดเดียว สะบัดตัวไปมา'],
+  ['แมงกะพรุน','พ่นน้ำ jet propulsion'],
+  ['มนุษย์','ระบบโครงกระดูก + ระบบกล้ามเนื้อ']]}
+];
+(function(){
+  var box=document.getElementById('matchBox'),out=document.getElementById('matchOut');
+  if(!box) return;
+  var set=0,selL=null,left=[],right=[],done=0,tries=0;
+  function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+  function build(){
+    var S=MSETS[set]; done=0; tries=0; selL=null; out.innerHTML='';
+    left=shuffle(S.pairs.map(function(p,i){return i}));
+    right=shuffle(S.pairs.map(function(p,i){return i}));
+    box.innerHTML=
+      '<div class="col"><div class="hd">'+S.left+'</div>'+
+        left.map(function(i){return '<div class="it" data-side="l" data-i="'+i+'">'+S.pairs[i][0]+'</div>'}).join('')+'</div>'+
+      '<div class="col"><div class="hd">'+S.right+'</div>'+
+        right.map(function(i){return '<div class="it" data-side="r" data-i="'+i+'">'+S.pairs[i][1]+'</div>'}).join('')+'</div>';
+    box.querySelectorAll('.it').forEach(function(el){ el.addEventListener('click',function(){click(el)}) });
+    upd();
+  }
+  function upd(){
+    document.getElementById('matchScore').textContent=
+      'จับคู่ถูก '+done+' / '+MSETS[set].pairs.length+(tries?(' · กดไปทั้งหมด '+tries+' ครั้ง'):'');
+  }
+  function click(el){
+    if(el.classList.contains('done')) return;
+    if(el.dataset.side==='l'){
+      box.querySelectorAll('[data-side="l"]').forEach(function(x){x.classList.remove('sel')});
+      el.classList.add('sel'); selL=el; return;
+    }
+    if(!selL){ el.classList.add('sel'); setTimeout(function(){el.classList.remove('sel')},260); return; }
+    tries++;
+    if(el.dataset.i===selL.dataset.i){
+      el.classList.add('done'); selL.classList.add('done'); selL.classList.remove('sel');
+      selL=null; done++; upd();
+      if(done===MSETS[set].pairs.length){
+        out.innerHTML='<div class="note winbox" style="margin-top:16px"><span class="lbl">จบชุด</span>'+
+          'ครบทุกคู่ · ใช้การกด <b>'+tries+'</b> ครั้ง จากที่น้อยที่สุดคือ '+done+' ครั้ง'+
+          (tries===done? ' — <b>ไม่พลาดเลย</b> ชุดนี้ผ่าน'
+                        : ' — ถ้ายังพลาด ให้ทำซ้ำจนกดเท่ากับจำนวนคู่ ตัวลวงในข้อสอบทำจากคู่ที่คุณพลาดตรงนี้')+
+          '<br><br><button class="btn" type="button" id="mAgain">ทำชุดนี้ใหม่</button></div>';
+        document.getElementById('mAgain').addEventListener('click',build);
+      }
+    } else {
+      var a=selL,b=el;
+      a.style.borderColor='var(--no)'; b.style.borderColor='var(--no)';
+      setTimeout(function(){a.style.borderColor='';b.style.borderColor='';a.classList.remove('sel')},420);
+      selL=null; upd();
+    }
+  }
+  document.querySelectorAll('[data-mset]').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('[data-mset]').forEach(function(x){x.classList.remove('on')});
+      b.classList.add('on'); set=+b.dataset.mset; build();
+    });
+  });
+  build();
+})();
+</script>
+
+<script>
+/* ===== answer-key rebalance =====
+   เขียนโจทย์ด้วยมือแล้วคำตอบมักไปกองที่ตัวเลือกเดิม (ชุดแรกกองที่ข้อ 2 ถึง 43%)
+   ถ้าปล่อยไว้ การ "เดาตัวเดิมทุกครั้ง" ตามที่หน้านี้สอน จะได้คะแนนสูงเกินจริง
+   ฟังก์ชันนี้หมุนตัวเลือกของแต่ละข้อแบบวนรอบ ให้คำตอบกระจาย 0,1,2,3 เท่ากัน
+   (หมุนพร้อมกันทั้งตัวเลือกและดัชนีคำตอบ เฉลยจึงยังตรงเสมอ) */
+function rebalance(bank){
+  bank.forEach(function(row,i){
+    var ans=row[3], target=i%4, s=(ans-target+4)%4;
+    if(s===0) return;
+    var old=row[2].slice();
+    for(var j=0;j<4;j++) row[2][j]=old[(j+s)%4];
+    row[3]=target;
+  });
+  return bank;
+}
+
+/* ================= FAST MCQ DRILL ================= */
+/* [หมวด, โจทย์, [4 ตัวเลือก], ดัชนีคำตอบ, เหตุผล] */
+var FAST=[
+['มนุษย์','กระดูกรยางค์ appendicular skeleton ของคนมีกี่ชิ้น',
+ ['80 ชิ้น','126 ชิ้น','206 ชิ้น','34 ชิ้น'],1,
+ '<b>126</b> = แขน 60 + ขา 60 + สะบัก 2 + ไหปลาร้า 2 + เชิงกราน 2 · <b>80 คือกระดูกแกน</b> · 206 คือทั้งร่าง · 34 คือกระดูกสันหลัง'],
+['มนุษย์','ข้อใด<b>ไม่ใช่</b>กระดูกแกน axial skeleton',
+ ['กระดูกซี่โครง','กระดูกหน้าอก','กระดูกสะบัก','กระดูกสันหลัง'],2,
+ '<b>กระดูกสะบัก scapula เป็นกระดูกรยางค์</b> เพราะเป็นที่ยึดเกาะของแขน · กระดูกแกนมีแค่ 4 อย่าง คือ กะโหลก สันหลัง ซี่โครง กระดูกหน้าอก'],
+['มนุษย์','ขณะกล้ามเนื้อหดตัว บริเวณใดของซาร์โคเมียร์มีความกว้าง<b>คงที่</b>',
+ ['I band','H zone','A band','ซาร์โคเมียร์'],2,
+ '<b>A band คงที่</b> เพราะ A band คือความยาวของ<b>ไมโอซิน</b> และไมโอซิน<b>ไม่ขยับ</b> · I และ H <b>แคบลง</b> · ซาร์โคเมียร์<b>สั้นลง</b>'],
+['มนุษย์','บริเวณใดของซาร์โคเมียร์พบ<b>เฉพาะไมโอซินเท่านั้น</b> ไม่พบแอกทิน',
+ ['I band','H zone','A band','Z line'],1,
+ '<b>H zone = ไมโอซินล้วน</b> · <b>I band = แอกทินล้วน</b> · A band = ไมโอซินทั้งหมด (อาจมีแอกทินเหลื่อม) · Z line = เส้นกั้นระหว่างซาร์โคเมียร์'],
+['มนุษย์','ข้อต่อชนิดใดมีอิสระในการเคลื่อนไหว<b>สูงสุด</b>',
+ ['บานพับ hinge','เดือย pivot','ลูกกลมในเบ้ากระดูก ball and socket','อานม้า saddle'],2,
+ '<b>ball and socket</b> เหวี่ยงได้รอบทิศ <b>360°</b> · พบที่<b>หัวไหล่และสะโพก</b> · บานพับได้แค่งอ-เหยียด'],
+['มนุษย์','ข้อต่อแบบอานม้า saddle joint พบที่บริเวณใด',
+ ['ข้อศอก','ฝ่ามือกับนิ้วหัวแม่มือ','ต้นคอกับฐานกะโหลกศีรษะ','ข้อมือ'],1,
+ '<b>อานม้า = นิ้วหัวแม่มือ</b> · ข้อศอก = <b>บานพับ</b> · ต้นคอ-ฐานกะโหลก = <b>เดือย</b> · ข้อมือ = <b>เลื่อน gliding</b>'],
+['มนุษย์','กล้ามเนื้อชนิดใดมี<b>หลายนิวเคลียส</b> และทำงาน<b>ในอำนาจจิตใจ</b>',
+ ['กล้ามเนื้อหัวใจ','กล้ามเนื้อเรียบ','กล้ามเนื้อโครงร่าง','กล้ามเนื้อเรียบและหัวใจ'],2,
+ '<b>โครงร่าง = หลายนิวเคลียส + มีลาย + โซมาติก + ในอำนาจจิตใจ</b> · หัวใจและเรียบมี <b>1 นิวเคลียส</b> และอยู่<b>นอกอำนาจจิตใจ</b> (อัตโนวัติ)'],
+['มนุษย์','กล้ามเนื้อชนิดใด<b>ไม่มีลาย</b>',
+ ['กล้ามเนื้อหัวใจ','กล้ามเนื้อเรียบ','กล้ามเนื้อโครงร่าง','ไม่มีชนิดใดมีลาย'],1,
+ 'มีเพียง<b>กล้ามเนื้อเรียบที่ไม่มีลาย</b> · <b>หัวใจมีลาย</b> (เป็นแถบลายเหมือนกล้ามเนื้อยึดกระดูก) — ข้อนี้คือตัวลวงที่คนพลาดเยอะสุดของตาราง 3 ชนิด'],
+['มนุษย์','เนื้อเยื่อที่ยึด<b>กระดูกกับกระดูก</b>ให้เชื่อมติดกันเรียกว่าอะไร',
+ ['เอ็นยึดกระดูก tendon','เอ็นยึดข้อ ligament','เยื่อหุ้มกระดูก periosteum','กระดูกอ่อนไฟโบร'],1,
+ '<b>ligament = กระดูก↔กระดูก</b> ("ล็อกข้อ") · <b>tendon = กล้ามเนื้อ↔กระดูก</b> ("ตึงกล้าม") · ทั้งคู่เป็นเนื้อเยื่อเกี่ยวพันที่เหนียวและทนแรงดึง'],
+['มนุษย์','เอ็นร้อยหวาย Achilles tendon จัดเป็นเอ็นชนิดใด',
+ ['เอ็นยึดข้อ ligament','เอ็นยึดกระดูก tendon','กระดูกอ่อนอิลาสติก','เยื่อหุ้มกระดูก'],1,
+ 'เป็น <b>tendon ชนิดหนึ่ง</b> เพราะยึดระหว่าง<b>กล้ามเนื้อน่อง</b>กับ<b>กระดูกส้นเท้า</b> — คือกล้ามเนื้อกับกระดูก'],
+['มนุษย์','สารที่เป็นส่วนสำคัญในกระดูกคือข้อใด',
+ ['CaCO₃ และ CaPO₄','NaHCO₃ และ KCl','คอลลาเจนและอิลาสติน','ไกลโคเจนและลิพิด'],0,
+ '<b>แคลเซียมคาร์บอเนต CaCO₃</b> และ <b>แคลเซียมฟอสเฟต CaPO₄</b> · NaHCO₃ คือสิ่งที่ตับอ่อนหลั่งตามคำสั่ง secretin — คนละเรื่อง'],
+['มนุษย์','ข้อใดกล่าวถูกต้องเกี่ยวกับการคลายตัวของกล้ามเนื้อ',
+ ['ใช้พลังงานมากกว่าการหดตัว','ใช้พลังงานเท่ากับการหดตัว','ไม่ต้องใช้พลังงาน เกิดจากความยืดหยุ่นของกล้ามเนื้อ','ต้องใช้ Ca²⁺ แต่ไม่ใช้ ATP'],2,
+ '<b>การหดตัวใช้พลังงาน แต่การคลายตัวเกิดขึ้นเองจากความยืดหยุ่น ไม่ต้องใช้พลังงานและกลไกใด ๆ</b> — ตัวลวงที่ออกซ้ำทุกปี'],
+['มนุษย์','Ca²⁺ ที่ทำให้กล้ามเนื้อหดตัวถูกปล่อยออกมาจากที่ใด',
+ ['ไมโทคอนเดรีย','ซาร์โคพลาสมิกเรติคิวลัม (SR)','กอลจิคอมเพล็กซ์','นิวเคลียส'],1,
+ '<b>SR = SER ในเซลล์กล้ามเนื้อ</b> · กระตุ้นโดย <b>acetylcholine</b> จาก <b>motor neuron</b> · Ca²⁺ ทำให้ myosin head จับ myosin binding site บนแอกทินได้'],
+['มนุษย์','กระดูกอ่อนที่ใบหูเป็นกระดูกอ่อนชนิดใด',
+ ['ไฮอะลีน hyaline','ไฟโบร fibrocartilage','อิลาสติก elastic','ไม่ใช่กระดูกอ่อน'],2,
+ '<b>อิลาสติก = ใบหู</b> (ยืดหยุ่นสูง) · <b>ไฮอะลีน = ผนังกั้นรูจมูก</b> (เส้นใยน้อย) · <b>ไฟโบร = ระหว่างกระดูกสันหลัง</b> (คอลลาเจนมาก เหนียวแข็งแรง)'],
+['มนุษย์','หมอนรองกระดูก intervertebral disc เป็นกระดูกอ่อนชนิดใด',
+ ['ไฮอะลีน','ไฟโบร','อิลาสติก','กระดูกฟองน้ำ'],1,
+ '<b>fibrocartilage</b> — เหนียวและแข็งแรงมากเพราะมีคอลลาเจนแทรกอยู่จำนวนมาก · หน้าที่<b>รองและเชื่อม</b>กระดูกสันหลังเพื่อ<b>ป้องกันการเสียดสี</b>'],
+['สัตว์อื่น','เบซัลบอดีมีการจัดเรียงไมโครทูบูลแบบใด',
+ ['9+2 กลุ่มละ 2 หลอด','9+0 กลุ่มละ 3 หลอด','9+2 กลุ่มละ 3 หลอด','9+0 กลุ่มละ 2 หลอด'],1,
+ '<b>เบซัลบอดี = 9+0 กลุ่มละ 3 หลอด</b> = 27 หลอด ไม่มีแกนกลาง · <b>แกนซิเลีย/แฟลเจลลัม = 9+2 กลุ่มละ 2 หลอด</b> = 20 หลอด'],
+['สัตว์อื่น','สิ่งมีชีวิตใดเคลื่อนที่ด้วย flagellum',
+ ['พารามีเซียม','อะมีบา','ยูกลีนา','พลานาเรีย'],2,
+ '<b>ยูกลีนา = แฟลเจลลัม</b> (รวมถึง Trypanosoma, trichomonad) · <b>พารามีเซียม = ซิเลีย</b> · อะมีบา = ตีนเทียม'],
+['สัตว์อื่น','เมื่อกล้ามเนื้อบริเวณ ampulla ของดาวทะเลหดตัว จะเกิดอะไรขึ้น',
+ ['ทิวบ์ฟีทหดสั้นลง','ทิวบ์ฟีทยืดยาวออกไปแตะพื้น','น้ำไหลออกทาง madreporite','ท่อน้ำแนวรัศมีปิด'],1,
+ '<b>ampulla หดตัว → ดันน้ำเข้า tube feet → tube feet ยืดยาวออก</b> · ที่ทำให้สั้นลงคือตอน<b>กล้ามเนื้อของ tube feet เอง</b>หดตัว'],
+['สัตว์อื่น','ปล้องของไส้เดือนดินที่<b>สั้นและโป่งออก</b> เกิดจากอะไร',
+ ['กล้ามเนื้อวงหด + ตามยาวคลาย','กล้ามเนื้อวงคลาย + ตามยาวหด','กล้ามเนื้อทั้งสองชุดหดพร้อมกัน','กล้ามเนื้อทั้งสองชุดคลายพร้อมกัน'],1,
+ '<b>สั้นป่อง = วงคลาย + ตามยาวหด</b> (และเดือย setae จิกดินไว้) · ถ้าวงหด ปล้องจะ<b>ยาวและเรียว</b> ตรงข้ามกัน'],
+['สัตว์อื่น','เมื่อกล้ามเนื้อ<b>ตามยาว</b>ของแมลงหดตัว ปีกจะเป็นอย่างไร',
+ ['ปีกยกสูงขึ้น','ปีกถูกกดลง','ปีกหยุดนิ่ง','ปีกกางออกด้านข้าง'],1,
+ '<b>ตามยาวหด → เปลือกหุ้มอกสูงขึ้น → กดปีกลง</b> · <b>vertical (ยึดเปลือกหุ้มอก) หด → เปลือกหุ้มอกเลื่อนลง → ดันปีกขึ้น</b> · ทั้งคู่<b>ไม่ได้ยึดกับปีกโดยตรง</b> ยกเว้นแมลงปอ'],
+['สัตว์อื่น','ครีบคู่ของปลาทำหน้าที่ใด',
+ ['พัดโบกให้ปลาเคลื่อนที่ไปข้างหน้า','พยุงตัวและเคลื่อนที่ขึ้นลงในแนวดิ่ง','ควบคุมการลอยจมแทนกระเพาะลม','ใช้หายใจในน้ำ'],1,
+ '<b>ครีบคู่ (อก, สะโพก) = พยุงตัว + ขึ้นลงแนวดิ่ง</b> · <b>ครีบเดี่ยว (หลัง, หาง) = พัดโบกให้ไปข้างหน้า</b>'],
+['ต่อมไร้ท่อ','ต่อมไร้ท่อใดมีขนาด<b>ใหญ่ที่สุด</b>ในร่างกาย',
+ ['ต่อมใต้สมอง','ต่อมไทรอยด์','ต่อมหมวกไต','ต่อมไพเนียล'],1,
+ '<b>ไทรอยด์ = ใหญ่ที่สุด</b> (รูปคล้ายผีเสื้อกางปีก/ตัว H อยู่ที่ลำคอ) · <b>ไพเนียล = เล็กที่สุด</b> — คู่นี้ออกสอบคู่กันเสมอ'],
+['ต่อมไร้ท่อ','ต่อมไร้ท่อใดที่ถ้าร่างกายขาดแล้วทำให้<b>เสียชีวิตในทันที</b>',
+ ['ต่อมไทรอยด์','ต่อมใต้สมอง','ต่อมพาราไทรอยด์','ต่อมหมวกไตส่วนใน'],2,
+ 'ต่อมจำเป็นมี <b>3 ต่อม</b> คือ <b>พาราไทรอยด์ · หมวกไตส่วนนอก · ตับอ่อน</b> · ที่เหลือ (ไทรอยด์ ใต้สมอง หมวกไตส่วนใน) เป็น<b>ต่อมไม่จำเป็น</b>'],
+['ต่อมไร้ท่อ','ADH ถูก<b>สร้าง</b>ที่ใด',
+ ['ต่อมใต้สมองส่วนหลัง','ต่อมใต้สมองส่วนหน้า','ไฮโพทาลามัส','ต่อมหมวกไตส่วนนอก'],2,
+ '<b>สร้างที่ไฮโพทาลามัส</b> แต่<b>เก็บและหลั่งที่ต่อมใต้สมองส่วนหลัง</b> เพราะส่วนหลังคือกลุ่ม<b>แอกซอน</b>ของเซลล์ที่อยู่ในไฮโพทาลามัส · oxytocin ก็เหมือนกัน'],
+['ต่อมไร้ท่อ','ฮอร์โมนใดจากไฮโพทาลามัสทำหน้าที่<b>ยับยั้ง</b>',
+ ['TRH','CRH','GnRH','GHIH'],3,
+ 'ลงท้าย <b>-RH = releasing กระตุ้น</b> · ลงท้าย <b>-IH = inhibiting ยับยั้ง</b> · ตัวที่ยับยั้งมีแค่ <b>GHIH</b> และ <b>PIH (dopamine)</b>'],
+['ต่อมไร้ท่อ','TRH จากไฮโพทาลามัสกระตุ้นการหลั่งฮอร์โมนใด',
+ ['ไทรอกซินจากต่อมไทรอยด์โดยตรง','TSH จากต่อมใต้สมองส่วนหน้า','ACTH จากต่อมใต้สมองส่วนหน้า','calcitonin จากต่อมไทรอยด์'],1,
+ '<b>TRH → TSH → ต่อมไทรอยด์ → ไทรอกซิน</b> · ฮอร์โมนจากไฮโพทาลามัส<b>ไม่ไปที่ต่อมเป้าหมายโดยตรง</b> มันคุมต่อมใต้สมองส่วนหน้าเท่านั้น'],
+['ต่อมไร้ท่อ','ACTH มีอวัยวะเป้าหมายคือข้อใด',
+ ['ต่อมไทรอยด์','ต่อมหมวกไตส่วนนอก','ต่อมหมวกไตส่วนใน','ตับอ่อน'],1,
+ '<b>ACTH → ต่อมหมวกไตส่วนนอก</b> ให้หลั่งกลูโคคอร์ทิคอยด์และมิเนราโลคอร์ทิคอยด์ · <b>ส่วนในถูกควบคุมโดยระบบประสาทซิมพาเทติก ไม่ใช่ฮอร์โมน</b>'],
+['ต่อมไร้ท่อ','ฮอร์โมนกลุ่ม<b>เอมีน</b>ชนิดใดที่<b>ละลายในลิพิด</b>',
+ ['epinephrine','norepinephrine','ไทรอยด์ฮอร์โมน','insulin'],2,
+ '<b>ไทรอยด์ฮอร์โมนเป็นเอมีนแต่ละลายในลิพิด</b> — เอมีนตัวอื่นละลายน้ำ · insulin เป็นเพปไทด์/โปรตีน ละลายน้ำ'],
+['ต่อมไร้ท่อ','ฮอร์โมนใดเข้าไปจับ<b>ตัวรับภายในเซลล์</b> intracellular receptor',
+ ['insulin','ADH','FSH','testosterone'],3,
+ 'ฮอร์โมนที่<b>ละลายในลิพิด</b> (สเตอรอยด์, thyroxine) <b>แพร่ผ่านเยื่อหุ้มเซลล์</b>เข้าไปจับตัวรับภายใน · ที่เหลือเป็นเพปไทด์ ละลายน้ำ จับ <b>membrane receptor</b> และ<b>ตอบสนองเร็วกว่า</b>'],
+['ต่อมไร้ท่อ','เซลล์แอลฟาใน Islets of Langerhans สร้างฮอร์โมนใด',
+ ['insulin','glucagon','somatostatin','gastrin'],1,
+ '<b>α = glucagon = เพิ่มน้ำตาล</b> (เซลล์ใหญ่ จำนวนน้อย อยู่รอบนอก) · <b>β = insulin = ลดน้ำตาล</b> (เซลล์เล็ก จำนวนมาก อยู่ตรงกลาง)'],
+['ต่อมไร้ท่อ','ฮอร์โมนใดทำให้ระดับ Ca²⁺ ในเลือด<b>ลดลง</b>',
+ ['parathormone','calcitonin','aldosterone','cortisol'],1,
+ '<b>calcitonin ลด Ca ในเลือด</b> (สะสมที่กระดูก ลดดูดซึมที่ลำไส้ ขับออกที่ไต) · <b>PTH เพิ่ม Ca ในเลือด</b> (สลายกระดูกด้วย osteoclast ดูดกลับที่ไตและลำไส้)'],
+['ต่อมไร้ท่อ','aldosterone ทำหน้าที่ใดที่ท่อหน่วยไต',
+ ['ดูดกลับ K⁺ และขับ Na⁺','ดูดกลับ Na⁺ และน้ำ ขับ K⁺','ดูดกลับน้ำเท่านั้น','ขับทั้ง Na⁺ และ K⁺'],1,
+ '<b>ดูดกลับ Na⁺ + น้ำ · ขับ K⁺</b> → น้ำถูกดูดกลับมาก → <b>ความดันเลือดเพิ่มขึ้น</b> · ถ้าขาด จะสูญเสียน้ำและ Na ทางปัสสาวะจนความดันต่ำและเสียชีวิตได้'],
+['ต่อมไร้ท่อ','การหลั่งฮอร์โมนของต่อมหมวกไต<b>ส่วนใน</b>ถูกควบคุมโดยอะไร',
+ ['ACTH จากต่อมใต้สมองส่วนหน้า','CRH จากไฮโพทาลามัส','ระบบประสาทซิมพาเทติก','TSH จากต่อมใต้สมองส่วนหน้า'],2,
+ '<b>ส่วนในถูกควบคุมโดยระบบประสาท โดยเฉพาะซิมพาเทติก</b> เพื่อตอบสนอง<b>ความเครียดระยะสั้น</b> · <b>ACTH คุมส่วนนอก</b> ไม่ใช่ส่วนใน'],
+['ต่อมไร้ท่อ','ฮอร์โมนกลุ่มใดหลั่งออกมามากเมื่อร่างกายอยู่ในภาวะ<b>เครียดเป็นเวลานาน</b>',
+ ['epinephrine','norepinephrine','กลูโคคอร์ติคอยด์','oxytocin'],2,
+ '<b>กลูโคคอร์ติคอยด์ = long-term stress</b> (ควบคุมโดย ACTH) · <b>epinephrine/norepinephrine = short-term stress</b> (ควบคุมโดยซิมพาเทติก)'],
+['ต่อมไร้ท่อ','LH ในเพศหญิงทำหน้าที่ใด',
+ ['กระตุ้นการเจริญของฟอลลิเคิล','กระตุ้นการตกไข่','กระตุ้นการสร้างน้ำนม','กระตุ้นผนังมดลูกให้หนาขึ้น'],1,
+ '<b>LH = กระตุ้นการตกไข่</b> (LH surge) · <b>FSH = กระตุ้นการเจริญของฟอลลิเคิล</b> · ในเพศชาย LH กระตุ้น <b>Leydig cell</b> ให้สร้าง testosterone'],
+['ต่อมไร้ท่อ','คอร์ปัสลูเทียม corpus luteum สร้างฮอร์โมนใด',
+ ['estrogen เท่านั้น','progesterone และ estrogen','FSH และ LH','hCG'],1,
+ '<b>หลังตกไข่ corpus luteum สร้าง progesterone และ estrogen</b> · <b>ก่อนตกไข่ เซลล์ฟอลลิเคิลสร้าง estrogen</b> · <b>hCG สร้างจากรก</b> และไปกระตุ้น corpus luteum'],
+['ต่อมไร้ท่อ','ข้อใดเป็นการควบคุมแบบ<b>ป้อนกลับกระตุ้น</b> positive feedback',
+ ['การหลั่ง PTH เมื่อ Ca ในเลือดต่ำ','การหลั่ง TSH เมื่อไทรอกซินต่ำ','การหลั่ง oxytocin ขณะคลอด','การหลั่งอินซูลินเมื่อน้ำตาลสูง'],2,
+ '<b>oxytocin ขณะคลอด</b> — แรงกดของหัวทารกกระตุ้นให้หลั่ง oxytocin <b>มากขึ้นอีก</b> วนไปจนคลอด · อีก 3 ข้อเป็น <b>negative feedback</b> คือกลับเข้าสู่ปกติแล้วหยุด'],
+['ต่อมไร้ท่อ','ฟีโรโมนผลิตจากที่ใด',
+ ['ต่อมไร้ท่อ','ต่อมมีท่อ','ต่อมใต้สมอง','ไฮโพทาลามัส'],1,
+ '<b>ฟีโรโมน = ต่อมมีท่อ · ลิพิดโมเลกุลสั้น · หลั่งออกนอกร่างกาย · ไม่มีผลต่อตัวเองแต่มีผลต่อสัตว์ตัวอื่นในสปีชีส์เดียวกัน</b>'],
+['ต่อมไร้ท่อ','ฮอร์โมนใดสร้างจาก<b>รก</b> placenta',
+ ['progesterone','hCG','prolactin','oxytocin'],1,
+ '<b>hCG จากรก</b> เริ่มหลั่ง<b>หลังเอ็มบริโอฝังตัวที่ผนังมดลูก</b> เพื่อกระตุ้น<b>คอร์ปัสลูเทียม</b>ให้เจริญต่อและสร้าง progesterone เพิ่ม'],
+['ต่อมไร้ท่อ','ข้อใดกล่าว<b>ไม่ถูกต้อง</b>',
+ ['ฮอร์โมนพบได้ทั้งในพืชและสัตว์','สารสื่อประสาทพบได้เฉพาะในสัตว์','ระบบต่อมไร้ท่อตอบสนองช้าแต่นานกว่าระบบประสาท','สารสื่อประสาทพบได้ทั้งในพืชและสัตว์'],3,
+ '<b>สารสื่อประสาทพบได้เฉพาะสัตว์เท่านั้น</b> ส่วน<b>ฮอร์โมนพบทั้งพืชและสัตว์</b> — ประโยคนี้อยู่ในกรอบ “รู้หรือไม่” ของสไลด์'],
+['ต่อมไร้ท่อ','ฮอร์โมนใดกระตุ้นการสร้างเซลล์เม็ดเลือดแดงจากไขกระดูก',
+ ['thymosin','erythropoietin','gastrin','secretin'],1,
+ '<b>erythropoietin สร้างจากไต</b> → กระตุ้นไขกระดูกสร้างเม็ดเลือดแดง · thymosin จากไทมัส คุมลิมโฟไซต์ที · gastrin จากกระเพาะ · secretin จากดูโอดีนัม'],
+['ต่อมไร้ท่อ','เมลาโทนินสร้างจากต่อมใด และหลั่งมากในช่วงใด',
+ ['ต่อมไพเนียล · กลางคืน','ต่อมไพเนียล · กลางวัน','ต่อมใต้สมองส่วนหน้า · กลางคืน','ต่อมไทมัส · กลางคืน'],0,
+ '<b>ต่อมไพเนียล</b> (ต่อมเล็กที่สุด อยู่ที่ <b>epithalamus</b>) · <b>หลั่งมากในช่วงกลางคืน/แสงน้อย</b> · ควบคุมนาฬิกาชีวิต · มากเกิน → เข้าวัยหนุ่มสาวช้า']
+];
+rebalance(FAST);
+(function(){
+  var body=document.getElementById('fastBody'),clock=document.getElementById('fastClock'),
+      scoreEl=document.getElementById('fastScore');
+  if(!body) return;
+  var pool=[],idx=0,right=0,done=0,cur='all',timer=null,left=45,answered=false;
+  function fmt(s){return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
+  function setTopic(t){
+    cur=t;
+    pool=FAST.map(function(r,i){return i}).filter(function(i){return t==='all'||FAST[i][0]===t});
+    for(var i=pool.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var x=pool[i];pool[i]=pool[j];pool[j]=x}
+    idx=0;right=0;done=0;render();
+  }
+  function stop(){ if(timer){clearInterval(timer);timer=null} }
+  function render(){
+    stop();
+    if(idx>=pool.length){
+      body.innerHTML='<div class="note winbox"><span class="lbl">จบชุด</span>ได้ <b>'+right+' / '+done+'</b> ข้อ'+
+        (right===done? ' — เก็บครบ ลองหมวดอื่นหรือไปทำข้อสอบเสมือน 60 ข้อ'
+                      : ' — ข้อที่ผิด กลับไปอ่านบรรทัด “เหตุผล” อีกครั้งแล้วทำซ้ำ')+
+        '<br><br><button class="btn" type="button" id="fAgain">ทำหมวดนี้ใหม่</button></div>';
+      document.getElementById('fAgain').addEventListener('click',function(){setTopic(cur)});
+      clock.textContent='0:45';
+      return;
+    }
+    var r=FAST[pool[idx]]; answered=false; left=45;
+    clock.textContent=fmt(left); clock.style.color='';
+    body.innerHTML='<span class="qnum">ข้อ '+(idx+1)+' / '+pool.length+' · '+r[0]+'</span>'+
+      '<div class="q">'+r[1]+'</div>'+
+      '<div class="choices">'+r[2].map(function(c,i){
+        return '<button type="button" data-c="'+i+'"><span class="ck">'+(i+1)+'.</span>'+c+'</button>';
+      }).join('')+'</div><div class="reveal" id="frv" hidden></div>';
+    body.querySelectorAll('[data-c]').forEach(function(b){
+      b.addEventListener('click',function(){ answer(r,+b.dataset.c) });
+    });
+    scoreEl.textContent=done? ('คะแนน '+right+' / '+done):'';
+    timer=setInterval(function(){
+      left--; clock.textContent=fmt(Math.max(0,left));
+      if(left<=10) clock.style.color='var(--no)';
+      if(left<=0){ stop(); if(!answered) answer(r,-1); }
+    },1000);
+  }
+  function answer(r,pick){
+    if(answered) return; answered=true; stop();
+    var ok=(pick===r[3]); done++; if(ok)right++;
+    body.querySelectorAll('[data-c]').forEach(function(b){
+      var i=+b.dataset.c; b.disabled=true;
+      if(i===r[3]) b.classList.add('right');
+      else if(i===pick) b.classList.add('wrong');
+    });
+    var rv=document.getElementById('frv'); rv.hidden=false;
+    rv.innerHTML='<div class="verdict '+(ok?'ok':'no')+'">'+
+      (pick<0? '⏱ หมดเวลา — ในห้องสอบนี่คือข้อที่ต้องเดาแล้วไปต่อ'
+             : (ok?'✓ ตอบถูก':'✗ ตอบผิด'))+
+      ' · คำตอบคือข้อ <b>'+(r[3]+1)+'</b></div>'+
+      '<div class="fix"><span class="lbl">เหตุผล</span>'+r[4]+'</div>'+
+      '<div style="margin-top:14px"><button class="btn" type="button" id="fnx">ข้อถัดไป →</button></div>';
+    document.getElementById('fnx').addEventListener('click',function(){idx++;render()});
+    scoreEl.textContent='คะแนน '+right+' / '+done;
+  }
+  document.querySelectorAll('[data-fset]').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('[data-fset]').forEach(function(x){x.classList.remove('on')});
+      b.classList.add('on'); setTopic(b.dataset.fset);
+    });
+  });
+  setTopic('all');
+})();
+</script>
+
+<script>
+/* ================= MOCK 60 ================= */
+/* [หัวข้อ, โจทย์, [4 ตัวเลือก], ดัชนีคำตอบ, เหตุผล] */
+var MOCK=[
+/* ---------- 1–30 หน่วยการเคลื่อนที่ของสิ่งมีชีวิต ---------- */
+['เคลื่อนที่','โครงกระดูกของคนที่เจริญเติบโตเต็มที่มีทั้งสิ้นกี่ชิ้น',
+ ['126 ชิ้น','180 ชิ้น','206 ชิ้น','234 ชิ้น'],2,'206 ชิ้น = แกน 80 + รยางค์ 126'],
+['เคลื่อนที่','ข้อใดเป็นกระดูกแกน axial skeleton ทั้งหมด',
+ ['กะโหลกศีรษะ · กระดูกสันหลัง · กระดูกซี่โครง · กระดูกหน้าอก',
+  'กะโหลกศีรษะ · กระดูกสันหลัง · กระดูกสะบัก · กระดูกหน้าอก',
+  'กระดูกสันหลัง · กระดูกซี่โครง · กระดูกไหปลาร้า · กระดูกหน้าอก',
+  'กะโหลกศีรษะ · กระดูกซี่โครง · กระดูกเชิงกราน · กระดูกสันหลัง'],0,
+ 'กระดูกแกนมี 4 อย่างเท่านั้น · สะบัก ไหปลาร้า เชิงกราน เป็น<b>รยางค์</b> เพราะเป็นที่ยึดเกาะของแขนขา'],
+['เคลื่อนที่','กระดูกซี่โครงคู่ที่เท่าไรเรียกว่าซี่โครงลอย',
+ ['คู่ที่ 1–7','คู่ที่ 8–10','คู่ที่ 10–11','คู่ที่ 11–12'],3,
+ 'คู่ที่ <b>11–12</b> · ไม่เชื่อมกับกระดูกอก จึงมีโอกาสหักไปทิ่มปอด'],
+['เคลื่อนที่','กระดูกหน้าอก sternum ยึดอยู่กับกระดูกซี่โครงกี่คู่',
+ ['7 คู่','10 คู่','12 คู่','24 คู่'],1,'<b>10 คู่</b> เพราะคู่ที่ 11–12 ไม่เชื่อมกับกระดูกอก'],
+['เคลื่อนที่','ขม่อม fontanelles ของทารกจะหายไปเมื่ออายุเท่าไร',
+ ['6 เดือน','12 เดือน','18 เดือน','24 เดือน'],2,
+ '<b>18 เดือน</b> · ก่อนหน้านั้นกระดูกหุ้มสมองยึดกันด้วยเนื้อเยื่อ ทำให้กะโหลกบีบเข้าได้เล็กน้อยขณะคลอด'],
+['เคลื่อนที่','กระดูกใบหน้าชิ้นใดที่สามารถขยับเขยื้อนได้',
+ ['กระดูกโหนกแก้ม','กระดูกขากรรไกรล่าง','กระดูกจมูก','กระดูกเบ้าตา'],1,
+ '<b>ขากรรไกรล่าง</b> เป็นชิ้น<b>ใหญ่ที่สุด</b>ของกระดูกใบหน้า และเป็นชิ้น<b>เดียว</b>ที่ขยับได้ จึงเคี้ยวอาหารได้'],
+['เคลื่อนที่','กระดูกข้อมือ carpals มีข้างละกี่ชิ้น',
+ ['5 ชิ้น','7 ชิ้น','8 ชิ้น','14 ชิ้น'],2,
+ '<b>ข้อมือ 8 · ข้อเท้า 7</b> — เลขคู่เดียวที่ต่างกัน ส่วนฝ่ามือ-ฝ่าเท้า 5 และนิ้วมือ-นิ้วเท้า 14 เท่ากัน'],
+['เคลื่อนที่','ข้อใด<b>ไม่ใช่</b>หน้าที่ของเยื่อหุ้มกระดูก periosteum',
+ ['ช่วยให้กล้ามเนื้อและเอ็นยึดติดกับกระดูก','ลำเลียงอาหารและออกซิเจนไปหล่อเลี้ยงกระดูก',
+  'มีเซลล์ที่เจริญไปเป็นเซลล์กระดูกได้','สร้างเซลล์เม็ดเลือดแดงและเม็ดเลือดขาว'],3,
+ 'การ<b>สร้างเม็ดเลือด</b>เป็นหน้าที่ของ<b>เซลล์ไขกระดูก</b> ไม่ใช่เยื่อหุ้มกระดูก'],
+['เคลื่อนที่','เซลล์ไขกระดูกในวัยเด็กทำหน้าที่ใด',
+ ['สร้างเม็ดเลือดแดง เม็ดเลือดขาว และเพลตเลต','สะสมลิพิดเพื่อเป็นแหล่งพลังงาน',
+  'สร้างแคลเซียมคาร์บอเนต','สร้างน้ำไขข้อ'],0,
+ 'วัยเด็กสร้างเม็ดเลือด · <b>เมื่อโตแล้วมีลิพิดมาสะสม</b> ทำให้สร้างเม็ดเลือดได้น้อยลง ยกเว้น<b>ไขกระดูกแดง</b>ที่ปลายกระดูก'],
+['เคลื่อนที่','กระดูกอ่อนที่ผนังกั้นรูจมูกเป็นชนิดใด',
+ ['ไฮอะลีน','ไฟโบร','อิลาสติก','กระดูกฟองน้ำ'],0,
+ '<b>ไฮอะลีน = ผนังกั้นรูจมูก</b> (เส้นใยแทรกน้อย) · ไฟโบร = ระหว่างกระดูกสันหลัง · อิลาสติก = ใบหู'],
+['เคลื่อนที่','ข้อต่อกะโหลกศีรษะจัดเป็นข้อต่อประเภทใด',
+ ['เคลื่อนไหวได้มาก','เคลื่อนไหวได้เล็กน้อย','เคลื่อนไหวไม่ได้','ข้อต่อแบบเลื่อน'],2,
+ '<b>immovable / fibrous joint</b> · ยึดด้วยเนื้อเยื่อเกี่ยวพันที่เป็นพังผืด รอยต่อหยักคล้ายฟันเรียก <b>suture</b> เชื่อมกันคล้ายตัวต่อ jigsaw'],
+['เคลื่อนที่','น้ำไขข้อ synovial fluid บรรจุอยู่ในโครงสร้างที่เรียกว่าอะไร',
+ ['หมอนรองกระดูก','joint capsule','เยื่อหุ้มกระดูก','ampulla'],1,
+ '<b>joint capsule</b> หรือ articular capsule · หน้าที่<b>ลดการเสียดสี</b>ให้เคลื่อนไหวได้โดยไม่เจ็บปวด'],
+['เคลื่อนที่','ข้อต่อระหว่างกระดูกต้นคอกับฐานกะโหลกศีรษะเป็นข้อต่อแบบใด',
+ ['บานพับ','อานม้า','เดือยหรือหมุน','ปุ่ม'],2,
+ '<b>pivot / rotary joint</b> — หมุนตามแกนของเดือย'],
+['เคลื่อนที่','เหตุใดผู้สูงอายุจึงมักมีอาการเจ็บปวดตามข้อต่อ',
+ ['กระดูกอ่อนหนาตัวขึ้นจนเบียดข้อต่อ','น้ำไขข้อลดลงและกระดูกอ่อนบริเวณข้อต่อเสื่อมคุณภาพ',
+  'เอ็นยึดข้อเจริญมากเกินไป','จำนวนข้อต่อเพิ่มขึ้นตามอายุ'],1,
+ 'น้ำไขข้อ<b>ลดลง</b> + กระดูกอ่อนบริเวณข้อต่อ<b>เสื่อม</b> → เสียดสีและเจ็บปวด เช่น เข่า สะโพก ข้อเท้า'],
+['เคลื่อนที่','ข้อใดกล่าวถูกต้องเกี่ยวกับกล้ามเนื้อหัวใจ',
+ ['เซลล์รูปกระสวย ไม่มีลาย มี 1 นิวเคลียส','เซลล์ทรงกระบอกยาว มีลาย มีหลายนิวเคลียส',
+  'เซลล์ทรงกระบอกปลายแตกแขนง มีลาย มี 1 นิวเคลียส','เซลล์ทรงกระบอกแตกแขนง ไม่มีลาย มีหลายนิวเคลียส'],2,
+ 'หัวใจ = <b>ทรงกระบอกปลายแตกแขนง · มีลาย · 1 นิวเคลียส · ไมโทคอนเดรียมาก · นอกอำนาจจิตใจ (อัตโนวัติ)</b>'],
+['เคลื่อนที่','กล้ามเนื้อที่พบบริเวณม่านตาเป็นกล้ามเนื้อชนิดใด',
+ ['กล้ามเนื้อลาย','กล้ามเนื้อเรียบ','กล้ามเนื้อหัวใจ','กล้ามเนื้อโครงร่าง'],1,
+ '<b>เรียบ</b> — พบตามอวัยวะภายใน: ผนังกระเพาะอาหาร ผนังลำไส้ ผนังหลอดเลือด และ<b>ม่านตา</b>'],
+['เคลื่อนที่','ขณะแขนงอเข้า กล้ามเนื้อไบเซพและไตรเซพทำงานอย่างไร',
+ ['ไบเซพหดตัว ไตรเซพคลายตัว','ไบเซพคลายตัว ไตรเซพหดตัว',
+  'หดตัวทั้งคู่','คลายตัวทั้งคู่'],0,
+ '<b>งอเข้า = ไบเซพหด + ไตรเซพคลาย</b> · <b>เหยียดออก = กลับกัน</b> · เรียกการทำงานแบบนี้ว่า <b>antagonism</b>'],
+['เคลื่อนที่','ลำดับการจัดระเบียบของกล้ามเนื้อโครงร่างจากใหญ่ไปเล็กข้อใดถูกต้อง',
+ ['กล้ามเนื้อ → myofibril → มัดกล้ามเนื้อ → เซลล์กล้ามเนื้อ → microfilament',
+  'กล้ามเนื้อ → มัดกล้ามเนื้อ → เซลล์กล้ามเนื้อ → myofibril → microfilament',
+  'กล้ามเนื้อ → เซลล์กล้ามเนื้อ → มัดกล้ามเนื้อ → microfilament → myofibril',
+  'กล้ามเนื้อ → microfilament → myofibril → เซลล์กล้ามเนื้อ → มัดกล้ามเนื้อ'],1,
+ '<b>กล้ามเนื้อ → มัด (fascicle) → เซลล์/เส้นใย (muscle fiber) → myofibril → microfilament</b>'],
+['เคลื่อนที่','ไมโครฟิลาเมนท์เส้นบาง thin filament ประกอบด้วยโปรตีนหลักชนิดใด',
+ ['ไมโอซิน','แอกทิน','โทรโปนิน','ไดนีน'],1,
+ '<b>เส้นบาง = แอกทิน</b> (มี tropomyosin และ troponin ประกอบอยู่) · <b>เส้นหนา = ไมโอซิน</b>'],
+['เคลื่อนที่','โปรตีนสายสั้นที่แทรกอยู่ระหว่างร่องเกลียวของแอกทินคือข้อใด',
+ ['โทรโปนิน','โทรโปไมโอซิน','ไมโอซิน','ไดนีน'],1,
+ '<b>tropomyosin</b> แทรกในร่องเกลียว · ที่<b>ปลายของ tropomyosin</b> มี <b>troponin</b> ติดอยู่ · แต่ละช่วงเกลียวมีอย่างละ 1 โมเลกุล'],
+['เคลื่อนที่','เอนไซม์ที่อยู่บริเวณหัวของไมโอซินและทำหน้าที่สลาย ATP คือข้อใด',
+ ['ATPase','ไลเปส','อะไมเลส','เพปซิน'],0,
+ '<b>ATPase</b> ที่หัวไมโอซิน (มี 2 หัว) สลาย ATP เอาพลังงานมาใช้ในการหดตัว'],
+['เคลื่อนที่','ขณะกล้ามเนื้อหดตัว การเปลี่ยนแปลงของซาร์โคเมียร์ข้อใดถูกต้อง',
+ ['I band แคบลง · H zone แคบลง · A band คงที่','I band คงที่ · H zone แคบลง · A band แคบลง',
+  'I band แคบลง · H zone กว้างขึ้น · A band คงที่','ทุกบริเวณแคบลงเท่ากัน'],0,
+ '<b>I และ H แคบลง · A คงที่</b> เพราะ A band คือความยาวของไมโอซิน และ<b>ไมโอซินไม่ขยับ</b> ที่เลื่อนคือแอกทิน'],
+['เคลื่อนที่','ผู้ที่เสนอสมมติฐาน sliding filament hypothesis คือใคร',
+ ['วัตสันและคริก','ฮักซ์เลย์และแฮนสัน','ชวานน์และชไลเดน','เมนเดลและมอร์แกน'],1,
+ '<b>Hugh Huxley และ Jean Hanson</b> — การหดตัวเกิดจากแอกทินเลื่อนเข้าหากันตรงกลาง โดยต้องอาศัย <b>ATP และแคลเซียม</b>'],
+['เคลื่อนที่','สิ่งที่จำเป็นต่อการหดตัวของกล้ามเนื้อให้สมบูรณ์คือข้อใด',
+ ['ATP เท่านั้น','Ca²⁺ เท่านั้น','ATP และ Ca²⁺','ATP และ Na⁺'],2,
+ 'ต้องมี<b>ทั้ง ATP และ Ca²⁺</b> · Ca²⁺ มาจาก <b>SR</b> และเป็นตัวที่ทำให้ myosin head จับ myosin binding site บนแอกทินได้'],
+['เคลื่อนที่','การจัดเรียงไมโครทูบูลแบบ 9+2 หมายถึงข้อใด',
+ ['9 กลุ่ม กลุ่มละ 3 หลอด และตรงกลาง 2 หลอด','9 กลุ่ม กลุ่มละ 2 หลอด และตรงกลาง 2 หลอด',
+  '9 กลุ่ม กลุ่มละ 2 หลอด และไม่มีตรงกลาง','9 หลอดเรียงเป็นวง และตรงกลาง 2 กลุ่ม'],1,
+ '<b>9+2 = 9 กลุ่ม กลุ่มละ 2 หลอด + แกนกลาง 2</b> = 20 หลอด (แกนซิเลีย/แฟลเจลลัม) · <b>กลุ่มละ 3 และไม่มีตรงกลางคือเบซัลบอดี 9+0</b>'],
+['เคลื่อนที่','ข้อใดกล่าวถูกต้องเกี่ยวกับไซโทพลาซึมของอะมีบา',
+ ['ectoplasm อยู่ชั้นนอกและเป็นเจล','ectoplasm อยู่ชั้นนอกและเป็นซอล',
+  'endoplasm อยู่ชั้นในและเป็นเจล','endoplasm อยู่ชั้นนอกและเป็นซอล'],0,
+ '<b>ectoplasm = ชั้นนอก = เจล</b> · <b>endoplasm = ชั้นใน = ซอล</b> · แอกทิน<b>รวมตัว</b> → ซอลเป็นเจล · แอกทิน<b>แยกตัว</b> → เจลเป็นซอล'],
+['เคลื่อนที่','ลำดับการลำเลียงน้ำในระบบท่อน้ำของดาวทะเลข้อใดถูกต้อง',
+ ['tube feet → ampulla → radial canal → ring canal → stone canal → madreporite',
+  'madreporite → ring canal → stone canal → radial canal → ampulla → tube feet',
+  'madreporite → stone canal → ring canal → radial canal → ampulla → tube feet',
+  'madreporite → stone canal → radial canal → ring canal → tube feet → ampulla'],2,
+ 'น้ำเข้าทาง <b>madreporite → stone canal → ring canal → radial canal → ampulla → tube feet</b>'],
+['เคลื่อนที่','เหตุใดนกกระจอกเทศและเพนกวินจึงบินไม่ได้',
+ ['ไม่มีกล้ามเนื้อยกปีกและกดปีก','กระดูกหน้าอก (keel) ไม่พัฒนา จึงไม่มีที่ให้กล้ามเนื้อบินขนาดใหญ่มายึด',
+  'มีกระเพาะปัสสาวะทำให้ตัวหนัก','ขนปีกปิดสนิทตลอดเวลา'],1,
+ '<b>keel of sternum ไม่พัฒนา</b> → ไม่มีพื้นที่ให้กล้ามเนื้อบินยึด · ประกอบกับลำตัวหนักและปีกเล็ก จึงใช้<b>วิ่ง</b>หรือใช้ปีกเป็น<b>ใบพายว่ายน้ำ</b>'],
+['เคลื่อนที่','เมื่อกล้ามเนื้อยกปีกของนกหดตัว จะเกิดอะไรขึ้น',
+ ['ปีกยกสูงขึ้น และกล้ามเนื้อกดปีกคลายตัว','ปีกถูกดึงลง และกล้ามเนื้อกดปีกหดตัว',
+  'ปีกยกสูงขึ้น และกล้ามเนื้อกดปีกหดตัวพร้อมกัน','ปีกหยุดนิ่งเพื่อร่อน'],0,
+ 'ทำงานแบบ<b>สภาวะตรงกันข้าม</b> · ทั้งสองมัดเกาะที่ <b>keel of sternum</b> เหมือนกัน'],
+['เคลื่อนที่','ข้อใดเป็นความแตกต่างที่สำคัญระหว่างไส้เดือนดินกับหนอนตัวกลม',
+ ['ไส้เดือนดินมีกล้ามเนื้อ 2 ชุด หนอนตัวกลมมีชุดเดียว',
+  'ไส้เดือนดินมีกล้ามเนื้อชุดเดียว หนอนตัวกลมมี 2 ชุด',
+  'ไส้เดือนดินไม่มีเดือย แต่หนอนตัวกลมมีเดือย',
+  'ทั้งสองใช้กลไกการเคลื่อนที่เหมือนกันทุกประการ'],0,
+ '<b>ไส้เดือน 2 ชุด (วง + ตามยาว) + เดือย → peristalsis บังคับทิศทางได้</b> · <b>หนอนตัวกลม 1 ชุด (ตามยาว) → สะบัดตัวไปมา บังคับทิศทางไม่ได้</b>'],
+/* ---------- 31–60 หน่วยระบบต่อมไร้ท่อ ---------- */
+['ต่อมไร้ท่อ','ระบบต่อมไร้ท่อใช้สิ่งใดเป็นตัวกลางในการสื่อสาร และมีลักษณะการตอบสนองแบบใด',
+ ['กระแสไฟฟ้า · ตอบสนองเร็วและสั้น','สารเคมี (ฮอร์โมน) · ตอบสนองช้าแต่นานกว่า',
+  'สารสื่อประสาท · ตอบสนองเร็วและนาน','สารเคมี (ฮอร์โมน) · ตอบสนองเร็วแต่สั้น'],1,
+ 'ต่อมไร้ท่อ = <b>สารเคมี (ฮอร์โมน) · ช้า · นานกว่า</b> · ประสาท = <b>กระแสไฟฟ้าและสารเคมี · เร็ว · สั้น</b>'],
+['ต่อมไร้ท่อ','ข้อใดเป็นต่อมมีท่อ exocrine gland',
+ ['ต่อมใต้สมอง','ต่อมหมวกไต','ต่อมน้ำลาย','ต่อมไทรอยด์'],2,
+ 'ต่อมมีท่อ เช่น <b>ต่อมน้ำตา ต่อมน้ำลาย ต่อมเหงื่อ ต่อมน้ำเลี้ยงอสุจิ</b> · ต่อมไร้ท่อ<b>ไม่มีท่อ</b> ลำเลียงผ่านระบบหมุนเวียนเลือด'],
+['ต่อมไร้ท่อ','ฮอร์โมนประสาท neurohormone ในไฮโพทาลามัสสร้างจากเซลล์ชนิดใด',
+ ['เซลล์นิวโรซิครีทอรี','follicular cell','acinar cell','osteocyte'],0,
+ '<b>neurosecretory cell</b> · ทำหน้าที่ควบคุมต่อมใต้สมองส่วนหน้า และมีปลายแอกซอนอยู่ในต่อมใต้สมองส่วนหลัง'],
+['ต่อมไร้ท่อ','ฮอร์โมนคู่ใดถูกหลั่งออกจากต่อมใต้สมองส่วนหลัง',
+ ['FSH และ LH','TSH และ ACTH','ADH และ oxytocin','GH และ prolactin'],2,
+ '<b>ADH และ oxytocin</b> — สร้างที่<b>ไฮโพทาลามัส</b> แต่เก็บและหลั่งที่<b>ส่วนหลัง</b> · ส่วน FSH LH TSH ACTH GH prolactin มาจาก<b>ส่วนหน้า</b>'],
+['ต่อมไร้ท่อ','ต่อมไร้ท่อใด<b>ไม่ได้</b>ถูกควบคุมโดยต่อมใต้สมองส่วนหน้า',
+ ['ต่อมไทรอยด์','ต่อมหมวกไตส่วนนอก','รังไข่','ต่อมพาราไทรอยด์'],3,
+ 'ต่อมใต้สมองส่วนหน้าคุม <b>ไทรอยด์ (TSH) · หมวกไตส่วนนอก (ACTH) · รังไข่/อัณฑะ (Gn) · ต่อมน้ำนม (prolactin)</b> · <b>พาราไทรอยด์ ตับอ่อน หมวกไตส่วนใน ไพเนียล ไทมัส ไม่ถูกคุม</b>'],
+['ต่อมไร้ท่อ','GnRH ควบคุมการสร้างและหลั่งฮอร์โมนใด',
+ ['TSH','ACTH','Gn ซึ่งประกอบด้วย FSH และ LH','GH'],2,
+ '<b>GnRH → Gn (FSH + LH) → รังไข่และอัณฑะ</b> ให้สร้างฮอร์โมนเพศ'],
+['ต่อมไร้ท่อ','ฮอร์โมนใดจัดอยู่ในกลุ่มสเตอรอยด์',
+ ['insulin','ADH','cortisol','epinephrine'],2,
+ 'กลุ่มสเตอรอยด์ (<b>สังเคราะห์จากคอเลสเตอรอล · ละลายลิพิด</b>) = <b>ฮอร์โมนเพศ</b> และ<b>ฮอร์โมนจากหมวกไตส่วนนอก</b> เช่น cortisol, aldosterone'],
+['ต่อมไร้ท่อ','เซลล์ที่สังเคราะห์ฮอร์โมนกลุ่มเพปไทด์หรือโปรตีนควรมีออร์แกเนลล์ชนิดใดมากที่สุด',
+ ['ไลโซโซม','เอนโดพลาสมิกเรติคิวลัมชนิดขยะ (RER) และไรโบโซม','เพอรอกซิโซม','แวคิวโอล'],1,
+ 'เพราะเป็น<b>โปรตีน</b> จึงต้องใช้<b>ไรโบโซมและ RER</b> ในการสังเคราะห์ (และกอลจิในการบรรจุส่ง) — คำถามนี้อยู่ในสไลด์หน้า 16'],
+['ต่อมไร้ท่อ','การจับของฮอร์โมนกับตัวรับแบบใดทำให้เกิดการตอบสนอง<b>เร็วกว่า</b>',
+ ['ตัวรับบนเยื่อหุ้มเซลล์','ตัวรับในไซโทพลาซึม','ตัวรับในนิวเคลียส','ตัวรับในไมโทคอนเดรีย'],0,
+ '<b>membrane receptor เร็วกว่าตัวรับภายในเซลล์</b> · ฮอร์โมนที่ใช้ membrane receptor คือพวกที่<b>ขนาดใหญ่และละลายน้ำ</b>'],
+['ต่อมไร้ท่อ','อินซูลินที่จับกับตัวรับที่เซลล์ตับออกฤทธิ์อย่างไร',
+ ['กระตุ้นการสร้างกลูโคสและสลายไกลโคเจน','ยับยั้งการสร้างกลูโคสและกระตุ้นการสร้างไกลโคเจน',
+  'นำกลูโคสไปสังเคราะห์ลิพิด','กระตุ้นการสลายโปรตีนเป็นกรดอะมิโน'],1,
+ 'ที่<b>เซลล์ตับ</b>: ยับยั้งการสร้างกลูโคส + กระตุ้นการสร้างไกลโคเจน · ที่<b>กล้ามเนื้อ</b>: ใช้เป็นพลังงานหรือเก็บเป็นไกลโคเจน · ที่<b>เซลล์ไขมัน</b>: สังเคราะห์ลิพิด'],
+['ต่อมไร้ท่อ','ภายในต่อมไทรอยด์ประกอบขึ้นจากโครงสร้างใด',
+ ['ไทรอยด์ฟอลลิเคิล ล้อมรอบด้วย follicular cell','Islets of Langerhans',
+  'acinar cell','thyroid follicle ล้อมรอบด้วย acinar cell'],0,
+ '<b>thyroid follicle + follicular cell</b> ซึ่งเป็นเนื้อเยื่อบุผิว <b>simple cuboidal epithelium</b> · <b>acinar cell อยู่ที่ตับอ่อน</b>'],
+['ต่อมไร้ท่อ','โปรตีนที่เป็นองค์ประกอบของคอลลอยด์ภายในไทรอยด์ฟอลลิเคิลคือข้อใด',
+ ['thyroglobulin','tropomyosin','troponin','thymosin'],0,
+ '<b>thyroglobulin</b> · เมื่อร่างกายต้องการฮอร์โมนจะสังเคราะห์และนำ <b>thyroxine</b> ออกมาจาก follicle'],
+['ต่อมไร้ท่อ','ข้อใดกล่าวถูกต้องเกี่ยวกับ T3 และ T4',
+ ['T4 มีไอโอดีน 3 อะตอม และ active มากกว่า T3','T3 มีไอโอดีน 3 อะตอม และ active มากกว่า T4',
+  'T3 และ T4 มีความ active เท่ากัน','T3 พบมากในกระแสเลือดมากกว่า T4'],1,
+ '<b>T4 = ไอโอดีน 4 อะตอม พบมากในเลือด</b> · <b>T3 = 3 อะตอม และ active มากกว่า</b> · T4 จะ<b>เปลี่ยนกลับเป็น T3</b> เมื่อถึงอวัยวะเป้าหมาย'],
+['ต่อมไร้ท่อ','ข้อใด<b>ไม่ใช่</b>ผลของ thyroxine ต่อร่างกาย',
+ ['ร่างกายใช้แก๊สออกซิเจนเพิ่มขึ้น','กระตุ้นอัตราการเต้นของหัวใจและเพิ่มความดันเลือด',
+  'กระตุ้นเมแทบอลิซึมของคาร์โบไฮเดรต ลิพิด และโปรตีน','กระตุ้นการสะสมแคลเซียมที่กระดูก'],3,
+ 'การ<b>สะสมแคลเซียมที่กระดูก</b>เป็นหน้าที่ของ <b>calcitonin</b> ซึ่งสร้างจาก <b>C-cell</b> ของไทรอยด์ ไม่ใช่ thyroxine'],
+['ต่อมไร้ท่อ','โรคคอพอกธรรมดา simple goiter เกิดจากสาเหตุใด',
+ ['ร่างกายสร้างไทรอกซินมากเกินไป','ร่างกายขาดธาตุไอโอดีน',
+  'ต่อมพาราไทรอยด์หลั่งฮอร์โมนมากเกินไป','ขาดวิตามิน D'],1,
+ '<b>ขาดไอโอดีน</b> → สร้างไทรอกซินไม่ได้ → ไม่มีอะไรไป<b>ยับยั้ง TSH/TRH</b> → TSH กระตุ้นตลอดเวลา → ต่อม<b>ขยายผิดปกติ</b> · รักษาโดยให้<b>อาหารทะเล</b>'],
+['ต่อมไร้ท่อ','ผู้ป่วยมีหน้าบวมกลมคล้ายดวงจันทร์ อ้วนตรงกลางลำตัว ต้นคอมีหนอกยื่น และกล้ามเนื้ออ่อนแรง เกิดจากข้อใด',
+ ['ขาดไทรอกซินในวัยผู้ใหญ่','cortisol สูงเกินไป','ขาด ADH','GH มากเกินไปในวัยเด็ก'],1,
+ '<b>กลุ่มอาการคูชชิง Cushing’s syndrome</b> จาก<b>กลูโคคอร์ติคอยด์ (cortisol) มากเกินไป</b> · พบในผู้ที่ใช้ยาคอร์ติโคสเตอรอยด์นาน ๆ ด้วย'],
+['ต่อมไร้ท่อ','ต่อมหมวกไตส่วนนอกเจริญเปลี่ยนแปลงมาจากเนื้อเยื่อชั้นใด',
+ ['เอกโทเดิร์ม','มีโซเดิร์ม','เอนโดเดิร์ม','เนื้อเยื่อประสาท'],1,
+ '<b>mesoderm (เนื้อเยื่อชั้นกลาง)</b> · และสร้างฮอร์โมนจำพวกสเตอรอยด์<b>มากกว่า 50 ชนิด</b> แบ่งเป็น 3 กลุ่ม'],
+['ต่อมไร้ท่อ','กลูคากอนออกฤทธิ์อย่างไร',
+ ['กระตุ้นการนำกลูโคสเข้าเซลล์','กระตุ้นการสลายไกลโคเจนในตับและกล้ามเนื้อให้เป็นกลูโคส',
+  'กระตุ้นการสร้างไกลโคเจนในตับ','กระตุ้นการสังเคราะห์โปรตีน'],1,
+ '<b>กลูคากอน (α-cell) สลายไกลโคเจน → เพิ่มน้ำตาลในเลือด</b> · <b>อินซูลิน (β-cell) ทำตรงข้าม</b>'],
+['ต่อมไร้ท่อ','โรคเบาหวานชนิดที่ 2 มีสาเหตุและความชุกตามข้อใด',
+ ['β-cell ถูกทำลายโดยระบบภูมิคุ้มกัน · พบร้อยละ 10','ตัวรับสัญญาณของอินซูลินผิดปกติ · พบร้อยละ 90',
+  'ตับอ่อนสร้างอินซูลินไม่ได้ · พบร้อยละ 90','เกิดขณะตั้งครรภ์ · พบร้อยละ 10'],1,
+ '<b>ชนิดที่ 2 = สร้างอินซูลินได้ แต่ตัวรับผิดปกติ · ร้อยละ 90</b> · <b>ชนิดที่ 1 = β-cell ถูกภูมิคุ้มกันทำลาย · ร้อยละ 10 · ต้องฉีดอินซูลินทุกวัน</b>'],
+['ต่อมไร้ท่อ','FSH ในเพศชายทำหน้าที่ใด',
+ ['กระตุ้นเซลล์เลย์ดิกให้สร้าง testosterone','กระตุ้น sertoli cell และหลอดสร้างอสุจิให้สร้างอสุจิ',
+  'กระตุ้นการตกไข่','ควบคุมลักษณะทางเพศทุติยภูมิ'],1,
+ '<b>FSH → สร้างอสุจิ</b> · <b>LH → เซลล์เลย์ดิก/อินเตอร์สติเชียล → testosterone</b> — คู่นี้สลับกันได้ง่ายที่สุดในหัวข้อนี้'],
+['ต่อมไร้ท่อ','เซลล์อินเตอร์สติเชียลหรือเซลล์เลย์ดิกในอัณฑะสร้างฮอร์โมนใด',
+ ['estrogen','progesterone','testosterone','FSH'],2,
+ '<b>testosterone</b> (ในกลุ่มแอนโดรเจน) · ควบคุมความสามารถในการสืบพันธุ์ การสร้างสเปิร์ม และ<b>ลักษณะทางเพศทุติยภูมิ</b>'],
+['ต่อมไร้ท่อ','estrogen ในปริมาณสูงมีผลอย่างไร',
+ ['กระตุ้นต่อมใต้สมองส่วนหน้าให้หลั่ง LH ทำให้เกิดการตกไข่','ยับยั้งการตกไข่ตลอดรอบเดือน',
+  'กระตุ้นรกให้หลั่ง hCG','กระตุ้นต่อมน้ำนมให้สร้างน้ำนม'],0,
+ '<b>estrogen สูง → LH surge → ตกไข่</b> · estrogen ยัง<b>กระตุ้นการเจริญของกระดูก</b> และ<b>ลดการดึง Ca ออกจากกระดูก</b> จึงป้องกันกระดูกพรุน'],
+['ต่อมไร้ท่อ','progesterone ทำหน้าที่ใด',
+ ['กระตุ้นการสร้างอสุจิ','กระตุ้นการเจริญของเยื่อบุชั้นในของผนังมดลูกเพื่อเตรียมการฝังตัวของเอ็มบริโอ',
+  'กระตุ้นการตกไข่','เพิ่มระดับน้ำตาลในเลือด'],1,
+ 'ทำงานร่วมกับ estrogen กระตุ้น<b>เยื่อบุผนังมดลูก</b> · ร่วมกับ prolactin กระตุ้น<b>ต่อมน้ำนมให้เจริญแต่ยังไม่สร้างน้ำนม</b> · และ<b>ยับยั้งการตกไข่ขณะตั้งครรภ์</b>'],
+['ต่อมไร้ท่อ','การขาด growth hormone ในวัยเด็กทำให้เกิดภาวะใด',
+ ['สภาพร่างยักษ์','อะโครเมกาลี','สภาพแคระ','กลุ่มอาการเครทินิซึม'],2,
+ '<b>ขาด GH ในเด็ก = สภาพแคระ dwarfism</b> · <b>ขาดในผู้ใหญ่ = โรคซิมมอน</b> · <b>เกินในเด็ก = ร่างยักษ์</b> · <b>เกินในผู้ใหญ่ = อะโครเมกาลี</b> · <b>เครทินิซึมคือขาดไทรอกซิน</b>'],
+['ต่อมไร้ท่อ','ถ้าร่างกายขาด ADH จะเกิดอะไรขึ้น',
+ ['ปัสสาวะน้อยและเข้มข้น','ปัสสาวะมากและเจือจาง อาจถึง 20 ลิตร/วัน',
+  'ระดับน้ำตาลในเลือดสูง','กล้ามเนื้อเกร็งและชักกระตุก'],1,
+ 'ท่อหน่วยไต<b>ดูดน้ำกลับไม่ได้</b> → <b>โรคเบาจืด</b> ปัสสาวะมากถึง <b>20 ลิตร/วัน</b> · (กล้ามเนื้อเกร็งชักกระตุกคือ<b>ขาด PTH</b>)'],
+['ต่อมไร้ท่อ','การทำงานของ parathormone จะมีประสิทธิภาพดียิ่งขึ้นเมื่อทำงานร่วมกับสิ่งใด',
+ ['วิตามิน A','วิตามิน C','วิตามิน D','วิตามิน K'],2,
+ '<b>วิตามิน D</b> · และการรักษาผู้ที่ขาด PTH ก็ทำโดยให้<b>ฮอร์โมนนี้พร้อมวิตามิน D</b>'],
+['ต่อมไร้ท่อ','โรคกระดูกพรุนเกิดจากข้อใด',
+ ['ร่างกายสร้างกระดูกมากกว่าสลายกระดูก','ร่างกายสลายกระดูกมากกว่าสร้างกระดูก',
+  'มีน้ำไขข้อมากเกินไป','กระดูกอ่อนหนาตัวขึ้น'],1,
+ '<b>สลายมากกว่าสร้าง</b> → ความหนาแน่นและมวลกระดูกลดลง เปราะบางแตกง่าย ส่วนสูงอาจลดลง · สาเหตุรวมถึง<b>ขาดแคลเซียม · ขาดวิตามิน D · ขาดอีสโทรเจน · บุหรี่ · คาเฟอีน</b>'],
+['ต่อมไร้ท่อ','ซีครีทิน secretin ทำหน้าที่ใด',
+ ['กระตุ้นถุงน้ำดีให้บีบตัว','กระตุ้นตับอ่อนให้หลั่ง NaHCO₃ เพื่อลดความเป็นกรด',
+  'กระตุ้นการหลั่งกรดไฮโดรคลอริกในกระเพาะอาหาร','กระตุ้นการสร้างเม็ดเลือดแดง'],1,
+ '<b>secretin (ดูโอดีนัม) → ตับอ่อนหลั่ง NaHCO₃ ลดกรด</b> · <b>CCK (ดูโอดีนัม) → ถุงน้ำดีบีบตัว + ตับอ่อนหลั่งเอนไซม์</b> · <b>gastrin (กระเพาะ) → กรดและเอนไซม์</b>'],
+['ต่อมไร้ท่อ','เมื่อปริมาณ thyroxine ในเลือดอยู่ในระดับปกติแล้ว จะเกิดอะไรขึ้น',
+ ['ยับยั้งการหลั่ง TRH ของไฮโพทาลามัสและ TSH ของต่อมใต้สมองส่วนหน้า',
+  'กระตุ้นการหลั่ง TRH และ TSH ให้มากขึ้นอีก',
+  'ต่อมไทรอยด์หลั่ง thyroxine เพิ่มขึ้นเรื่อย ๆ',
+  'ต่อมพาราไทรอยด์หลั่ง PTH เพิ่มขึ้น'],0,
+ 'นี่คือ <b>negative feedback</b> — ผลลัพธ์ย้อนกลับไป<b>ยับยั้ง</b>ต้นทาง ทำให้ไทรอยด์หลั่งลดลงและกลับเข้าสู่ระดับปกติ'],
+['ต่อมไร้ท่อ','เอนดอร์ฟิน endorphin มีลักษณะตามข้อใด',
+ ['สร้างจากต่อมไพเนียล · ควบคุมนาฬิกาชีวิต','สร้างจากต่อมใต้สมองส่วนหน้า · ระงับความเจ็บปวดและเพิ่มความตื่นตัว',
+  'สร้างจากรก · กระตุ้นคอร์ปัสลูเทียม','สร้างจากไทมัส · พัฒนาลิมโฟไซต์ชนิดที'],1,
+ '<b>เอนดอร์ฟิน</b> = ฤทธิ์คล้าย<b>มอร์ฟีน</b> · <b>ระงับความเจ็บปวด</b> · เรียกว่า<b>ฮอร์โมนแห่งความสุข</b> · หลั่งขณะออกกำลังกาย กินอาหาร ฟังเพลงที่ชอบ เชียร์กีฬา']
+];
+rebalance(MOCK);
+(function(){
+  var body=document.getElementById('mockBody'); if(!body) return;
+  var graded=false;
+  body.innerHTML=MOCK.map(function(q,i){
+    var sec = i===0 ? '<h3 style="margin-top:8px">ตอนที่ 1 · หน่วยการเคลื่อนที่ของสิ่งมีชีวิต (ข้อ 1–30)</h3>'
+            : i===30? '<h3>ตอนที่ 2 · หน่วยระบบต่อมไร้ท่อ (ข้อ 31–60)</h3>' : '';
+    return sec+'<div class="mockq" id="mq'+i+'">'+
+      '<div class="st"><span class="no">'+(i+1)+'.</span>'+q[1]+'</div>'+
+      '<div class="opts">'+q[2].map(function(c,k){
+        return '<label data-q="'+i+'" data-k="'+k+'"><input type="radio" name="mq'+i+'" value="'+k+'">'+
+               '<span><b>'+(k+1)+'.</b> '+c+'</span></label>';
+      }).join('')+'</div>'+
+      '<div class="why" id="mw'+i+'" hidden></div></div>';
+  }).join('');
+  function prog(){
+    var n=0; for(var i=0;i<MOCK.length;i++){ if(body.querySelector('input[name="mq'+i+'"]:checked')) n++; }
+    document.getElementById('mockProg').textContent='ตอบแล้ว '+n+' / '+MOCK.length+
+      (n<MOCK.length? ' · ยังว่าง '+(MOCK.length-n)+' ข้อ (ไม่ติดลบ ต้องฝนให้ครบ)':' · ครบแล้ว');
+  }
+  body.addEventListener('change',prog);
+  document.getElementById('mockGrade').addEventListener('click',function(){
+    var right=0,wrong=[],blank=[];
+    MOCK.forEach(function(q,i){
+      var sel=body.querySelector('input[name="mq'+i+'"]:checked');
+      var pick=sel? +sel.value : -1;
+      if(pick<0) blank.push(i+1);
+      body.querySelectorAll('[data-q="'+i+'"]').forEach(function(lb){
+        var k=+lb.dataset.k;
+        lb.classList.remove('ok','bad');
+        if(k===q[3]) lb.classList.add('ok');
+        else if(k===pick) lb.classList.add('bad');
+      });
+      var w=document.getElementById('mw'+i);
+      w.hidden=false; w.innerHTML='<b>คำตอบ: ข้อ '+(q[3]+1)+'</b> — '+q[4];
+      var card=document.getElementById('mq'+i);
+      if(pick===q[3]){ right++; card.classList.remove('flag'); }
+      else { wrong.push(i+1); card.classList.add('flag'); }
+    });
+    graded=true;
+    var mvWrong=wrong.filter(function(n){return n<=30}),glWrong=wrong.filter(function(n){return n>30});
+    var pts=(right*20/60);
+    document.getElementById('mockResult').innerHTML=
+      '<div class="note '+(right>=45?'winbox':(right>=36?'timebox':'trapbox'))+'">'+
+      '<span class="lbl">ผลการตรวจ</span>'+
+      '<b style="font-size:19px">'+right+' / 60 ข้อ = '+pts.toFixed(1)+' / 20 คะแนน</b>'+
+      ' <span class="pill">'+Math.round(right/60*100)+'%</span><br><br>'+
+      '<b>ตอนที่ 1 การเคลื่อนที่:</b> ได้ '+(30-mvWrong.length)+' / 30'+
+      (mvWrong.length? ' · ผิดข้อ '+mvWrong.join(', '):' · <b class="yes">เต็ม</b>')+'<br>'+
+      '<b>ตอนที่ 2 ต่อมไร้ท่อ:</b> ได้ '+(30-glWrong.length)+' / 30'+
+      (glWrong.length? ' · ผิดข้อ '+glWrong.join(', '):' · <b class="yes">เต็ม</b>')+'<br>'+
+      (blank.length? '<b class="non">ไม่ได้ตอบ '+blank.length+' ข้อ:</b> '+blank.join(', ')+
+        ' — ในห้องสอบข้อว่างคือคะแนนที่โยนทิ้งฟรี เพราะ<b>ไม่ติดลบ</b><br>':'')+
+      '<br><b>ทำอะไรต่อ:</b> ข้อที่ผิดจะมี<b>กรอบสีเหลือง</b> เลื่อนไปอ่านบรรทัดคำตอบของมันทีละข้อ '+
+      'ถ้าผิดกระจุกอยู่หมวดเดียว กลับไปทำ <b>จับคู่</b> หรือ <b>ตัวเลข</b> ของหมวดนั้นก่อนอ่านเนื้อหาซ้ำ'+
+      '</div>';
+    document.getElementById('mockResult').scrollIntoView({block:'center',behavior:'smooth'});
+  });
+  document.getElementById('mockReset').addEventListener('click',function(){
+    body.querySelectorAll('input[type=radio]').forEach(function(r){r.checked=false});
+    body.querySelectorAll('.why').forEach(function(w){w.hidden=true});
+    body.querySelectorAll('.opts label').forEach(function(l){l.classList.remove('ok','bad')});
+    body.querySelectorAll('.mockq').forEach(function(c){c.classList.remove('flag')});
+    document.getElementById('mockResult').innerHTML=''; graded=false; prog();
+  });
+  /* timer */
+  var mt=null,mleft=3600,btn=document.getElementById('mockStart'),cl=document.getElementById('mockClock');
+  function f(s){return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
+  btn.addEventListener('click',function(){
+    if(mt){clearInterval(mt);mt=null;btn.textContent='▶ เริ่มจับเวลา 60 นาที';return}
+    mleft=(+(document.getElementById('totalMin')||{}).value||60)*60;
+    cl.textContent=f(mleft); btn.textContent='■ หยุด';
+    mt=setInterval(function(){
+      mleft--; cl.textContent=f(Math.max(0,mleft));
+      cl.style.color = mleft<300 ? 'var(--no)' : '';
+      if(mleft<=0){clearInterval(mt);mt=null;btn.textContent='▶ เริ่มจับเวลา 60 นาที';
+        alert('หมดเวลา 60 นาที — หยุดเขียนแล้วกดตรวจคำตอบ');}
+    },1000);
+  });
+  prog();
+})();
+</script>
+
+<script>
+/* ================= TEACHER QUESTIONS ================= */
+/* [ไฟล์สไลด์, คำถาม, คำตอบ] */
+var TQ=[
+['09','การที่โครงกระดูกของมนุษย์ไม่ต่อกันเป็นชิ้นเดียวและมีจำนวนมาก มีประโยชน์ต่อการเคลื่อนไหวอย่างไร',
+ 'เพราะรอยต่อระหว่างกระดูกแต่ละชิ้นคือ<b>ข้อต่อ</b> ซึ่งเป็นจุดที่<b>เกิดการเคลื่อนไหวได้</b> ถ้ากระดูกเป็นชิ้นเดียวทั้งร่าง ร่างกายจะ<b>งอ เหยียด บิด หรือหมุนไม่ได้เลย</b> · การมีกระดูกหลายชิ้นจึงทำให้<b>เคลื่อนไหวได้หลายทิศทางและหลายรูปแบบ</b> ตามชนิดของข้อต่อที่อยู่ระหว่างกระดูกคู่นั้น ๆ และยัง<b>ค้ำจุนร่างกาย ป้องกันอวัยวะภายใน</b> ได้พร้อมกัน'],
+['09','ถ้าหมอนรองกระดูกเสื่อมจะเกิดผลอย่างไร',
+ 'หมอนรองกระดูก <em class="t">intervertebral disc</em> เป็น <b>fibrocartilage</b> ที่ทำหน้าที่<b>รอง เชื่อม และป้องกันการเสียดสี</b>ระหว่างกระดูกสันหลัง · เมื่อเสื่อม เลื่อน (slip) หรือแตกออก เรียกว่า <b>herniated disk</b> → กระดูกสันหลัง<b>เสียดสีกันเอง</b> และกดทับ<b>เส้นประสาทไขสันหลัง</b> → <b>ปวดอย่างรุนแรงและเคลื่อนไหวลำบาก</b> อาจต้อง<b>ผ่าตัด</b>เอาส่วนที่ผิดปกติออก'],
+['09','ข้อต่อแบบอานม้ามีการเคลื่อนไหวอย่างไร',
+ 'ผิวข้อต่อมีลักษณะ<b>โค้งนูนและเว้าสอดคล้องกันพอดี</b> (เหมือนคนนั่งบนอานม้า) ทำให้เคลื่อนไหวหรือ<b>งอนิ้วมือได้</b> — เคลื่อนไหวได้<b>สองแนว</b> คือ งอ-เหยียด และ กาง-หุบ แต่<b>ไม่หมุนรอบตัวได้แบบลูกกลมในเบ้า</b> · ตำแหน่ง: <b>ข้อต่อระหว่างกระดูกฝ่ามือกับกระดูกนิ้วหัวแม่มือ</b>'],
+['09','ข้อต่อแบบบานพับพบที่บริเวณใดของร่างกาย',
+ '<b>ข้อศอก</b> และ <b>ข้อเข่า</b> · การเคลื่อนไหวเป็นลักษณะ<b>บานพับประตู</b> คือ<b>งอเข้าหรือเหยียดออก</b>ได้ทางเดียว'],
+['09','โรคข้อเข่าเสื่อมเกิดจากสาเหตุใด มีวิธีป้องกันและรักษาอย่างไร',
+ '<b>สาเหตุ:</b> ข้อเข่าเป็น <b>synovial joint</b> เมื่ออายุมากขึ้น <b>น้ำไขข้อลดลง</b> และ<b>กระดูกอ่อนบริเวณข้อต่อเสื่อมคุณภาพ</b> → กระดูกเสียดสีกันจนเจ็บปวด · ยิ่งถ้า<b>น้ำหนักตัวมากกว่าปกติ</b> กระดูกสันหลังจะ<b>ถ่ายเทน้ำหนักลงรยางค์ส่วนล่าง</b>มากขึ้น ทำให้<b>ปวดหัวเข่า</b>ได้<br>'+
+ '<b>ป้องกัน / รักษา:</b> <b>ควบคุมน้ำหนัก</b> · ออกกำลังกายที่ไม่ลงน้ำหนักที่เข่ามาก เพื่อให้กล้ามเนื้อรอบเข่าแข็งแรง · หลีกเลี่ยงท่าที่กดเข่านาน ๆ · รับแคลเซียมและวิตามิน D ให้พอ · กรณีรุนแรงใช้การรักษาทางการแพทย์ เช่น ให้สารหล่อลื่นข้อหรือผ่าตัดเปลี่ยนข้อ'],
+['09','เอ็นยึดข้อ ligament และเอ็นยึดกระดูก tendon เหมือนหรือแตกต่างกันอย่างไร',
+ '<b>เหมือนกัน:</b> เป็น<b>เนื้อเยื่อเกี่ยวพัน</b>ทั้งคู่ · มีลักษณะ<b>เหนียว แข็งแรง ทนต่อแรงดึง</b> · เกี่ยวข้องกับการเคลื่อนไหวของร่างกาย<br>'+
+ '<b>ต่างกัน:</b> <b>tendon (เอ็นยึดกระดูก)</b> เชื่อม<b>กล้ามเนื้อกับกระดูก</b> เมื่อกล้ามเนื้อหดตัวจึงเกิดแรงดึงให้กระดูกทั้งท่อนเคลื่อนไหว (เช่น <b>เอ็นร้อยหวาย</b>) · <b>ligament (เอ็นยึดข้อ)</b> เชื่อม<b>กระดูกกับกระดูก</b> เป็นโครงร่าง<b>ค้ำจุน</b>ให้กระดูกทำงานสัมพันธ์กัน'],
+['09','ขณะที่ร่างกายเคลื่อนไหว กระดูก กล้ามเนื้อ และข้อต่อ ทำงานสัมพันธ์กันอย่างไร',
+ '<b>กล้ามเนื้อโครงร่าง</b>เป็น<b>แหล่งพลังงาน</b>ของการเคลื่อนไหว โดยทำงาน<b>เป็นคู่แบบสภาวะตรงกันข้าม (antagonism)</b> — ชุดหนึ่งหด อีกชุดคลาย · แรงหดตัวถูกส่งผ่าน<b>เอ็นยึดกระดูก (tendon)</b> ไป<b>ดึงกระดูก</b>ให้เคลื่อนที่ · การเคลื่อนที่นั้นเกิดขึ้นได้เพราะกระดูก 2 ชิ้นเชื่อมกันที่<b>ข้อต่อ</b> ซึ่งกำหนดว่า<b>เคลื่อนไหวได้ในทิศทางใด</b> และมี<b>น้ำไขข้อ</b>กับ<b>กระดูกอ่อน</b>ลดการเสียดสี · โดยมี<b>ligament</b> ยึดกระดูกไม่ให้หลุดออกจากกัน — ขาดส่วนใดส่วนหนึ่งการเคลื่อนไหวก็เกิดไม่ได้'],
+['09','จงเปรียบเทียบการหดตัวและการคลายตัวของกล้ามเนื้อโครงร่าง',
+ '<b>การหดตัว:</b> เกิดที่<b>ซาร์โคเมียร์</b> · <b>แอกทินเลื่อนเข้าหากึ่งกลาง</b> ขณะที่<b>ไมโอซินอยู่กับที่</b> → ดึง <b>Z line</b> เข้ามา → <b>ซาร์โคเมียร์แคบลง · I band แคบลง · H zone แคบลง · A band คงที่</b> · <b>ต้องใช้พลังงาน (ATP)</b> และต้องมี <b>Ca²⁺</b> ที่ปล่อยจาก <b>SR</b> เพื่อให้ myosin head จับ myosin binding site ได้<br>'+
+ '<b>การคลายตัว:</b> <b>เกิดขึ้นเองจากความยืดหยุ่นของกล้ามเนื้อ</b> — <b>ไม่จำเป็นต้องใช้พลังงานและไม่ต้องมีกลไกใด ๆ</b> · แถบต่าง ๆ กลับสู่ความกว้างเดิม'],
+['09','ตะคริวเป็นอาการเกร็งหรือหดเกร็งของกล้ามเนื้อ เพราะเหตุใดถ้าออกกำลังกายหนักจึงอาจเป็นตะคริวได้',
+ 'เพราะการหดตัวของกล้ามเนื้อต้องใช้ทั้ง <b>ATP</b> และ <b>Ca²⁺</b> และ<b>การคลายตัวต้องรอให้หัวไมโอซินหลุดออกจากแอกทิน ซึ่งต้องมี ATP โมเลกุลใหม่เข้ามาจับ</b> (ขั้นที่ 5 ของวงจร)<br>'+
+ 'เมื่อออกกำลังกายหนักต่อเนื่อง <b>ATP ถูกใช้หมดเร็วกว่าที่สร้างทัน</b> → หัวไมโอซิน<b>ยังเกาะอยู่กับแอกทินและหลุดไม่ได้</b> → กล้ามเนื้อ<b>ค้างอยู่ในสภาพหดตัว</b> เกิดเป็นอาการเกร็ง · ร่วมกับการ<b>เสียน้ำและเกลือแร่ (รวมถึงสมดุลของ Ca²⁺ และแร่ธาตุอื่น) ทางเหงื่อ</b> ทำให้การควบคุมการหดคลายผิดปกติ จึงเกิดตะคริว'],
+['10','เซลล์ที่มีการสังเคราะห์ฮอร์โมนกลุ่มเพปไทด์หรือโปรตีน ควรมีออร์แกเนลล์ชนิดใดมากที่สุด เพราะเหตุใด',
+ '<b>ไรโบโซม</b> และ <b>เอนโดพลาสมิกเรติคิวลัมชนิดขยะ (RER)</b> เป็นหลัก (และ<b>กอลจิคอมเพล็กซ์</b> สำหรับบรรจุและส่งออก) · เพราะฮอร์โมนกลุ่มนี้<b>เป็นโปรตีน</b> การสังเคราะห์โปรตีนจึงต้องเกิดที่<b>ไรโบโซมบน RER</b> แล้วส่งต่อไปดัดแปลงและบรรจุเป็นถุงที่กอลจิเพื่อหลั่งออกนอกเซลล์'],
+['10','การลำเลียงสารเคมีไปยังเซลล์เป้าหมายของ 2 ระบบนี้แตกต่างกันอย่างไร',
+ '<b>ระบบประสาท:</b> <b>สารสื่อประสาท</b>ถูกหลั่งออกจากปลายแอกซอนไปยัง<b>เซลล์ที่อยู่ติดกัน</b>ผ่านช่องไซแนปส์ — <b>ระยะทางสั้นมากและเจาะจงตำแหน่ง</b><br>'+
+ '<b>ระบบต่อมไร้ท่อ:</b> <b>ฮอร์โมน</b>ถูกหลั่งเข้า<b>ระบบหมุนเวียนเลือด</b> ไปได้<b>ทั่วร่างกาย</b> แล้วออกฤทธิ์เฉพาะที่<b>เซลล์เป้าหมายที่มีตัวรับจำเพาะ</b>กับฮอร์โมนนั้น — <b>ระยะทางไกลและกระจายทั่วร่าง</b>'],
+['10','ความเร็วของการตอบสนองของฮอร์โมนและสารสื่อประสาทที่เซลล์เป้าหมายต่างกันอย่างไร',
+ '<b>สารสื่อประสาทเร็วกว่ามาก</b> เพราะเดินทางระยะสั้นและใช้กระแสประสาทนำมาก่อน แต่<b>ตอบสนองอยู่ในระยะเวลาสั้น</b> · <b>ฮอร์โมนช้ากว่า</b> เพราะต้องอาศัยการลำเลียงไปกับกระแสเลือด แต่<b>ตอบสนองอยู่ได้นานกว่า</b><br>'+
+ '<span style="color:var(--muted)">เพิ่มเติม: แม้ในกลุ่มฮอร์โมนเองก็ยังต่างกัน — ฮอร์โมนที่จับ <b>membrane receptor</b> ตอบสนอง<b>เร็วกว่า</b>ฮอร์โมนที่จับ <b>intracellular receptor</b></span>'],
+['10','ฟีโรโมนเหมือนหรือต่างจากฮอร์โมนอย่างไร',
+ '<b>เหมือนกัน:</b> เป็น<b>สารเคมีที่ใช้ในการสื่อสาร</b>ซึ่งทำให้เกิดการเปลี่ยนแปลงในสิ่งมีชีวิต<br>'+
+ '<b>ต่างกัน 4 ข้อ:</b> ① ประเภทสาร — ฮอร์โมนเป็น<b>โปรตีน เอมีน สเตอรอยด์</b> · ฟีโรโมนเป็น<b>ลิพิดโมเลกุลสั้น</b> ② แหล่งผลิต — ฮอร์โมนจาก<b>ต่อมไร้ท่อ</b> · ฟีโรโมนจาก<b>ต่อมมีท่อ</b> ③ การหลั่ง — ฮอร์โมน<b>หมุนเวียนในร่างกาย</b> · ฟีโรโมน<b>หลั่งออกสู่นอกร่างกาย</b> ④ ผล — ฮอร์โมน<b>มีผลต่อตัวเอง</b> · ฟีโรโมน<b>ไม่มีผลต่อตัวเอง แต่มีผลต่อสัตว์ตัวอื่นในสปีชีส์เดียวกัน</b>'],
+['11','ความสัมพันธ์ระหว่างฮอร์โมนจากไฮโพทาลามัสกับต่อมใต้สมองส่วนหน้าสรุปได้อย่างไร',
+ 'ไฮโพทาลามัสสร้าง<b>ฮอร์โมนประสาท</b>ซึ่ง<b>ลำเลียงทางหลอดเลือด</b>ไปที่<b>ต่อมใต้สมองส่วนหน้า</b> เพื่อ<b>กระตุ้น (-RH)</b> หรือ <b>ยับยั้ง (-IH)</b> การสร้างและหลั่งฮอร์โมนของต่อมนั้น · แล้วฮอร์โมนจากต่อมใต้สมองส่วนหน้าจึงไปออกฤทธิ์ที่<b>อวัยวะเป้าหมาย</b>ต่อ — จึงเป็นการควบคุมแบบ<b>ลำดับขั้น 3 ชั้น</b>:<br>'+
+ '<b>GnRH→Gn(FSH,LH)→รังไข่/อัณฑะ · TRH→TSH→ไทรอยด์ · CRH→ACTH→หมวกไตส่วนนอก · GHRH/GHIH→GH→เซลล์ทั่วร่างกาย · PIH→prolactin→ต่อมน้ำนม</b>'],
+['11','ต่อมไร้ท่อใดที่ไม่ถูกควบคุมโดยต่อมใต้สมองส่วนหน้า',
+ '<b>ต่อมพาราไทรอยด์ · ตับอ่อน · ต่อมหมวกไตส่วนใน · ต่อมไพเนียล · ต่อมไทมัส</b><br>'+
+ 'เพราะต่อมใต้สมองส่วนหน้าควบคุมเฉพาะ<b>ไทรอยด์ (TSH) · หมวกไตส่วนนอก (ACTH) · รังไข่และอัณฑะ (Gn) · ต่อมน้ำนม (prolactin)</b> และเซลล์ทั่วร่างกายผ่าน GH<br>'+
+ '<b>สิ่งที่ควบคุมต่อมที่เหลือแทน:</b> พาราไทรอยด์และตับอ่อนถูกควบคุมโดย<b>ระดับสารในเลือดโดยตรง</b> (Ca²⁺ และกลูโคส) · <b>หมวกไตส่วนในถูกควบคุมโดยระบบประสาทซิมพาเทติก</b>'],
+['11','ไอโอดีนเกี่ยวข้องกับต่อมไทรอยด์อย่างไร และถ้าขาดไอโอดีนจะส่งผลต่อร่างกายอย่างไร',
+ '<b>ไอโอดีนเป็นองค์ประกอบหลักของไทรอยด์ฮอร์โมน</b> — <b>T4 มีไอโอดีน 4 อะตอม · T3 มี 3 อะตอม</b> เกาะอยู่กับกรดอะมิโน <b>tyrosine</b> ถ้าไม่มีไอโอดีนก็<b>สร้างฮอร์โมนไม่ได้</b><br>'+
+ '<b>ถ้าขาด:</b> สร้าง thyroxine ไม่ได้ → <b>ไม่มีฮอร์โมนไปยับยั้ง TSH และ TRH</b> → TSH กระตุ้นต่อมไทรอยด์<b>ตลอดเวลา</b> → ต่อม<b>ขยายขนาดผิดปกติ = คอพอกธรรมดา (simple goiter)</b> พร้อมอาการแบบ<b>มิกซีดีมา</b> (เมแทบอลิซึมต่ำ เหนื่อยง่าย ทนหนาวไม่ได้) · <b>รักษาโดยให้อาหารทะเลหรืออาหารที่มีไอโอดีน</b>'],
+['11','การทำงานของเอพิเนฟรินกับกลูโคคอร์ติคอยด์ มีผลต่อระดับน้ำตาลในเลือดเหมือนหรือต่างกันอย่างไร',
+ '<b>เหมือนกัน:</b> ทั้งคู่ทำให้<b>ระดับน้ำตาลในเลือดเพิ่มขึ้น</b> และทั้งคู่<b>สร้างจากต่อมหมวกไต</b><br>'+
+ '<b>ต่างกัน:</b> <b>เอพิเนฟริน</b> (ส่วนใน) เพิ่มน้ำตาลโดย<b>กระตุ้นการสลายไกลโคเจน</b> ใช้กับ<b>ความเครียดระยะสั้น</b> ควบคุมโดย<b>ประสาทซิมพาเทติก</b> ออกฤทธิ์<b>เร็ว</b> · <b>กลูโคคอร์ติคอยด์</b> (ส่วนนอก) เพิ่มน้ำตาลโดย<b>กระตุ้นตับให้เปลี่ยนกรดอะมิโนและกรดไขมันเป็นคาร์โบไฮเดรต</b> และเปลี่ยนไกลโคเจนเป็นกลูโคส ใช้กับ<b>ความเครียดระยะยาว</b> ควบคุมโดย <b>ACTH</b><br>'+
+ 'และทั้งคู่ทำงาน<b>ตรงกันข้ามกับอินซูลิน</b>'],
+['11','จากกราฟ การเปลี่ยนแปลงระดับน้ำตาลในเลือดของผู้ป่วยเบาหวานกับคนปกติต่างกันอย่างไร',
+ '<b>ที่นาทีที่ 0 (หลังงดอาหาร):</b> ผู้ป่วยเบาหวาน<b>สูงกว่าคนปกติอยู่แล้ว</b><br>'+
+ '<b>หลังได้รับกลูโคส:</b> <b>สูงขึ้นทั้งสองกลุ่ม</b> แต่ผู้ป่วยเบาหวานขึ้น<b>สูงกว่า 200 mg/dL</b><br>'+
+ '<b>ช่วงลดลง:</b> ทั้งสองกลุ่มค่อย ๆ ลดลง แต่ผู้ป่วยเบาหวาน<b>ใช้เวลานานกว่า</b> · <b>คนปกติกลับเข้าสู่ระดับปกติภายในประมาณ 2 ชั่วโมง</b> (ค่าปกติ 70–100 mg/dL)<br>'+
+ '<b>สาเหตุ:</b> ผู้ป่วยเบาหวาน<b>นำน้ำตาลไปใช้ไม่ได้อย่างมีประสิทธิภาพ</b> และ<b>ตับเก็บกลูโคสเป็นไกลโคเจนได้ลดลง</b>'],
+['11','คนปกติร่างกายจะหลั่งอินซูลินออกมามากเมื่อใด',
+ 'เมื่อ<b>ระดับน้ำตาลในเลือดสูง</b> — โดยเฉพาะ<b>หลังรับประทานอาหาร</b> (อาหารประเภทคาร์โบไฮเดรต) · น้ำตาลที่สูงขึ้นจะ<b>กระตุ้นเซลล์บีตา</b>ให้หลั่งอินซูลิน เพื่อนำกลูโคสเข้าเซลล์ไปใช้ และเปลี่ยนกลูโคสเป็น<b>ไกลโคเจน</b>เก็บสะสมในตับและกล้ามเนื้อ'],
+['11','ปัจจัยที่กระตุ้นให้เซลล์ในไอส์เลตออฟลังเกอร์ฮันส์หลั่งกลูคากอนคืออะไร',
+ '<b>ระดับน้ำตาลในเลือดต่ำ</b> — เช่น ตอน<b>อดอาหาร</b> หรือ<b>ออกกำลังกาย</b> · จะไปกระตุ้น<b>เซลล์แอลฟา</b>ให้หลั่ง<b>กลูคากอน</b> ไปกระตุ้นการ<b>สลายไกลโคเจนในตับและกล้ามเนื้อให้เป็นกลูโคส</b> แล้วปล่อยเข้ากระแสเลือด'],
+['11','ปัจจัยที่ควบคุมความสัมพันธ์ของการหลั่งอินซูลินและกลูคากอนคืออะไร',
+ '<b>ระดับน้ำตาล (กลูโคส) ในเลือด</b> เป็นตัวควบคุมโดยตรง ไม่ต้องผ่านต่อมใต้สมอง · เป็นการควบคุมแบบ<b>ป้อนกลับยับยั้ง (negative feedback)</b>:<br>'+
+ '<b>น้ำตาลสูง → เซลล์บีตาหลั่งอินซูลิน → น้ำตาลลด → หยุดกระตุ้นอินซูลิน</b><br>'+
+ '<b>น้ำตาลต่ำ → เซลล์แอลฟาหลั่งกลูคากอน → น้ำตาลเพิ่ม → หยุดกระตุ้นกลูคากอน</b><br>'+
+ 'ฮอร์โมนสองตัวนี้จึงทำหน้าที่<b>ตรงกันข้ามกัน</b> เพื่อรักษาระดับน้ำตาลให้อยู่ที่ <b>70–100 mg/dL</b>'],
+['11','เพราะเหตุใดเมื่อออกกำลังกาย ร่างกายใช้พลังงานมาก แต่ยังรักษาดุลยภาพของระดับน้ำตาลในเลือดได้',
+ 'เพราะเมื่อกล้ามเนื้อใช้กลูโคสจนระดับน้ำตาลในเลือด<b>เริ่มลดลง</b> ร่างกายจะหลั่งฮอร์โมนกลุ่มที่<b>เพิ่มน้ำตาล</b>ออกมาชดเชยทันที ได้แก่<br>'+
+ '▪ <b>กลูคากอน</b> จากเซลล์แอลฟา → <b>สลายไกลโคเจนในตับและกล้ามเนื้อเป็นกลูโคส</b><br>'+
+ '▪ <b>เอพิเนฟริน</b> จากหมวกไตส่วนใน → <b>สลายไกลโคเจน</b> เพิ่มน้ำตาลอย่างรวดเร็ว<br>'+
+ '▪ <b>กลูโคคอร์ติคอยด์</b> จากหมวกไตส่วนนอก → เปลี่ยน<b>กรดอะมิโนและกรดไขมันเป็นคาร์โบไฮเดรต</b><br>'+
+ 'ขณะเดียวกัน<b>อินซูลินจะถูกหลั่งน้อยลง</b> · การทำงานตรงข้ามกันของสองฝ่ายนี้จึงทำให้ระดับน้ำตาล<b>คงที่</b> ทั้งที่มีการใช้พลังงานมาก'],
+['11','ฮอร์โมนที่สร้างจากต่อมหมวกไตและไอส์เลตออฟลังเกอร์ฮันส์ ทำหน้าที่เหมือนหรือต่างกันอย่างไร',
+ '<b>เหมือนกัน:</b> ทั้งสองต่อมสร้างฮอร์โมนที่<b>ควบคุมระดับน้ำตาลในเลือด</b> และมีฮอร์โมนที่<b>เพิ่มน้ำตาล</b>อยู่ทั้งคู่ (เอพิเนฟริน/กลูโคคอร์ติคอยด์ กับ กลูคากอน)<br>'+
+ '<b>ต่างกัน:</b> ① <b>ไอส์เลตออฟลังเกอร์ฮันส์มีฮอร์โมนที่ “ลด” น้ำตาลด้วย คือ อินซูลิน</b> ซึ่งต่อมหมวกไต<b>ไม่มี</b> ② ต่อมหมวกไตยังทำหน้าที่อื่นที่ตับอ่อนไม่ทำ — <b>ควบคุมแร่ธาตุและน้ำ (aldosterone)</b> และ<b>สร้างฮอร์โมนเพศ</b> ③ กลไกการเพิ่มน้ำตาลต่างกัน (สลายไกลโคเจน vs เปลี่ยนกรดอะมิโน/กรดไขมัน) ④ ตัวควบคุมต่างกัน — ตับอ่อนถูกควบคุมโดย<b>ระดับน้ำตาลโดยตรง</b> · หมวกไตถูกควบคุมโดย <b>ACTH</b> และ<b>ระบบประสาทซิมพาเทติก</b>'],
+['11','กลไกการทำงานของ LH จากต่อมใต้สมองส่วนหน้าในเพศชายและเพศหญิงเหมือนหรือแตกต่างกันอย่างไร',
+ '<b>เหมือนกัน:</b> เป็นฮอร์โมนตัวเดียวกันจาก<b>ต่อมใต้สมองส่วนหน้า</b> ถูกควบคุมด้วย <b>GnRH</b> จากไฮโพทาลามัสเหมือนกัน และมี<b>อวัยวะเป้าหมายเป็นอวัยวะสืบพันธุ์</b>ทั้งคู่ · ทำให้เกิด<b>การสร้างฮอร์โมนเพศ</b><br>'+
+ '<b>ต่างกัน:</b> ใน<b>เพศชาย</b> LH กระตุ้น<b>เซลล์อินเตอร์สติเชียล (เลย์ดิก)</b> ให้สร้าง <b>testosterone</b> — เป็นการ<b>กระตุ้นการสร้างฮอร์โมน</b> · ใน<b>เพศหญิง</b> LH <b>กระตุ้นการตกไข่ (ovulation)</b> และหลังตกไข่ทำให้ฟอลลิเคิลเดิมกลายเป็น <b>corpus luteum</b> ที่สร้าง progesterone — จึงเป็นทั้ง<b>การกระตุ้นเหตุการณ์</b>และการสร้างฮอร์โมน'],
+['11','ถ้าลูกอ๊อดได้รับไทรอกซินมากในระยะแรก หรือขาดไทรอกซิน การเจริญเติบโตจะเป็นอย่างไร',
+ 'ในสัตว์สะเทินน้ำสะเทินบก <b>ไทรอกซินกระตุ้นเมทามอร์โฟซิส</b><br>'+
+ '<b>ได้รับมากในระยะแรก:</b> จะ<b>เกิดเมทามอร์โฟซิสเร็วกว่าปกติ</b> กลายเป็นกบ<b>ก่อนเวลา</b> ทำให้ได้กบที่มี<b>ขนาดเล็กกว่าปกติ</b> เพราะยังไม่ได้เจริญเติบโตในระยะลูกอ๊อดเต็มที่<br>'+
+ '<b>ขาดไทรอกซิน:</b> <b>ไม่เกิดเมทามอร์โฟซิส</b> ลูกอ๊อดจะ<b>คงสภาพเป็นลูกอ๊อดต่อไป</b> ไม่เปลี่ยนเป็นกบ (อาจโตขึ้นแต่ยังเป็นลูกอ๊อด)'],
+['11','ถ้าร่างกายขาด ADH จะมีผลต่อการรักษาดุลยภาพของน้ำอย่างไร',
+ 'ADH กระตุ้นให้<b>ท่อขดส่วนปลายของหน่วยไตและท่อรวมดูดน้ำกลับเข้าสู่หลอดเลือด</b> · ถ้าขาด ท่อหน่วยไต<b>ดูดน้ำกลับไม่ได้</b> → <b>ปัสสาวะมีน้ำมากกว่าปกติ ปัสสาวะมากและเจือจาง มากถึง 20 ลิตร/วัน</b> เรียกอาการนี้ว่า <b>เบาจืด</b> → ร่างกาย<b>สูญเสียน้ำ</b> ปริมาณน้ำในเลือดลดลง จึง<b>กระหายน้ำมาก</b> และถ้าชดเชยไม่ทันก็เสียดุลยภาพของน้ำและความดันเลือด'],
+['11','การสร้างฮอร์โมนของต่อมหมวกไตส่วนนอกถูกควบคุมโดยฮอร์โมนชนิดใด และฮอร์โมนนี้สร้างมาจากแหล่งใด',
+ 'ถูกควบคุมโดย <b>ACTH (adrenocorticotropic hormone)</b> ซึ่งสร้างจาก<b>ต่อมใต้สมองส่วนหน้า</b> · และการหลั่ง ACTH เองก็ถูกควบคุมโดย <b>CRH</b> จาก<b>ไฮโพทาลามัส</b> อีกชั้นหนึ่ง<br>'+
+ '<span style="color:var(--muted)">เทียบกับ<b>ต่อมหมวกไตส่วนใน</b> ที่ถูกควบคุมโดย<b>ระบบประสาทซิมพาเทติก</b> ไม่ใช่ฮอร์โมน</span>']
+];
+(function(){
+  var body=document.getElementById('tqBody'); if(!body) return;
+  function draw(set){
+    var rows=TQ.map(function(r,i){return [r,i]}).filter(function(p){return set==='all'||p[0][0]===set});
+    body.innerHTML=rows.map(function(p,n){
+      var r=p[0],i=p[1];
+      return '<div class="mockq" style="margin-bottom:12px">'+
+        '<div class="st"><span class="no">'+(n+1)+'.</span><span class="pill">สไลด์ '+r[0]+'</span> '+r[1]+'</div>'+
+        '<button class="btn sm" type="button" data-tq="'+i+'">เปิดคำตอบ</button>'+
+        '<div class="why" id="tw'+i+'" hidden>'+r[2]+'</div></div>';
+    }).join('');
+    body.querySelectorAll('[data-tq]').forEach(function(b){
+      b.addEventListener('click',function(){
+        var d=document.getElementById('tw'+b.dataset.tq);
+        d.hidden=!d.hidden; b.textContent=d.hidden?'เปิดคำตอบ':'ซ่อนคำตอบ';
+      });
+    });
+    document.getElementById('tqScore').textContent=rows.length+' คำถาม';
+  }
+  document.querySelectorAll('[data-tqset]').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('[data-tqset]').forEach(function(x){x.classList.remove('on')});
+      b.classList.add('on'); draw(b.dataset.tqset);
+    });
+  });
+  draw('all');
+})();
+
+/* ================= GLOSSARY ================= */
+var GCMD=[
+ ['ข้อใด<b>ไม่</b>ถูกต้อง / ข้อใด<b>ไม่ใช่</b>','กำลังหา<b>ข้อผิด</b> — <b>วงคำว่า “ไม่” ทุกครั้ง</b> นี่คือจุดที่คุณเสียคะแนนเพราะอ่านเร็ว ไม่ใช่เพราะไม่รู้'],
+ ['ข้อใดกล่าวถูกต้อง','กำลังหา<b>ข้อถูก</b> — ตรงข้ามกับข้างบน ตัวเลือกที่<b>เจาะจงและใช้ศัพท์ถูก</b>มักเป็นคำตอบ'],
+ ['ข้อใดถูกต้อง<b>ที่สุด</b>','อาจมีหลายตัวที่ถูกบางส่วน ให้เลือกตัวที่<b>ครบถ้วนกว่า</b> ไม่ใช่ตัวแรกที่เห็นว่าถูก'],
+ ['ข้อใด<b>จับคู่</b>ถูกต้อง','ต้องถูก<b>ทุกคู่ในตัวเลือกนั้น</b> — ผิดคู่เดียวคือตกทั้งข้อ วิธีเร็วสุดคือหา<b>คู่ที่ผิดชัด ๆ</b> เพื่อตัดออก'],
+ ['ข้อใดเรียง<b>ลำดับ</b>ถูกต้อง','เช็ก<b>ตัวแรกกับตัวสุดท้าย</b>ก่อน ตัดได้เร็วกว่าตรวจทั้งลำดับ (ใช้ได้กับท่อน้ำดาวทะเลและแกนฮอร์โมน)'],
+ ['ข้อใดเป็น<b>ผล</b>ของ...','ถามปลายทาง ไม่ใช่ต้นทาง — อ่านให้ชัดว่าโจทย์ถาม<b>สาเหตุ</b>หรือ<b>ผลลัพธ์</b> เพราะตัวลวงมักเป็นอีกฝั่ง'],
+ ['ข้อใด<b>ทั้งคู่ถูก</b> / <b>ทั้งคู่ผิด</b>','ประเมินสองประโยค<b>แยกกัน</b>ก่อน แล้วค่อยรวม ห้ามอ่านรวมทีเดียว'],
+ ['จากภาพ / จากกราฟ','คำตอบอยู่ใน<b>ภาพ</b> ไม่ใช่ในความจำ — ดูแกนและหน่วยก่อนอ่านตัวเลือก'],
+ ['คำว่า <b>เสมอ / ทุกชนิด / เท่านั้น / ไม่มีเลย</b>','ตัวเลือกที่พูดแบบ<b>ไม่มีข้อยกเว้น</b>มักเป็นตัวลวง เพราะชีววิทยาเกือบทุกเรื่องมีข้อยกเว้น'],
+ ['เวลาเหลือน้อย','<b>ฝนให้ครบทุกข้อ</b> — ข้อสอบ<b>ไม่ติดลบ</b> ข้อว่างคือโอกาส 25% ที่โยนทิ้งฟรี']
+];
+var GTERM=[
+ ['หลั่ง <em class="t">secrete</em>','ปล่อยฮอร์โมนออกจากต่อม — ต่างจาก <b>สร้าง</b> (synthesize) ตัวลวงคลาสสิกคือ “ต่อมใต้สมองส่วนหลัง<b>สร้าง</b> ADH” ซึ่งผิด มันแค่<b>หลั่ง</b>'],
+ ['กระตุ้น <em class="t">stimulate</em> / ยับยั้ง <em class="t">inhibit</em>','คู่คำที่ตัวลวงสลับบ่อยที่สุด · จำจากชื่อ: <b>-RH = releasing = กระตุ้น</b> · <b>-IH = inhibiting = ยับยั้ง</b>'],
+ ['ดุลยภาพ <em class="t">homeostasis</em>','การรักษาสภาพภายในให้คงที่ — เป็น<b>เป้าหมาย</b>ของ negative feedback'],
+ ['ป้อนกลับยับยั้ง / ป้อนกลับกระตุ้น','<b>ยับยั้ง = ผลลัพธ์ทำให้หยุด กลับเข้าที่เดิม</b> (ปกติ) · <b>กระตุ้น = ผลลัพธ์ทำให้แรงขึ้นอีก</b> (ในบทนี้มีแค่ oxytocin ตอนคลอด)'],
+ ['อวัยวะเป้าหมาย / เซลล์เป้าหมาย','เซลล์ที่<b>มีตัวรับจำเพาะ</b>กับฮอร์โมนนั้น · เซลล์ที่<b>ไม่มีตัวรับ</b> ฮอร์โมนออกฤทธิ์ไม่ได้ แม้ฮอร์โมนจะไปถึง'],
+ ['จำเพาะ <em class="t">specific</em>','เข้ากันได้แบบ<b>ลูกกุญแจกับแม่กุญแจ</b> — ใช้กับการจับของฮอร์โมนกับตัวรับ'],
+ ['ดูดกลับ <em class="t">reabsorption</em>','ที่ท่อหน่วยไต ดึงสารกลับเข้าหลอดเลือด · <b>ADH ดูดกลับน้ำ</b> · <b>aldosterone ดูดกลับ Na⁺ + น้ำ แต่ขับ K⁺</b>'],
+ ['สลาย / สะสม','<b>สลายกระดูก</b> = Ca ออกจากกระดูก<b>เข้าเลือด</b> (PTH) · <b>สะสมที่กระดูก</b> = Ca ออกจากเลือด<b>เข้ากระดูก</b> (calcitonin) — อ่านให้ชัดว่ากำลังพูดถึงเลือดหรือกระดูก'],
+ ['เมแทบอลิซึม <em class="t">metabolism</em>','อัตราการเผาผลาญ — <b>ไทรอกซินคุมตัวนี้</b> · เมแทบอลิซึม<b>ต่ำ</b> = ขาดไทรอกซิน (มิกซีดีมา) · <b>สูง</b> = เกิน (คอพอกเป็นพิษ)'],
+ ['ลักษณะทางเพศ<b>ทุติยภูมิ</b> <em class="t">secondary sex characteristics</em>','ลักษณะที่ปรากฏตอน<b>แตกเนื้อหนุ่ม/แตกเนื้อสาว</b> ไม่ใช่อวัยวะเพศเอง — คุมโดย testosterone และ estrogen'],
+ ['อนุพันธ์ <em class="t">derivative</em>','“สร้างมาจาก” · <b>เอมีน = อนุพันธ์ของกรดอะมิโน</b> (tyrosine) · <b>สเตอรอยด์ = สังเคราะห์มาจากคอเลสเตอรอล</b>'],
+ ['ต่อมไร้ท่อ / ต่อมมีท่อ','<b>ไร้ท่อ = ไม่มีท่อ ส่งผ่านเลือด</b> · <b>มีท่อ = มีท่อลำเลียง</b> (น้ำตา น้ำลาย เหงื่อ) · <b>ฟีโรโมนมาจากต่อมมีท่อ</b>'],
+ ['จำเป็น / ไม่จำเป็น','<b>จำเป็น = ขาดแล้วเสียชีวิตทันที</b> (พาราไทรอยด์ หมวกไตส่วนนอก ตับอ่อน) · ไม่ใช่ “สำคัญหรือไม่สำคัญ”'],
+ ['ในอำนาจจิตใจ / นอกอำนาจจิตใจ','<b>ในอำนาจ = บังคับได้ = กล้ามเนื้อโครงร่าง = โซมาติก</b> · <b>นอกอำนาจ = หัวใจและเรียบ = อัตโนวัติ</b>'],
+ ['สภาวะตรงกันข้าม <em class="t">antagonism</em>','กล้ามเนื้อ 2 ชุดทำงานสวนกัน ชุดหนึ่ง<b>หด</b> อีกชุด<b>คลาย</b> · ตอบต้องบอก<b>ทั้งคู่</b> ไม่ใช่ตัวเดียว'],
+ ['หดตัว <em class="t">contract</em> / คลายตัว <em class="t">relax</em>','<b>หดใช้พลังงาน · คลายไม่ใช้พลังงาน</b> (เกิดเองจากความยืดหยุ่น)'],
+ ['เหลื่อม <em class="t">overlap</em>','ใช้กับ<b>A band</b> — “ไมโอซินทั้งหมด ซึ่ง<b>อาจมีแอกทินเหลื่อมอยู่</b>” · ส่วนที่<b>ไม่มี</b>แอกทินเหลื่อมคือ <b>H zone</b>'],
+ ['กั้นแยก','ใช้กับ <b>Z line</b> — เส้นที่<b>กั้นแยกระหว่างซาร์โคเมียร์</b> (ส่วน <b>M line</b> คือกึ่งกลางของซาร์โคเมียร์)'],
+ ['แกน <em class="t">axial</em> / รยางค์ <em class="t">appendicular</em>','<b>แกน = แนวกึ่งกลางร่างกาย 80 ชิ้น</b> · <b>รยางค์ = แขนขาและที่ยึดเกาะ 126 ชิ้น</b>'],
+ ['เสียดสี','คำที่โผล่ทุกครั้งที่พูดถึง<b>หมอนรองกระดูก</b> และ<b>น้ำไขข้อ</b> — หน้าที่หลักคือ<b>ป้องกันการเสียดสี</b>'],
+ ['พังผืด <em class="t">fibrous connective tissue</em>','เนื้อเยื่อที่ยึด<b>ข้อต่อที่เคลื่อนไหวไม่ได้</b> เช่นกะโหลกศีรษะ (รอยต่อหยักเรียก <b>suture</b>)'],
+ ['ถ่ายเทน้ำหนัก','หน้าที่ของ<b>กระดูกสันหลัง</b> (ลงไปที่รยางค์ส่วนล่าง) และของ<b>รูปโค้งของเท้า</b>'],
+ ['เจริญเปลี่ยนแปลงมาจาก','ใช้ถามแหล่งกำเนิดในระยะเอ็มบริโอ — <b>ต่อมหมวกไตส่วนนอกมาจากมีโซเดิร์ม</b>'],
+ ['คอลลอยด์ <em class="t">colloid</em>','ของเหลวใน<b>ไทรอยด์ฟอลลิเคิล</b> ที่มีโปรตีน <b>thyroglobulin</b> เป็นองค์ประกอบ']
+];
+(function(){
+  function fill(id,arr){
+    var el=document.getElementById(id); if(!el) return;
+    el.innerHTML=arr.map(function(g){
+      return '<div class="gterm"><div class="w">'+g[0]+'</div><div class="m">'+g[1]+'</div></div>';
+    }).join('');
+  }
+  fill('glossCmd',GCMD); fill('glossTerm',GTERM);
+})();
+</script>
